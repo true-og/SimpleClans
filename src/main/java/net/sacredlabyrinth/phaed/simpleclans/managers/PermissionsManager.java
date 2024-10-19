@@ -1,12 +1,15 @@
 package net.sacredlabyrinth.phaed.simpleclans.managers;
 
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.permission.Permission;
-import net.sacredlabyrinth.phaed.simpleclans.*;
-import net.sacredlabyrinth.phaed.simpleclans.events.EconomyTransactionEvent;
-import net.sacredlabyrinth.phaed.simpleclans.events.EconomyTransactionEvent.Cause;
+import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
+import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.ConfigField.ENABLE_AUTO_GROUPS;
+import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.ConfigField.PERMISSIONS_AUTO_GROUP_GROUPNAME;
+import static org.bukkit.Bukkit.getPluginManager;
+
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -16,15 +19,19 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-
-import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
-import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.ConfigField.ENABLE_AUTO_GROUPS;
-import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.ConfigField.PERMISSIONS_AUTO_GROUP_GROUPNAME;
-import static org.bukkit.Bukkit.getPluginManager;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.permission.Permission;
+import net.sacredlabyrinth.phaed.simpleclans.ChatBlock;
+import net.sacredlabyrinth.phaed.simpleclans.Clan;
+import net.sacredlabyrinth.phaed.simpleclans.ClanPlayer;
+import net.sacredlabyrinth.phaed.simpleclans.PermissionLevel;
+import net.sacredlabyrinth.phaed.simpleclans.Rank;
+import net.sacredlabyrinth.phaed.simpleclans.RankPermission;
+import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
+import net.sacredlabyrinth.phaed.simpleclans.events.EconomyTransactionEvent;
+import net.sacredlabyrinth.phaed.simpleclans.events.EconomyTransactionEvent.Cause;
 
 /**
  * @author phaed
@@ -496,7 +503,7 @@ public final class PermissionsManager {
 
                 out = prefix.replace("&", "\u00a7").replace(String.valueOf((char) 194), "");
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+            	SimpleClans.getInstance().getLogger().info(e.getMessage());
             }
         }
 
@@ -525,7 +532,7 @@ public final class PermissionsManager {
                 }
                 return suffix.replace("&", "\u00a7").replace(String.valueOf((char) 194), "");
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+            	SimpleClans.getInstance().getLogger().info(e.getMessage());
                 return "";
             }
         }
