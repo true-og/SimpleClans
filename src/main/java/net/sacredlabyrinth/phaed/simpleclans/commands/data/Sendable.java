@@ -20,28 +20,35 @@ public abstract class Sendable {
     protected final String headColor;
     protected final String subColor;
 
-
     public Sendable(@NotNull SimpleClans plugin, @NotNull CommandSender sender) {
+
         this.plugin = plugin;
         sm = plugin.getSettingsManager();
         cm = plugin.getClanManager();
         this.sender = sender;
         headColor = sm.getColored(PAGE_HEADINGS_COLOR);
         subColor = sm.getColored(PAGE_SUBTITLE_COLOR);
+
     }
 
     protected void sendBlock() {
+
         SettingsManager sm = plugin.getSettingsManager();
         boolean more = chatBlock.sendBlock(sender, sm.getInt(PAGE_SIZE));
 
         if (more) {
+
             plugin.getStorageManager().addChatBlock(sender, chatBlock);
             ChatBlock.sendBlank(sender);
-            ChatBlock.sendMessage(sender, sm.getColored(PAGE_HEADINGS_COLOR) + lang("view.next.page", sender,
-                    sm.getString(COMMANDS_MORE)));
+            ChatBlock.sendMessage(sender,
+                    sm.getColored(PAGE_HEADINGS_COLOR) + lang("view.next.page", sender, sm.getString(COMMANDS_MORE)));
+
         }
+
         ChatBlock.sendBlank(sender);
+
     }
 
     public abstract void send();
+
 }

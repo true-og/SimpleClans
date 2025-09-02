@@ -9,18 +9,26 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class ClanPlayerContextResolver extends AbstractIssuerOnlyContextResolver<ClanPlayer> {
+
     public ClanPlayerContextResolver(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public ClanPlayer getContext(BukkitCommandExecutionContext context) throws InvalidCommandArgument {
+
         Player player = Contexts.assertPlayer(context.getIssuer());
         return clanManager.getCreateClanPlayer(player.getUniqueId());
+
     }
 
     @Override
     public Class<ClanPlayer> getType() {
+
         return ClanPlayer.class;
+
     }
+
 }

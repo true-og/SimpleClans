@@ -31,8 +31,11 @@ public class BankCommand extends BaseCommand {
     @CommandCompletion("@clans")
     @Description("{@@command.description.bank.admin.status}")
     public void status(CommandSender sender, @Name("clan") ClanInput clanInput) {
+
         Clan clan = clanInput.getClan();
-        ChatBlock.sendMessage(sender, AQUA + lang("clan.admin.balance", sender, clan.getName(), clan.getBalanceFormatted()));
+        ChatBlock.sendMessage(sender,
+                AQUA + lang("clan.admin.balance", sender, clan.getName(), clan.getBalanceFormatted()));
+
     }
 
     @Subcommand("%take")
@@ -40,20 +43,27 @@ public class BankCommand extends BaseCommand {
     @CommandCompletion("@clans")
     @Description("{@@command.description.bank.admin.take}")
     public void take(CommandSender sender, @Name("clan") ClanInput clanInput, @Name("amount") double amount) {
+
         Clan clan = clanInput.getClan();
         amount = Math.abs(amount);
-        BankOperator operator = new BankOperator(sender, sender instanceof Player ? permissions.playerGetMoney((Player) sender) : 0);
+        BankOperator operator = new BankOperator(sender,
+                sender instanceof Player ? permissions.playerGetMoney((Player) sender) : 0);
 
         EconomyResponse economyResponse = clan.withdraw(operator, ClanBalanceUpdateEvent.Cause.COMMAND, amount);
         switch (economyResponse) {
+
             case SUCCESS:
-                ChatBlock.sendMessage(sender, AQUA + lang("clan.admin.take", sender, CurrencyFormat.format(amount), clan.getName()));
-                clan.addBb(sender.getName(), lang("bb.clan.take", sender, CurrencyFormat.format(amount), sender.getName()));
+                ChatBlock.sendMessage(sender,
+                        AQUA + lang("clan.admin.take", sender, CurrencyFormat.format(amount), clan.getName()));
+                clan.addBb(sender.getName(),
+                        lang("bb.clan.take", sender, CurrencyFormat.format(amount), sender.getName()));
                 break;
             case NOT_ENOUGH_BALANCE:
                 sender.sendMessage(RED + lang("clan.admin.bank.not.enough.money", sender, clan.getName()));
                 break;
+
         }
+
     }
 
     @Subcommand("%give")
@@ -61,15 +71,21 @@ public class BankCommand extends BaseCommand {
     @CommandCompletion("@clans")
     @Description("{@@command.description.bank.admin.give}")
     public void give(CommandSender sender, @Name("clan") ClanInput clanInput, @Name("amount") double amount) {
+
         Clan clan = clanInput.getClan();
         amount = Math.abs(amount);
-        BankOperator operator = new BankOperator(sender, sender instanceof Player ? permissions.playerGetMoney((Player) sender) : 0);
+        BankOperator operator = new BankOperator(sender,
+                sender instanceof Player ? permissions.playerGetMoney((Player) sender) : 0);
 
         EconomyResponse economyResponse = clan.deposit(operator, ClanBalanceUpdateEvent.Cause.COMMAND, amount);
         if (economyResponse == EconomyResponse.SUCCESS) {
-            ChatBlock.sendMessage(sender, AQUA + lang("clan.admin.give", sender, CurrencyFormat.format(amount), clan.getName()));
+
+            ChatBlock.sendMessage(sender,
+                    AQUA + lang("clan.admin.give", sender, CurrencyFormat.format(amount), clan.getName()));
             clan.addBb(sender.getName(), lang("bb.clan.give", sender, CurrencyFormat.format(amount), sender.getName()));
+
         }
+
     }
 
     @Subcommand("%set")
@@ -77,14 +93,22 @@ public class BankCommand extends BaseCommand {
     @CommandCompletion("@clans")
     @Description("{@@command.description.bank.admin.set}")
     public void set(CommandSender sender, @Name("clan") ClanInput clanInput, @Name("amount") double amount) {
+
         Clan clan = clanInput.getClan();
         amount = Math.abs(amount);
-        BankOperator operator = new BankOperator(sender, sender instanceof Player ? permissions.playerGetMoney((Player) sender) : 0);
+        BankOperator operator = new BankOperator(sender,
+                sender instanceof Player ? permissions.playerGetMoney((Player) sender) : 0);
 
-        EconomyResponse response = clan.setBalance(operator, ClanBalanceUpdateEvent.Cause.COMMAND, BankLogger.Operation.SET, amount);
+        EconomyResponse response = clan.setBalance(operator, ClanBalanceUpdateEvent.Cause.COMMAND,
+                BankLogger.Operation.SET, amount);
         if (response == EconomyResponse.SUCCESS) {
-            ChatBlock.sendMessage(sender, AQUA + lang("clan.admin.set", sender, clan.getName(), CurrencyFormat.format(amount)));
+
+            ChatBlock.sendMessage(sender,
+                    AQUA + lang("clan.admin.set", sender, clan.getName(), CurrencyFormat.format(amount)));
             clan.addBb(sender.getName(), lang("bb.clan.set", sender, CurrencyFormat.format(amount), sender.getName()));
+
         }
+
     }
+
 }

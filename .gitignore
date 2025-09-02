@@ -1,10 +1,10 @@
-/target/
-/.idea/
-/bin/
-/.classpath
-/.project
+.idea/
+bin/
+.classpath
+.project
 *.jar
+build/
+.gradle/
 .settings
 .factorypath
 SimpleClans.iml
-dependency-reduced-pom.xml

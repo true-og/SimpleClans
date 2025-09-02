@@ -10,16 +10,23 @@ import org.jetbrains.annotations.NotNull;
 public class SenderClanMemberCondition extends AbstractCommandCondition {
 
     public SenderClanMemberCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context) throws InvalidCommandArgument {
+
         Conditions.assertClanMember(clanManager, context.getIssuer());
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "clan_member";
+
     }
+
 }

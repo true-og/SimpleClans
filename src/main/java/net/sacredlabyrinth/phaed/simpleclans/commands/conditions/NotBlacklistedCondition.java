@@ -15,24 +15,37 @@ import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.Con
 public class NotBlacklistedCondition extends AbstractCommandCondition {
 
     public NotBlacklistedCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context) throws InvalidCommandArgument {
+
         Player player = context.getIssuer().getPlayer();
         if (player != null) {
+
             World world = player.getLocation().getWorld();
             if (world != null) {
+
                 if (settingsManager.getStringList(BLACKLISTED_WORLDS).contains(world.getName())) {
+
                     throw new ConditionFailedException();
+
                 }
+
             }
+
         }
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "not_blacklisted";
+
     }
+
 }

@@ -9,10 +9,13 @@ public abstract class ConfigMigration implements Migration {
     protected final FileConfiguration config;
 
     public ConfigMigration(SettingsManager settingsManager) {
+
         this.settings = settingsManager;
         this.config = settings.getConfig();
 
         migrate();
         settings.save();
+
     }
+
 }

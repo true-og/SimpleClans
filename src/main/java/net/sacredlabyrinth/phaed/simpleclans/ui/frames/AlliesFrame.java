@@ -16,79 +16,100 @@ import java.util.List;
 import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 
 public class AlliesFrame extends SCFrame {
-	private final SimpleClans plugin = SimpleClans.getInstance();
-	private final Paginator paginator;
-	private final List<String> allies;
-	private final Clan subject;
 
-	public AlliesFrame(Player viewer, SCFrame parent, Clan subject) {
-		super(parent, viewer);
-		this.subject = subject;
-		allies = subject.getAllies();
-		paginator = new Paginator(getSize() - 9, allies.size());
-	}
+    private final SimpleClans plugin = SimpleClans.getInstance();
+    private final Paginator paginator;
+    private final List<String> allies;
+    private final Clan subject;
 
-	@Override
-	public void createComponents() {
-		for (int slot = 0; slot < 9; slot++) {
-			if (slot == 2 || slot == 4 || slot == 6 || slot == 7)
-				continue;
-			add(Components.getPanelComponent(slot));
-		}
+    public AlliesFrame(Player viewer, SCFrame parent, Clan subject) {
 
-		add(Components.getBackComponent(getParent(), 2, getViewer()));
+        super(parent, viewer);
+        this.subject = subject;
+        allies = subject.getAllies();
+        paginator = new Paginator(getSize() - 9, allies.size());
 
-		SCComponent add = new SCComponentImpl(lang("gui.allies.add.title",getViewer()), null,
-				XMaterial.CYAN_WOOL, 4);
-		add.setVerifiedOnly(ClickType.LEFT);
-		add.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new AddAllyFrame(this, getViewer(), subject)));
-		add.setPermission(ClickType.LEFT, RankPermission.ALLY_ADD);
-		add(add);
+    }
 
-		add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
-		add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
+    @Override
+    public void createComponents() {
 
-		int slot = 9;
-		for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+        for (int slot = 0; slot < 9; slot++) {
 
-			Clan clan = plugin.getClanManager().getClan(allies.get(i));
-			if (clan == null)
-				continue;
-			SCComponent c = new SCComponentImpl(
-					lang("gui.clanlist.clan.title",getViewer(), clan.getColorTag(), clan.getName()),
-					Collections.singletonList(lang("gui.allies.clan.lore",getViewer())), XMaterial.CYAN_BANNER, slot);
-			c.setListener(ClickType.RIGHT, () -> InventoryController.runSubcommand(getViewer(),
-					"ally remove", false, clan.getTag()));
-			c.setPermission(ClickType.RIGHT, RankPermission.ALLY_REMOVE);
-			add(c);
-			slot++;
-		}
-	}
+            if (slot == 2 || slot == 4 || slot == 6 || slot == 7)
+                continue;
+            add(Components.getPanelComponent(slot));
 
-	private void previousPage() {
-		if (paginator.previousPage()) {
-			updateFrame();
-		}
-	}
+        }
 
-	private void nextPage() {
-		if (paginator.nextPage()) {
-			updateFrame();
-		}
-	}
+        add(Components.getBackComponent(getParent(), 2, getViewer()));
 
-	private void updateFrame() {
-		InventoryDrawer.open(this);
-	}
+        SCComponent add = new SCComponentImpl(lang("gui.allies.add.title", getViewer()), null, XMaterial.CYAN_WOOL, 4);
+        add.setVerifiedOnly(ClickType.LEFT);
+        add.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new AddAllyFrame(this, getViewer(), subject)));
+        add.setPermission(ClickType.LEFT, RankPermission.ALLY_ADD);
+        add(add);
 
-	@Override
-	public @NotNull String getTitle() {
-		return lang("gui.allies.title",getViewer());
-	}
+        add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
+        add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
 
-	@Override
-	public int getSize() {
-		return 6 * 9;
-	}
+        int slot = 9;
+        for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+
+            Clan clan = plugin.getClanManager().getClan(allies.get(i));
+            if (clan == null)
+                continue;
+            SCComponent c = new SCComponentImpl(
+                    lang("gui.clanlist.clan.title", getViewer(), clan.getColorTag(), clan.getName()),
+                    Collections.singletonList(lang("gui.allies.clan.lore", getViewer())), XMaterial.CYAN_BANNER, slot);
+            c.setListener(ClickType.RIGHT,
+                    () -> InventoryController.runSubcommand(getViewer(), "ally remove", false, clan.getTag()));
+            c.setPermission(ClickType.RIGHT, RankPermission.ALLY_REMOVE);
+            add(c);
+            slot++;
+
+        }
+
+    }
+
+    private void previousPage() {
+
+        if (paginator.previousPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void nextPage() {
+
+        if (paginator.nextPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void updateFrame() {
+
+        InventoryDrawer.open(this);
+
+    }
+
+    @Override
+    public @NotNull String getTitle() {
+
+        return lang("gui.allies.title", getViewer());
+
+    }
+
+    @Override
+    public int getSize() {
+
+        return 6 * 9;
+
+    }
 
 }

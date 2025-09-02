@@ -15,29 +15,41 @@ public class ResetKdrPrompt extends ConfirmationPrompt {
     private final ClanManager cm;
 
     public ResetKdrPrompt(ClanManager cm) {
+
         this.cm = cm;
+
     }
 
     @Override
     protected Prompt confirm(ClanPlayer sender, Clan clan) {
+
         PlayerResetKdrEvent event = new PlayerResetKdrEvent(sender);
         Bukkit.getPluginManager().callEvent(event);
         if (!event.isCancelled() && cm.purchaseResetKdr(sender.toPlayer())) {
+
             cm.resetKdr(sender);
             return new MessagePromptImpl(RED + lang("you.have.reseted.your.kdr", sender));
+
         } else {
+
             return END_OF_CONVERSATION;
+
         }
+
     }
 
     @Override
     protected String getPromptTextKey() {
+
         return "resetkdr.confirmation";
+
     }
 
     @Override
     protected String getDeclineTextKey() {
+
         return "resetkdr.request.cancelled";
+
     }
 
 }

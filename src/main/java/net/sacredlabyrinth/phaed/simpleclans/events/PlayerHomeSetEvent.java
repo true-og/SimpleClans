@@ -20,39 +20,56 @@ public class PlayerHomeSetEvent extends Event implements Cancellable {
     private final Location loc;
 
     public PlayerHomeSetEvent(Clan clan, ClanPlayer cp, Location loc) {
+
         this.clan = clan;
         this.cp = cp;
         this.loc = loc;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     @Override
     public void setCancelled(boolean cancelled) {
+
         this.cancelled = cancelled;
+
     }
 
     public Clan getClan() {
+
         return this.clan;
+
     }
 
     public ClanPlayer getClanPlayer() {
+
         return this.cp;
+
     }
 
     public Location getLocation() {
+
         return this.loc;
+
     }
 
     @Override
     public HandlerList getHandlers() {
+
         return handlers;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return handlers;
+
     }
+
 }

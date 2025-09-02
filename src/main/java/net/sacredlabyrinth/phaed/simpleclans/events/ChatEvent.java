@@ -29,23 +29,32 @@ public class ChatEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     public ChatEvent(String message, ClanPlayer sender, List<ClanPlayer> receivers, Type type) {
+
         if (message == null || sender == null || receivers == null || type == null) {
+
             throw new IllegalArgumentException("none of the args can be null");
+
         }
+
         this.message = message;
         this.sender = sender;
         this.receivers = receivers;
         this.type = type;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     @Override
     public void setCancelled(boolean cancel) {
+
         cancelled = cancel;
+
     }
 
     public enum Type {
@@ -58,7 +67,9 @@ public class ChatEvent extends Event implements Cancellable {
      * @return the chat type
      */
     public Type getType() {
+
         return type;
+
     }
 
     /**
@@ -67,7 +78,9 @@ public class ChatEvent extends Event implements Cancellable {
      * @return an unmodifiable map of the placeholders
      */
     public Map<String, String> getPlaceholders() {
+
         return Collections.unmodifiableMap(placeholders);
+
     }
 
     /**
@@ -75,21 +88,35 @@ public class ChatEvent extends Event implements Cancellable {
      *
      * @param placeholderName the placeholder name
      * @param value           the String to be replaced
-     * @throws IllegalArgumentException if one of the args are null; if one of
-     *                                  the args are empty; if the placeholder name equals "clan", "nick-color",
-     *                                  "player", "rank" or "message"
+     * @throws IllegalArgumentException if one of the args are null; if one of the
+     *                                  args are empty; if the placeholder name
+     *                                  equals "clan", "nick-color", "player",
+     *                                  "rank" or "message"
      */
     public void addPlaceholder(String placeholderName, String value) {
+
         if (placeholderName == null || value == null) {
+
             throw new IllegalArgumentException("placeholderName or value must not be null");
+
         }
+
         if (placeholderName.isEmpty() || value.isEmpty()) {
+
             throw new IllegalArgumentException("placeholderName or value must not be empty");
+
         }
-        if (placeholderName.equalsIgnoreCase("clan") || placeholderName.equalsIgnoreCase("player") || placeholderName.equalsIgnoreCase("rank") || placeholderName.equalsIgnoreCase("message")) {
+
+        if (placeholderName.equalsIgnoreCase("clan") || placeholderName.equalsIgnoreCase("player")
+                || placeholderName.equalsIgnoreCase("rank") || placeholderName.equalsIgnoreCase("message"))
+        {
+
             throw new IllegalArgumentException("placeholderName must not be [clan, nick-color, player, rank, message]");
+
         }
+
         placeholders.put(placeholderName, value);
+
     }
 
     /**
@@ -98,7 +125,9 @@ public class ChatEvent extends Event implements Cancellable {
      * @param placeholderName the placeholder name
      */
     public void removePlaceholder(String placeholderName) {
+
         placeholders.remove(placeholderName);
+
     }
 
     /**
@@ -107,7 +136,9 @@ public class ChatEvent extends Event implements Cancellable {
      * @return the receivers
      */
     public List<ClanPlayer> getReceivers() {
+
         return receivers;
+
     }
 
     /**
@@ -116,10 +147,15 @@ public class ChatEvent extends Event implements Cancellable {
      * @param message the new message
      */
     public void setMessage(String message) {
+
         if (message == null) {
+
             throw new IllegalArgumentException("message must not be null");
+
         }
+
         this.message = message;
+
     }
 
     /**
@@ -128,7 +164,9 @@ public class ChatEvent extends Event implements Cancellable {
      * @return the message
      */
     public String getMessage() {
+
         return message;
+
     }
 
     /**
@@ -137,16 +175,22 @@ public class ChatEvent extends Event implements Cancellable {
      * @return the sender
      */
     public ClanPlayer getSender() {
+
         return sender;
+
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
 
 }

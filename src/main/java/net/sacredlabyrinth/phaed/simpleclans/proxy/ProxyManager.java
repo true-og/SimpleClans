@@ -21,4 +21,5 @@ public interface ProxyManager {
     void sendDelete(Clan clan);
 
     void sendDelete(ClanPlayer cp);
+
 }

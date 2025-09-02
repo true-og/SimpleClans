@@ -12,7 +12,9 @@ import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.debug;
 public abstract class Update<T> extends MessageListener {
 
     public Update(BungeeManager bungee) {
+
         super(bungee);
+
     }
 
     protected abstract Class<T> getType();
@@ -23,18 +25,30 @@ public abstract class Update<T> extends MessageListener {
 
     @Override
     public final void accept(ByteArrayDataInput data) {
+
         T t = getGson().fromJson(data.readUTF(), getType());
         T current = getCurrent(t);
         if (current == null) {
+
             insert(t);
             debug(String.format("Inserted %s", t));
             return;
+
         }
+
         try {
+
             ObjectUtils.updateFields(t, current);
+
         } catch (IllegalAccessException e) {
-            bungee.getPlugin().getLogger().log(Level.SEVERE, String.format("An error happened while updating %s", t), e);
+
+            bungee.getPlugin().getLogger().log(Level.SEVERE, String.format("An error happened while updating %s", t),
+                    e);
+
         }
+
         debug(String.format("Updated %s", t));
+
     }
+
 }

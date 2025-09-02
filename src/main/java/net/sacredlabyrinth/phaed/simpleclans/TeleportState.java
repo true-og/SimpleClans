@@ -5,7 +5,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-
 public class TeleportState {
 
     private final OfflinePlayer offlinePlayer;
@@ -16,25 +15,32 @@ public class TeleportState {
     private boolean processing;
 
     public TeleportState(Player player, Location destination, String clanName, int counter) {
+
         this.offlinePlayer = player;
         this.destination = destination;
         this.origin = player.getLocation();
         this.clanName = clanName;
         this.counter = counter;
+
     }
 
-
     public Location getLocation() {
+
         return this.origin;
+
     }
 
     public boolean isTeleportTime() {
+
         if (this.counter > 1) {
+
             this.counter--;
             return false;
+
         }
 
         return true;
+
     }
 
     /**
@@ -43,7 +49,9 @@ public class TeleportState {
      * @return the player
      */
     public @Nullable Player getPlayer() {
-    	return offlinePlayer.getPlayer();
+
+        return offlinePlayer.getPlayer();
+
     }
 
     /**
@@ -52,27 +60,39 @@ public class TeleportState {
      * @return the counter
      */
     public int getCounter() {
+
         return this.counter;
+
     }
 
     public void setCounter(int counter) {
+
         this.counter = counter;
+
     }
 
     public String getClanName() {
+
         return this.clanName;
+
     }
 
     public Location getDestination() {
+
         return this.destination;
+
     }
 
     public boolean isProcessing() {
+
         return this.processing;
+
     }
 
     public void setProcessing(boolean processing) {
+
         this.processing = processing;
+
     }
 
 }

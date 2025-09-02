@@ -13,17 +13,24 @@ public abstract class SCListener implements Listener {
     protected final SimpleClans plugin;
 
     public SCListener(SimpleClans plugin) {
+
         this.plugin = plugin;
+
     }
 
     public boolean isBlacklistedWorld(@NotNull Entity entity) {
+
         List<String> words = plugin.getSettingsManager().getStringList(ConfigField.BLACKLISTED_WORLDS);
 
         if (words.contains(entity.getWorld().getName())) {
+
             SimpleClans.debug("Blacklisted world");
             return true;
+
         }
+
         return false;
+
     }
 
 }

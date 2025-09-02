@@ -18,64 +18,92 @@ import java.util.List;
 import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 
 public class WarningFrame extends SCFrame {
-	private final SimpleClans plugin = SimpleClans.getInstance();
-	private final Object permission;
 
-	public WarningFrame(@NotNull SCFrame parent, @NotNull Player viewer, @Nullable Object permission) {
-		super(parent, viewer);
-		this.permission = permission;
-	}
+    private final SimpleClans plugin = SimpleClans.getInstance();
+    private final Object permission;
 
-	@Override
-	public void createComponents() {
-		for (int slot = 0; slot < 9; slot++) {
-			if (slot == 4)
-				continue;
-			add(Components.getPanelComponent(slot));
-		}
-		add(Components.getBackComponent(getParent(), 4, getViewer()));
+    public WarningFrame(@NotNull SCFrame parent, @NotNull Player viewer, @Nullable Object permission) {
 
-		int slot = 22;
-		if (permission != null) {
-			addNoPermissionComponent(permission, slot);
-		} else {
-			addNotVerifiedComponent(slot);
-		}
-	}
+        super(parent, viewer);
+        this.permission = permission;
 
-	private void addNotVerifiedComponent(int slot) {
-		SCComponent verified = new SCComponentImpl(lang("gui.warning.not.verified.title", getViewer()),
-				Collections.singletonList(lang("gui.warning.not.verified.lore", getViewer())), XMaterial.LEVER, slot);
-		add(verified);
-	}
+    }
 
-	private void addNoPermissionComponent(Object permission, int slot) {
-		List<String> lore;
-		if (permission instanceof String) {
-			lore = Collections.singletonList(lang("gui.warning.no.permission.plugin.lore",getViewer()));
-			ClanPlayer cp = plugin.getClanManager().getAnyClanPlayer(getViewer().getUniqueId());
-			if (((String) permission).contains("simpleclans.leader") && !cp.isLeader()) {
-				lore = Collections.singletonList(lang("gui.warning.no.permission.leader.lore",getViewer()));
-			}
-		} else {
-			RankPermission p = (RankPermission) permission;
-			String level = p.getPermissionLevel() == PermissionLevel.LEADER ? lang("leader",getViewer())
-					: lang("trusted",getViewer());
-			lore = Collections.singletonList(lang("gui.warning.no.permission.rank.lore",getViewer(), level, p.toString()));
-		}
-		SCComponent perm = new SCComponentImpl(lang("gui.warning.no.permission.title",getViewer()), lore,
-				XMaterial.BARRIER, slot);
-		add(perm);
-	}
+    @Override
+    public void createComponents() {
 
-	@Override
-	public @NotNull String getTitle() {
-		return lang("gui.warning.title",getViewer());
-	}
+        for (int slot = 0; slot < 9; slot++) {
 
-	@Override
-	public int getSize() {
-		return 6 * 9;
-	}
+            if (slot == 4)
+                continue;
+            add(Components.getPanelComponent(slot));
+
+        }
+
+        add(Components.getBackComponent(getParent(), 4, getViewer()));
+
+        int slot = 22;
+        if (permission != null) {
+
+            addNoPermissionComponent(permission, slot);
+
+        } else {
+
+            addNotVerifiedComponent(slot);
+
+        }
+
+    }
+
+    private void addNotVerifiedComponent(int slot) {
+
+        SCComponent verified = new SCComponentImpl(lang("gui.warning.not.verified.title", getViewer()),
+                Collections.singletonList(lang("gui.warning.not.verified.lore", getViewer())), XMaterial.LEVER, slot);
+        add(verified);
+
+    }
+
+    private void addNoPermissionComponent(Object permission, int slot) {
+
+        List<String> lore;
+        if (permission instanceof String) {
+
+            lore = Collections.singletonList(lang("gui.warning.no.permission.plugin.lore", getViewer()));
+            ClanPlayer cp = plugin.getClanManager().getAnyClanPlayer(getViewer().getUniqueId());
+            if (((String) permission).contains("simpleclans.leader") && !cp.isLeader()) {
+
+                lore = Collections.singletonList(lang("gui.warning.no.permission.leader.lore", getViewer()));
+
+            }
+
+        } else {
+
+            RankPermission p = (RankPermission) permission;
+            String level = p.getPermissionLevel() == PermissionLevel.LEADER ? lang("leader", getViewer())
+                    : lang("trusted", getViewer());
+            lore = Collections
+                    .singletonList(lang("gui.warning.no.permission.rank.lore", getViewer(), level, p.toString()));
+
+        }
+
+        SCComponent perm = new SCComponentImpl(lang("gui.warning.no.permission.title", getViewer()), lore,
+                XMaterial.BARRIER, slot);
+        add(perm);
+
+    }
+
+    @Override
+    public @NotNull String getTitle() {
+
+        return lang("gui.warning.title", getViewer());
+
+    }
+
+    @Override
+    public int getSize() {
+
+        return 6 * 9;
+
+    }
 
 }

@@ -13,75 +13,98 @@ import java.util.Collections;
 import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 
 public class PermissionsFrame extends SCFrame {
-	private final Rank rank;
-	private final Paginator paginator;
-	private final String[] permissions;
 
-	public PermissionsFrame(SCFrame parent, Player viewer, Rank rank) {
-		super(parent, viewer);
-		this.rank = rank;
-		permissions = rank.getPermissions().toArray(new String[0]);
-		paginator = new Paginator(getSize() - 9, permissions.length);
-	}
+    private final Rank rank;
+    private final Paginator paginator;
+    private final String[] permissions;
 
-	@Override
-	public void createComponents() {
-		for (int slot = 0; slot < 9; slot++) {
-			if (slot == 2 || slot == 4 || slot == 6 || slot == 7)
-				continue;
-			add(Components.getPanelComponent(slot));
-		}
+    public PermissionsFrame(SCFrame parent, Player viewer, Rank rank) {
 
-		add(Components.getBackComponent(getParent(), 2, getViewer()));
+        super(parent, viewer);
+        this.rank = rank;
+        permissions = rank.getPermissions().toArray(new String[0]);
+        paginator = new Paginator(getSize() - 9, permissions.length);
 
-		SCComponent add = new SCComponentImpl(lang("gui.permissions.add.title",getViewer()), null, XMaterial.WHITE_WOOL,
-				4);
-		add.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new AddPermissionFrame(this, getViewer(), rank)));
-		add.setPermission(ClickType.LEFT, "simpleclans.leader.rank.permissions.add");
-		add(add);
+    }
 
-		add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
-		add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
+    @Override
+    public void createComponents() {
 
-		int slot = 9;
-		for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+        for (int slot = 0; slot < 9; slot++) {
 
-			String permission = permissions[i];
+            if (slot == 2 || slot == 4 || slot == 6 || slot == 7)
+                continue;
+            add(Components.getPanelComponent(slot));
 
-			SCComponent c = new SCComponentImpl(lang("gui.permissions.permission.title",getViewer(), permission),
-					Collections.singletonList(lang("gui.permissions.permission.lore",getViewer())), XMaterial.PAPER, slot);
-			c.setListener(ClickType.RIGHT, () -> InventoryController.runSubcommand(getViewer(),
-					"rank permissions remove", true, rank.getName(), permission));
-			c.setPermission(ClickType.RIGHT, "simpleclans.leader.rank.permissions.remove");
-			add(c);
-			slot++;
-		}
-	}
+        }
 
-	private void previousPage() {
-		if (paginator.previousPage()) {
-			updateFrame();
-		}
-	}
+        add(Components.getBackComponent(getParent(), 2, getViewer()));
 
-	private void nextPage() {
-		if (paginator.nextPage()) {
-			updateFrame();
-		}
-	}
+        SCComponent add = new SCComponentImpl(lang("gui.permissions.add.title", getViewer()), null,
+                XMaterial.WHITE_WOOL, 4);
+        add.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new AddPermissionFrame(this, getViewer(), rank)));
+        add.setPermission(ClickType.LEFT, "simpleclans.leader.rank.permissions.add");
+        add(add);
 
-	private void updateFrame() {
-		InventoryDrawer.open(this);
-	}
+        add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
+        add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
 
-	@Override
-	public @NotNull String getTitle() {
-		return lang("gui.permissions.title",getViewer(), rank.getName());
-	}
+        int slot = 9;
+        for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
 
-	@Override
-	public int getSize() {
-		return 3 * 9;
-	}
+            String permission = permissions[i];
+
+            SCComponent c = new SCComponentImpl(lang("gui.permissions.permission.title", getViewer(), permission),
+                    Collections.singletonList(lang("gui.permissions.permission.lore", getViewer())), XMaterial.PAPER,
+                    slot);
+            c.setListener(ClickType.RIGHT, () -> InventoryController.runSubcommand(getViewer(),
+                    "rank permissions remove", true, rank.getName(), permission));
+            c.setPermission(ClickType.RIGHT, "simpleclans.leader.rank.permissions.remove");
+            add(c);
+            slot++;
+
+        }
+
+    }
+
+    private void previousPage() {
+
+        if (paginator.previousPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void nextPage() {
+
+        if (paginator.nextPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void updateFrame() {
+
+        InventoryDrawer.open(this);
+
+    }
+
+    @Override
+    public @NotNull String getTitle() {
+
+        return lang("gui.permissions.title", getViewer(), rank.getName());
+
+    }
+
+    @Override
+    public int getSize() {
+
+        return 3 * 9;
+
+    }
 
 }

@@ -17,11 +17,14 @@ public class SCMessageAdapter extends TypeAdapter<SCMessage> {
     private final SimpleClans plugin;
 
     public SCMessageAdapter(SimpleClans plugin) {
+
         this.plugin = plugin;
+
     }
 
     @Override
     public void write(JsonWriter out, SCMessage value) throws IOException {
+
         out.beginObject();
         out.name("channel");
         out.value(value.getChannel().toString());
@@ -30,10 +33,12 @@ public class SCMessageAdapter extends TypeAdapter<SCMessage> {
         out.name("content");
         out.value(value.getContent());
         out.endObject();
+
     }
 
     @Override
     public @Nullable SCMessage read(JsonReader in) throws IOException {
+
         in.beginObject();
         in.nextName();
         ClanPlayer.Channel channel = ClanPlayer.Channel.valueOf(in.nextString());
@@ -45,8 +50,13 @@ public class SCMessageAdapter extends TypeAdapter<SCMessage> {
         in.endObject();
 
         if (sender == null) {
+
             return null;
+
         }
+
         return new SCMessage(Source.PROXY, channel, sender, content);
+
     }
+
 }

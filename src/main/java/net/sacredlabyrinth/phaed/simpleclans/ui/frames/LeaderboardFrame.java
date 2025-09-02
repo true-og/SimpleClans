@@ -29,6 +29,7 @@ public class LeaderboardFrame extends SCFrame {
     private final RankingNumberResolver<ClanPlayer, BigDecimal> rankingResolver;
 
     public LeaderboardFrame(Player viewer, SCFrame parent) {
+
         super(parent, viewer);
 
         SimpleClans plugin = SimpleClans.getInstance();
@@ -37,15 +38,20 @@ public class LeaderboardFrame extends SCFrame {
         rankingResolver = new RankingNumberResolver<>(clanPlayers, c -> KDRFormat.toBigDecimal(c.getKDR()), false,
                 plugin.getSettingsManager().getRankingType());
         paginator = new Paginator(getSize() - 9, this.clanPlayers);
+
     }
 
     @Override
     public void createComponents() {
+
         for (int slot = 0; slot < 9; slot++) {
+
             if (slot == 2 || slot == 6 || slot == 7)
                 continue;
             add(Components.getPanelComponent(slot));
+
         }
+
         add(Components.getBackComponent(getParent(), 2, getViewer()));
 
         add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
@@ -53,16 +59,18 @@ public class LeaderboardFrame extends SCFrame {
 
         int slot = 9;
         for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+
             ClanPlayer cp = clanPlayers.get(i);
             SCComponent c = new SCComponentImpl(
-                    lang("gui.leaderboard.player.title", getViewer(),
-                            rankingResolver.getRankingNumber(cp), cp.getName()),
+                    lang("gui.leaderboard.player.title", getViewer(), rankingResolver.getRankingNumber(cp),
+                            cp.getName()),
                     Arrays.asList(
                             cp.getClan() == null ? lang("gui.playerdetails.player.lore.noclan", getViewer())
                                     : lang("gui.playerdetails.player.lore.clan", getViewer(),
-                                    cp.getClan().getColorTag(), cp.getClan().getName()),
+                                            cp.getClan().getColorTag(), cp.getClan().getName()),
                             lang("gui.playerdetails.player.lore.kdr", getViewer(), KDRFormat.format(cp.getKDR())),
-                            lang("gui.playerdetails.player.lore.last.seen", getViewer(), cp.getLastSeenString(getViewer()))),
+                            lang("gui.playerdetails.player.lore.last.seen", getViewer(),
+                                    cp.getLastSeenString(getViewer()))),
                     XMaterial.PLAYER_HEAD, slot);
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(cp.getUniqueId());
             Components.setOwningPlayer(c.getItem(), offlinePlayer);
@@ -71,33 +79,49 @@ public class LeaderboardFrame extends SCFrame {
             c.setLorePermission("simpleclans.anyone.leaderboard");
             add(c);
             slot++;
+
         }
+
     }
 
     private void previousPage() {
+
         if (paginator.previousPage()) {
+
             updateFrame();
+
         }
+
     }
 
     private void nextPage() {
+
         if (paginator.nextPage()) {
+
             updateFrame();
+
         }
+
     }
 
     private void updateFrame() {
+
         InventoryDrawer.open(this);
+
     }
 
     @Override
     public @NotNull String getTitle() {
+
         return lang("gui.leaderboard.title", getViewer(), clanPlayers.size());
+
     }
 
     @Override
     public int getSize() {
+
         return 6 * 9;
+
     }
 
 }

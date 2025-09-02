@@ -31,107 +31,167 @@ public class GriefPreventionProvider implements ProtectionProvider, Listener {
 
     @Override
     public void setup() {
+
         Bukkit.getPluginManager().registerEvents(this, SimpleClans.getInstance());
+
     }
 
     @Override
     public @NotNull Set<Land> getLandsAt(@NotNull Location location) {
+
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, true, null);
         if (claim == null) {
+
             return Collections.emptySet();
+
         }
+
         return Collections.singleton(getLand(claim));
+
     }
 
     @Override
     public @NotNull Set<Land> getLandsOf(@NotNull OfflinePlayer player, @NotNull World world) {
+
         HashSet<Land> lands = new HashSet<>();
         for (Claim claim : GriefPrevention.instance.dataStore.getPlayerData(player.getUniqueId()).getClaims()) {
+
             if (claim == null) {
+
                 continue;
+
             }
+
             lands.add(getLand(claim));
+
         }
+
         return lands;
+
     }
 
     @Override
     public @NotNull String getIdPrefix() {
+
         return "gp";
+
     }
 
     @Override
     public void deleteLand(@NotNull String id, @NotNull World world) {
+
         DataStore dataStore = GriefPrevention.instance.dataStore;
         Claim claim = dataStore.getClaim(Long.parseLong(id.replaceFirst(getIdPrefix(), "")));
         if (claim != null) {
+
             dataStore.deleteClaim(claim);
+
         }
+
     }
 
     @Override
     public @Nullable Class<? extends Event> getCreateLandEvent() {
+
         try {
+
             return ClaimCreatedEvent.class;
+
         } catch (NoClassDefFoundError error) {
+
             return null;
+
         }
+
     }
 
     @Override
     public @Nullable Player getPlayer(Event event) {
+
         if (event instanceof ClaimCreatedEvent) {
+
             if (((ClaimCreatedEvent) event).getCreator() instanceof Player) {
+
                 return ((Player) ((ClaimCreatedEvent) event).getCreator());
+
             }
+
         }
+
         return null;
+
     }
 
     @Override
     public @Nullable String getRequiredPluginName() {
+
         return "GriefPrevention";
+
     }
 
     @Nullable
     private Land getLand(@Nullable Claim claim) {
+
         if (claim == null) {
+
             return null;
+
         }
+
         List<Coordinate> coords = Arrays.asList(new Coordinate(claim.getLesserBoundaryCorner()),
                 new Coordinate(claim.getGreaterBoundaryCorner()));
 
         return new Land(getIdPrefix() + claim.getID().toString(), Collections.singleton(getOwnerID(claim)), coords);
+
     }
 
     @SuppressWarnings("deprecation")
     @NotNull
     private UUID getOwnerID(@NotNull Claim claim) {
+
         try {
+
             return claim.getOwnerID();
+
         } catch (NoSuchMethodError error) {
+
             return Bukkit.getOfflinePlayer(claim.getOwnerName()).getUniqueId();
+
         }
+
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     private void onResize(ClaimResizeEvent event) {
+
         ClanManager clanManager = SimpleClans.getInstance().getClanManager();
 
         Land originalLand = getLand(event.getFrom());
         Land newLand = getLand(event.getTo());
         if (originalLand == null || newLand == null) {
+
             return;
+
         }
+
         for (UUID owner : originalLand.getOwners()) {
+
             ClanPlayer cp = clanManager.getAnyClanPlayer(owner);
-            if (cp == null) continue;
+            if (cp == null)
+                continue;
             for (ProtectionManager.Action action : ProtectionManager.Action.values()) {
+
                 if (cp.isAllowed(action, originalLand.getId())) {
+
                     cp.disallow(action, originalLand.getId());
                     cp.allow(action, newLand.getId());
+
                 }
+
             }
+
         }
+
     }
+
 }

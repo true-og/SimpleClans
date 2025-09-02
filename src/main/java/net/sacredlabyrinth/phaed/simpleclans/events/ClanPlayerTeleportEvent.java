@@ -16,39 +16,56 @@ public class ClanPlayerTeleportEvent extends Event implements Cancellable {
     private final Location destination;
 
     public ClanPlayerTeleportEvent(ClanPlayer player, Location origin, Location destination) {
+
         this.player = player;
         this.origin = origin;
         this.destination = destination;
+
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     @Override
     public void setCancelled(boolean cancel) {
+
         cancelled = cancel;
+
     }
 
     public ClanPlayer getClanPlayer() {
+
         return player;
+
     }
 
     public Location getOrigin() {
+
         return origin;
+
     }
 
     public Location getDestination() {
+
         return destination;
+
     }
+
 }

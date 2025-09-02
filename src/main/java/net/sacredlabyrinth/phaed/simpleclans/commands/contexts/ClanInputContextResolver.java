@@ -12,23 +12,33 @@ import static org.bukkit.ChatColor.RED;
 
 @SuppressWarnings("unused")
 public class ClanInputContextResolver extends AbstractInputOnlyContextResolver<ClanInput> {
+
     public ClanInputContextResolver(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public ClanInput getContext(BukkitCommandExecutionContext context) throws InvalidCommandArgument {
+
         String arg = context.popFirstArg();
         Clan clan = clanManager.getClan(arg);
         if (clan == null) {
-            throw new InvalidCommandArgument(RED + lang("the.clan.does.not.exist", context.getSender()),
-                    false);
+
+            throw new InvalidCommandArgument(RED + lang("the.clan.does.not.exist", context.getSender()), false);
+
         }
+
         return new ClanInput(clan);
+
     }
 
     @Override
     public Class<ClanInput> getType() {
+
         return ClanInput.class;
+
     }
+
 }

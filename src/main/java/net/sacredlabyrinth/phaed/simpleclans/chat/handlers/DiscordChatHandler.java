@@ -18,14 +18,18 @@ import static net.sacredlabyrinth.phaed.simpleclans.chat.SCMessage.Source.SPIGOT
 import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.ConfigField.DISCORDCHAT_FORMAT_TO;
 
 /**
- * Handles delivering messages from {@link Source#SPIGOT} to {@link Source#DISCORD}.
+ * Handles delivering messages from {@link Source#SPIGOT} to
+ * {@link Source#DISCORD}.
  */
 public class DiscordChatHandler implements ChatHandler {
 
     @Override
     public void sendMessage(@NotNull SCMessage message) {
+
         if (message.getChannel() != CLAN) {
+
             return;
+
         }
 
         String format = settingsManager.getString(DISCORDCHAT_FORMAT_TO);
@@ -33,16 +37,22 @@ public class DiscordChatHandler implements ChatHandler {
 
         Clan clan = message.getSender().getClan();
         if (clan == null) {
+
             return;
+
         }
 
         DiscordHook discordHook = Objects.requireNonNull(chatManager.getDiscordHook(), "DiscordHook cannot be null");
         Optional<TextChannel> channel = discordHook.getCachedChannel(clan.getTag());
         channel.ifPresent(textChannel -> DiscordUtil.sendMessage(textChannel, formattedMessage));
+
     }
 
     @Override
     public boolean canHandle(SCMessage.Source source) {
+
         return source == SPIGOT && chatManager.isDiscordHookEnabled();
+
     }
+
 }

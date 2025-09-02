@@ -17,27 +17,38 @@ public class CreateRankEvent extends PlayerEvent {
     private final Clan clan;
 
     public CreateRankEvent(Player who, Clan clan, Rank rank) {
+
         super(who);
         this.clan = clan;
         this.rank = rank;
+
     }
 
     @NotNull
     public Rank getRank() {
+
         return rank;
+
     }
 
     @NotNull
     public Clan getClan() {
+
         return clan;
+
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
+
 }

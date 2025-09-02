@@ -19,35 +19,50 @@ public class DeleteRankEvent extends PlayerEvent implements Cancellable {
     private boolean cancelled;
 
     public DeleteRankEvent(Player who, Clan clan, Rank rank) {
+
         super(who);
         this.rank = rank;
         this.clan = clan;
+
     }
 
     public Rank getRank() {
+
         return rank;
+
     }
 
     public Clan getClan() {
+
         return clan;
+
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     @Override
     public void setCancelled(boolean cancelled) {
+
         this.cancelled = cancelled;
+
     }
+
 }

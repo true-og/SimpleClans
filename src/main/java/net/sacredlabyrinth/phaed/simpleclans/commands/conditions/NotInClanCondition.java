@@ -14,28 +14,39 @@ import static org.bukkit.ChatColor.RED;
 public class NotInClanCondition extends AbstractParameterCondition<ClanPlayerInput> {
 
     public NotInClanCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public Class<ClanPlayerInput> getType() {
+
         return ClanPlayerInput.class;
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context,
-                                  BukkitCommandExecutionContext execContext, ClanPlayerInput value)
-            throws InvalidCommandArgument {
+            BukkitCommandExecutionContext execContext, ClanPlayerInput value) throws InvalidCommandArgument
+    {
+
         ClanPlayer clanPlayer = value.getClanPlayer();
         debug(String.format("NotInClanCondition -> %s %s", clanPlayer.getName(), clanPlayer.getUniqueId()));
         if (clanPlayer.getClan() != null) {
-            throw new ConditionFailedException(RED + lang("the.player.is.already.member.of.another.clan",
-                    execContext.getSender()));
+
+            throw new ConditionFailedException(
+                    RED + lang("the.player.is.already.member.of.another.clan", execContext.getSender()));
+
         }
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "not_in_clan";
+
     }
+
 }

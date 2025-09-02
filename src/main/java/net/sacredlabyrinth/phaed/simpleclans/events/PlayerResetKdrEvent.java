@@ -21,7 +21,9 @@ public class PlayerResetKdrEvent extends Event implements Cancellable {
      * @param clanPlayer The ClanPlayer whose kill death rate going to be reset
      */
     public PlayerResetKdrEvent(@NotNull ClanPlayer clanPlayer) {
+
         this.clanPlayer = clanPlayer;
+
     }
 
     /**
@@ -31,26 +33,36 @@ public class PlayerResetKdrEvent extends Event implements Cancellable {
      */
     @NotNull
     public ClanPlayer getClanPlayer() {
+
         return clanPlayer;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     @Override
     public void setCancelled(boolean cancelled) {
+
         this.cancelled = cancelled;
+
     }
 
     @Override
     public HandlerList getHandlers() {
+
         return handlers;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return handlers;
+
     }
 
 }

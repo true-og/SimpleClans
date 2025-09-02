@@ -13,23 +13,37 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class RanksCompletion extends AbstractSyncCompletion {
+
     public RanksCompletion(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public Collection<String> getCompletions(BukkitCommandCompletionContext context) throws InvalidCommandArgument {
+
         Player player = context.getPlayer();
         if (player != null) {
+
             Clan clan = clanManager.getClanByPlayerUniqueId(player.getUniqueId());
             if (clan != null) {
+
                 return clan.getRanks().stream().map(Rank::getName).collect(Collectors.toList());
+
             }
+
         }
-        return Collections.emptyList();    }
+
+        return Collections.emptyList();
+
+    }
 
     @Override
     public @NotNull String getId() {
+
         return "ranks";
+
     }
+
 }

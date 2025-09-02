@@ -6,8 +6,13 @@ import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractInputOnlyContextResolver<T> extends AbstractContextResolver<T>
-        implements ContextResolver<T, BukkitCommandExecutionContext> {
+        implements ContextResolver<T, BukkitCommandExecutionContext>
+{
+
     public AbstractInputOnlyContextResolver(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
+
 }

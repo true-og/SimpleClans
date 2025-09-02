@@ -14,27 +14,38 @@ import static org.bukkit.ChatColor.RED;
 public class NotBannedInputCondition extends AbstractParameterCondition<ClanPlayerInput> {
 
     public NotBannedInputCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public Class<ClanPlayerInput> getType() {
+
         return ClanPlayerInput.class;
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context,
-                                  BukkitCommandExecutionContext execContext, ClanPlayerInput value)
-            throws InvalidCommandArgument {
+            BukkitCommandExecutionContext execContext, ClanPlayerInput value) throws InvalidCommandArgument
+    {
+
         UUID uniqueId = value.getClanPlayer().getUniqueId();
         if (settingsManager.isBanned(uniqueId)) {
-            throw new ConditionFailedException(RED + lang("this.player.is.banned.from.using.clan.commands",
-                    execContext.getSender()));
+
+            throw new ConditionFailedException(
+                    RED + lang("this.player.is.banned.from.using.clan.commands", execContext.getSender()));
+
         }
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "not_banned";
+
     }
+
 }

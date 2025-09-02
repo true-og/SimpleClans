@@ -28,18 +28,24 @@ public class PlayerListFrame extends SCFrame {
     private List<OfflinePlayer> players;
 
     public PlayerListFrame(@NotNull Player viewer, @Nullable SCFrame parent, boolean onlineOnly) {
+
         super(parent, viewer);
         this.onlineOnly = onlineOnly;
         loadPlayers();
+
     }
 
     @Override
     public void createComponents() {
+
         for (int slot = 0; slot < 9; slot++) {
+
             if (slot == 2 || slot == 6 || slot == 7)
                 continue;
             add(Components.getPanelComponent(slot));
+
         }
+
         add(Components.getBackComponent(getParent(), 2, getViewer()));
 
         add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
@@ -47,54 +53,78 @@ public class PlayerListFrame extends SCFrame {
 
         int slot = 9;
         for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+
             OfflinePlayer player = players.get(i);
             SCComponent c = Components.getPlayerComponent(this, getViewer(), player, slot, false);
-            c.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new PlayerDetailsFrame(getViewer(), this, player)));
+            c.setListener(ClickType.LEFT,
+                    () -> InventoryDrawer.open(new PlayerDetailsFrame(getViewer(), this, player)));
 
             add(c);
             slot++;
+
         }
+
     }
 
     private void loadPlayers() {
+
         if (onlineOnly) {
+
             players = new ArrayList<>(Bukkit.getOnlinePlayers());
+
         } else {
-            players = Stream.concat(
-                            SimpleClans.getInstance().getClanManager().getAllClanPlayers().stream().
-                                    map(cp -> Bukkit.getOfflinePlayer(cp.getUniqueId())),
-                            Bukkit.getOnlinePlayers().stream())
+
+            players = Stream
+                    .concat(SimpleClans.getInstance().getClanManager().getAllClanPlayers().stream()
+                            .map(cp -> Bukkit.getOfflinePlayer(cp.getUniqueId())), Bukkit.getOnlinePlayers().stream())
                     .distinct().collect(Collectors.toList());
+
         }
+
         players = players.stream().filter(p -> p.getName() != null).collect(Collectors.toList());
         players.sort(Comparator.comparing(OfflinePlayer::getName));
         paginator = new Paginator(getSize() - 9, players.size());
+
     }
 
     private void previousPage() {
+
         if (paginator.previousPage()) {
+
             updateFrame();
+
         }
+
     }
 
     private void nextPage() {
+
         if (paginator.nextPage()) {
+
             updateFrame();
+
         }
+
     }
 
     private void updateFrame() {
+
         InventoryDrawer.open(this);
+
     }
 
     @Override
     public @NotNull String getTitle() {
+
         return lang("gui.player.list.title", getViewer());
+
     }
 
     @Override
     public int getSize() {
+
         return 6 * 9;
+
     }
 
 }

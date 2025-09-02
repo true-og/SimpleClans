@@ -10,7 +10,9 @@ public abstract class MessageListener {
     protected final BungeeManager bungee;
 
     public MessageListener(BungeeManager bungee) {
+
         this.bungee = bungee;
+
     }
 
     public abstract void accept(ByteArrayDataInput data);
@@ -18,11 +20,15 @@ public abstract class MessageListener {
     public abstract boolean isBungeeSubchannel();
 
     protected ClanManager getClanManager() {
+
         return bungee.getPlugin().getClanManager();
+
     }
 
     protected Gson getGson() {
+
         return bungee.getGson();
+
     }
 
 }

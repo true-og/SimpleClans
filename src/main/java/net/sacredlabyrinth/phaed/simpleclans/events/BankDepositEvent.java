@@ -19,43 +19,62 @@ public class BankDepositEvent extends PlayerEvent implements Cancellable {
     private boolean cancelled;
 
     public BankDepositEvent(@NotNull Player who, @NotNull Clan clan, double amount) {
+
         super(who);
         this.clan = clan;
         this.amount = amount;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public @NotNull Clan getClan() {
+
         return clan;
+
     }
 
     public double getOldBalance() {
+
         return clan.getBalance();
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     @Override
     public void setCancelled(boolean cancelled) {
+
         this.cancelled = cancelled;
+
     }
 
     public double getAmount() {
+
         return amount;
+
     }
 
     public void setAmount(double amount) {
+
         this.amount = amount;
+
     }
+
 }

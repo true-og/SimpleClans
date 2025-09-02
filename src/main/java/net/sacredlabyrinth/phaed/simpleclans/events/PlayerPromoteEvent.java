@@ -16,24 +16,35 @@ public class PlayerPromoteEvent extends Event {
     private final ClanPlayer target;
 
     public PlayerPromoteEvent(Clan clan, ClanPlayer target) {
+
         this.clan = clan;
         this.target = target;
+
     }
 
     public Clan getClan() {
+
         return this.clan;
+
     }
 
     public ClanPlayer getClanPlayer() {
+
         return this.target;
+
     }
 
     @Override
     public HandlerList getHandlers() {
+
         return handlers;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return handlers;
+
     }
+
 }

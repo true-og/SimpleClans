@@ -13,31 +13,44 @@ public class WarStartEvent extends Event implements Cancellable {
     private boolean cancel;
 
     public WarStartEvent(@NotNull War war) {
+
         this.war = war;
+
     }
 
     @NotNull
     public War getWar() {
+
         return war;
+
     }
 
     @NotNull
     @Override
     public HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancel;
+
     }
 
     @Override
     public void setCancelled(boolean cancel) {
+
         this.cancel = cancel;
+
     }
+
 }

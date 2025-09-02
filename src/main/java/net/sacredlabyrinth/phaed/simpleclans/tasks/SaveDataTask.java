@@ -12,18 +12,24 @@ import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.Con
  *
  */
 public class SaveDataTask extends BukkitRunnable {
-	SimpleClans plugin = SimpleClans.getInstance();
+
+    SimpleClans plugin = SimpleClans.getInstance();
 
     /**
      * Starts the repetitive task
      */
-	public void start() {
-		long interval = plugin.getSettingsManager().getMinutes(PERFORMANCE_SAVE_INTERVAL);
-		runTaskTimerAsynchronously(plugin, interval, interval);
-	}
+    public void start() {
 
-	@Override
-	public void run() {
-		plugin.getStorageManager().saveModified();
-	}
+        long interval = plugin.getSettingsManager().getMinutes(PERFORMANCE_SAVE_INTERVAL);
+        runTaskTimerAsynchronously(plugin, interval, interval);
+
+    }
+
+    @Override
+    public void run() {
+
+        plugin.getStorageManager().saveModified();
+
+    }
+
 }

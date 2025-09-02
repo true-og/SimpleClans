@@ -26,19 +26,22 @@ public class Lookup extends Sendable {
     private final Clan targetClan;
 
     public Lookup(@NotNull SimpleClans plugin, @NotNull CommandSender sender, @NotNull UUID targetUuid) {
+
         super(plugin, sender);
         this.targetUuid = targetUuid;
         target = cm.getAnyClanPlayer(targetUuid);
         ClanPlayer senderCp = !isPlayer() ? null : cm.getClanPlayer(getPlayer().getUniqueId());
         senderClan = senderCp == null ? null : senderCp.getClan();
         targetClan = target != null ? target.getClan() : null;
+
     }
 
     @Override
     public void send() {
+
         if (target != null) {
-            String lookup = lang("player.lookup", sender)
-                    .replace("%player_name%", target.getName())
+
+            String lookup = lang("player.lookup", sender).replace("%player_name%", target.getName())
                     .replace("%clan_name%", getClanName())
                     .replace("%player_rank%", ChatUtils.parseColors(target.getRankDisplayName()))
                     .replace("%player_status%", getPlayerStatus())
@@ -52,81 +55,130 @@ public class Lookup extends Sendable {
                     .replace("%player_last_seen%", target.getLastSeenString(sender))
                     .replace("%player_past_clans%", target.getPastClansString(headColor + ", "))
                     .replace("%player_inactive_days%", String.valueOf(target.getInactiveDays()))
-                    .replace("%player_max_inactive_days%", Helper.formatMaxInactiveDays(sm.getInt(PURGE_INACTIVE_PLAYER_DAYS)))
+                    .replace("%player_max_inactive_days%",
+                            Helper.formatMaxInactiveDays(sm.getInt(PURGE_INACTIVE_PLAYER_DAYS)))
                     .replace("%kill_type_line%", getKillTypeLine());
             sender.sendMessage(lookup);
+
         } else {
+
             ChatBlock.sendMessage(sender, RED + lang("no.player.data.found", sender));
 
             if (isOtherPlayer() && senderClan != null) {
+
                 ChatBlock.sendBlank(sender);
                 ChatBlock.sendMessage(sender, lang("kill.type.civilian", sender, DARK_GRAY));
+
             }
+
         }
+
     }
 
     @NotNull
     private String getClanName() {
+
         String clanName = lang("none", sender);
         if (targetClan != null) {
-            clanName = lang("player.lookup.clanname")
-                    .replace("%clan_color_tag%", targetClan.getColorTag())
+
+            clanName = lang("player.lookup.clanname").replace("%clan_color_tag%", targetClan.getColorTag())
                     .replace("%clan_name%", targetClan.getName());
+
         }
+
         return clanName;
+
     }
 
     @NotNull
     private String getPlayerStatus() {
+
         if (target == null || targetClan == null) {
+
             return lang("free.agent", sender);
+
         }
+
         if (target.isLeader()) {
+
             return sm.getColored(PAGE_LEADER_COLOR) + lang("leader", sender);
+
         }
+
         if (target.isTrusted()) {
+
             return sm.getColored(PAGE_TRUSTED_COLOR) + lang("trusted", sender);
+
         }
+
         if (!target.getRankId().isEmpty()) {
+
             return sm.getColored(PAGE_TRUSTED_COLOR) + lang("in.rank", sender);
+
         }
+
         return sm.getColored(PAGE_UNTRUSTED_COLOR) + lang("untrusted", sender);
+
     }
 
     @NotNull
     private String getKillTypeLine() {
+
         String killTypeLine = "";
         if (isOtherPlayer()) {
+
             String killType = GRAY + lang("neutral", sender);
 
             if (targetClan == null) {
+
                 killType = DARK_GRAY + lang("civilian", sender);
+
             } else if (senderClan != null) {
+
                 if (senderClan.isRival(targetClan.getTag())) {
+
                     killType = WHITE + lang("rival", sender);
+
                 }
+
                 if (senderClan.equals(targetClan) || senderClan.isAlly(targetClan.getTag())) {
+
                     killType = RED + lang("ally", sender);
+
                 }
+
             }
 
             killTypeLine = lang("player.lookup.killtype", sender).replace("%player_kill_type%", killType);
+
         }
+
         return killTypeLine;
+
     }
 
     private boolean isPlayer() {
+
         return sender instanceof Player;
+
     }
 
     private boolean isOtherPlayer() {
+
         if (isPlayer()) {
+
             return !getPlayer().getUniqueId().equals(targetUuid);
+
         }
+
         return true;
+
     }
 
     private Player getPlayer() {
+
         return (Player) sender;
+
     }
+
 }

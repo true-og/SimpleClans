@@ -16,15 +16,17 @@ public class ClanProfile extends Sendable {
     private final Clan clan;
 
     public ClanProfile(@NotNull SimpleClans plugin, @NotNull CommandSender sender, @NotNull Clan clan) {
+
         super(plugin, sender);
         this.clan = clan;
+
     }
 
     @Override
     public void send() {
+
         String message = lang("clan.profile").replace("%clan_name%", clan.getName())
-                .replace("%clan_color_tag%", clan.getColorTag())
-                .replace("%clan_description%", getDescription())
+                .replace("%clan_color_tag%", clan.getColorTag()).replace("%clan_description%", getDescription())
                 .replace("%clan_status%", Helper.getFormattedClanStatus(clan, sender))
                 .replace("%clan_leaders%", clan.getLeadersString(sm.getColored(PAGE_LEADER_COLOR), subColor + ", "))
                 .replace("%clan_online_count%", String.valueOf(VanishUtils.getNonVanished(sender, clan).size()))
@@ -43,16 +45,22 @@ public class ClanProfile extends Sendable {
                 .replace("%clan_inactive_days%", String.valueOf(clan.getInactiveDays()))
                 .replace("%clan_max_inactive_days%", Helper.formatMaxInactiveDays(clan.getMaxInactiveDays()));
         sender.sendMessage(message);
+
     }
 
     @NotNull
     private String getFeeEnabled() {
+
         return clan.isMemberFeeEnabled() ? lang("fee.enabled", sender) : lang("fee.disabled", sender);
+
     }
 
     @NotNull
     private String getDescription() {
-        return clan.getDescription() != null && !clan.getDescription().isEmpty() ? clan.getDescription() :
-                lang("no.description", sender);
+
+        return clan.getDescription() != null && !clan.getDescription().isEmpty() ? clan.getDescription()
+                : lang("no.description", sender);
+
     }
+
 }

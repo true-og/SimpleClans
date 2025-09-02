@@ -17,33 +17,54 @@ import static org.bukkit.ChatColor.RED;
 public class CanVoteCondition extends AbstractCommandCondition {
 
     public CanVoteCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context) throws InvalidCommandArgument {
+
         Player player = Conditions.assertPlayer(context.getIssuer());
         ClanPlayer cp = clanManager.getCreateClanPlayer(player.getUniqueId());
         Clan clan = cp.getClan();
         if (clan != null) {
+
             if (!requestManager.hasRequest(clan.getTag())) {
+
                 throw new ConditionFailedException(lang("nothing.to.vote", player));
+
             }
+
             if (!clan.isLeader(player)) {
+
                 throw new ConditionFailedException(RED + lang("no.leader.permissions", player));
+
             }
+
             if (cp.getVote() != null) {
+
                 throw new ConditionFailedException(RED + lang("you.have.already.voted", player));
+
             }
+
         } else {
+
             if (!requestManager.hasRequest(player.getName().toLowerCase())) {
+
                 throw new ConditionFailedException(lang("nothing.to.vote", player));
+
             }
+
         }
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "can_vote";
+
     }
+
 }

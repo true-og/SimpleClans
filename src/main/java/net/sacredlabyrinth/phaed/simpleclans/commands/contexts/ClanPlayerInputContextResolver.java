@@ -21,32 +21,45 @@ public class ClanPlayerInputContextResolver extends AbstractInputOnlyContextReso
     private final Pattern validUsername;
 
     public ClanPlayerInputContextResolver(@NotNull SimpleClans plugin) {
+
         super(plugin);
         validUsername = Pattern.compile(plugin.getSettingsManager().getString(USERNAME_REGEX));
+
     }
 
     @Override
     public ClanPlayerInput getContext(BukkitCommandExecutionContext context) throws InvalidCommandArgument {
+
         String arg = context.popFirstArg();
         if (!validUsername.matcher(arg).matches()) {
+
             throw new InvalidCommandArgument(MinecraftMessageKeys.IS_NOT_A_VALID_NAME, "{name}", arg);
+
         }
 
         ClanPlayer cp = clanManager.getAnyClanPlayer(arg);
         if (cp == null) {
+
             Player player = Bukkit.getPlayer(arg);
             if (player == null) {
+
                 throw new InvalidCommandArgument(lang("user.hasnt.played.before", context.getSender()));
+
             }
+
             cp = clanManager.getCreateClanPlayer(player.getUniqueId());
+
         }
 
         return new ClanPlayerInput(cp);
+
     }
 
     @Override
     public Class<ClanPlayerInput> getType() {
+
         return ClanPlayerInput.class;
+
     }
 
 }

@@ -14,19 +14,28 @@ public class CreateClanEvent extends Event {
     private final Clan clan;
 
     public CreateClanEvent(Clan clan) {
+
         this.clan = clan;
+
     }
 
     public Clan getClan() {
+
         return this.clan;
+
     }
 
     @Override
     public HandlerList getHandlers() {
+
         return handlers;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return handlers;
+
     }
+
 }

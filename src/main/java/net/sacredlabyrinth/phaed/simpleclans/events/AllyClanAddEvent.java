@@ -15,24 +15,35 @@ public class AllyClanAddEvent extends Event {
     private final Clan clanSecond;
 
     public AllyClanAddEvent(Clan clanFirst, Clan clanSecond) {
+
         this.clanFirst = clanFirst;
         this.clanSecond = clanSecond;
+
     }
 
     public Clan getClanFirst() {
+
         return this.clanFirst;
+
     }
 
     public Clan getClanSecond() {
+
         return this.clanSecond;
+
     }
 
     @Override
     public HandlerList getHandlers() {
+
         return handlers;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return handlers;
+
     }
+
 }

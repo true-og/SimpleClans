@@ -10,7 +10,10 @@ public abstract class AbstractCompletion implements IdentifiableCompletion {
     protected final ClanManager clanManager;
 
     public AbstractCompletion(@NotNull SimpleClans plugin) {
+
         this.plugin = plugin;
         this.clanManager = plugin.getClanManager();
+
     }
+
 }

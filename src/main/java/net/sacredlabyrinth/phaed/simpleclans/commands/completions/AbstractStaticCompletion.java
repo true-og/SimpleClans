@@ -8,7 +8,9 @@ import java.util.Collection;
 public abstract class AbstractStaticCompletion extends AbstractCompletion {
 
     public AbstractStaticCompletion(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @NotNull

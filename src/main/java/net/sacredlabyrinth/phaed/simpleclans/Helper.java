@@ -41,78 +41,103 @@ public final class Helper {
     private static final Gson GSON = new Gson();
     private static final Type RANKS_TYPE = TypeToken.getParameterized(List.class, Rank.class).getType();
     private static final Type RESIGN_TYPE = TypeToken.getParameterized(Map.class, String.class, Long.class).getType();
+
     private Helper() {
+
     }
 
     @NotNull
     public static Locale forLanguageTag(@Nullable String languageTag) {
+
         Locale defaultLanguage = SimpleClans.getInstance().getSettingsManager().getLanguage();
         if (languageTag == null) {
+
             return defaultLanguage;
+
         }
+
         return Locale.forLanguageTag(languageTag);
+
     }
 
     @Contract("null -> null")
     @Nullable
     public static String toLanguageTag(@Nullable Locale locale) {
+
         return locale != null ? locale.toLanguageTag() : null;
+
     }
 
     public static Set<Path> getPathsIn(String path, Predicate<? super Path> filter) {
+
         Set<Path> files = new LinkedHashSet<>();
         String packagePath = path.replace(".", "/");
 
         try {
+
             URI uri = SimpleClans.class.getProtectionDomain().getCodeSource().getLocation().toURI();
             FileSystem fileSystem = FileSystems.newFileSystem(URI.create("jar:" + uri), Collections.emptyMap());
-            files = Files.walk(fileSystem.getPath(packagePath)).
-                    filter(Objects::nonNull).
-                    filter(filter).
-                    collect(Collectors.toSet());
+            files = Files.walk(fileSystem.getPath(packagePath)).filter(Objects::nonNull).filter(filter)
+                    .collect(Collectors.toSet());
             fileSystem.close();
+
         } catch (URISyntaxException | IOException ex) {
-            SimpleClans.getInstance().getLogger().
-                    log(Level.WARNING, "An error occurred while trying to load files: " + ex.getMessage(), ex);
+
+            SimpleClans.getInstance().getLogger().log(Level.WARNING,
+                    "An error occurred while trying to load files: " + ex.getMessage(), ex);
+
         }
 
         return files;
+
     }
 
     public static Set<Class<?>> getClasses(String packageName) {
+
         Set<Class<?>> classes = new LinkedHashSet<>();
 
         Predicate<? super Path> filter = entry -> {
+
             String path = entry.getFileName().toString();
             return !path.contains("$") && path.endsWith(".class");
+
         };
 
         for (Path filesPath : getPathsIn(packageName, filter)) {
+
             // Compatibility with different Java versions
             String path = filesPath.toString();
             if (path.charAt(0) == '/') {
+
                 path = path.substring(1);
+
             }
 
             String fileName = path.replace("/", ".").split(".class")[0];
 
             try {
+
                 Class<?> clazz = Class.forName(fileName);
                 classes.add(clazz);
+
             } catch (ClassNotFoundException e) {
+
                 e.printStackTrace();
+
             }
+
         }
 
         return classes;
+
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Set<Class<? extends T>> getSubTypesOf(String packageName, Class<?> type) {
-        return getClasses(packageName).stream().
-                filter(type::isAssignableFrom).
-                map(aClass -> ((Class<? extends T>) aClass)).
-                collect(Collectors.toSet());
+
+        return getClasses(packageName).stream().filter(type::isAssignableFrom)
+                .map(aClass -> ((Class<? extends T>) aClass)).collect(Collectors.toSet());
+
     }
 
     /**
@@ -122,12 +147,17 @@ public final class Helper {
      * @return a list of ranks or null if the JSON String is null/empty
      */
     public static @Nullable List<Rank> ranksFromJson(@Nullable String json) {
+
         if (json != null && !json.isEmpty()) {
+
             JsonObject object = GSON.fromJson(json, JsonObject.class);
             JsonElement ranks = object.get("ranks");
             return GSON.fromJson(ranks, RANKS_TYPE);
+
         }
+
         return null;
+
     }
 
     /**
@@ -137,14 +167,21 @@ public final class Helper {
      * @return the default rank or null if not found and/or it does not exist
      */
     public static @Nullable String defaultRankFromJson(@Nullable String json) {
+
         if (json != null && !json.isEmpty()) {
+
             JsonObject object = GSON.fromJson(json, JsonObject.class);
             JsonElement defaultRank = object.get("defaultRank");
             if (defaultRank != null && !defaultRank.isJsonNull()) {
+
                 return defaultRank.getAsString();
+
             }
+
         }
+
         return null;
+
     }
 
     /**
@@ -155,6 +192,7 @@ public final class Helper {
      * @return a JSON String
      */
     public static String ranksToJson(List<Rank> ranks, @Nullable String defaultRank) {
+
         if (ranks == null)
             ranks = new ArrayList<>();
 
@@ -162,6 +200,7 @@ public final class Helper {
         object.add("ranks", GSON.toJsonTree(ranks));
         object.addProperty("defaultRank", defaultRank);
         return object.toString();
+
     }
 
     /**
@@ -171,7 +210,9 @@ public final class Helper {
      * @return a JSON String
      */
     public static String resignTimesToJson(Map<String, Long> resignTimes) {
+
         return GSON.toJson(resignTimes);
+
     }
 
     /**
@@ -181,10 +222,15 @@ public final class Helper {
      * @return a map
      */
     public static @Nullable Map<String, Long> resignTimesFromJson(String json) {
+
         if (json != null && !json.isEmpty()) {
+
             return GSON.fromJson(json, RESIGN_TYPE);
+
         }
+
         return null;
+
     }
 
     /**
@@ -195,17 +241,26 @@ public final class Helper {
      * @return the delay in seconds
      */
     public static long getDelayTo(int hour, int minute) {
-        if (hour < 0 || hour > 23) hour = 1;
-        if (minute < 0 || minute > 59) minute = 0;
+
+        if (hour < 0 || hour > 23)
+            hour = 1;
+        if (minute < 0 || minute > 59)
+            minute = 0;
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime d = LocalDateTime.of(now.toLocalDate(), LocalTime.of(hour, minute));
         long delay;
         if (now.isAfter(d)) {
+
             delay = now.until(d.plusDays(1), ChronoUnit.SECONDS);
+
         } else {
+
             delay = now.until(d, ChronoUnit.SECONDS);
+
         }
+
         return delay;
+
     }
 
     /**
@@ -215,14 +270,18 @@ public final class Helper {
      * @return
      */
     public static String getColorName(String playerName) {
+
         List<Player> players = SimpleClans.getInstance().getServer().matchPlayer(playerName);
 
         if (players.size() == 1) {
+
             PermissionsManager pm = SimpleClans.getInstance().getPermissionsManager();
             return pm.getPrefix(players.get(0)) + players.get(0).getName() + pm.getSuffix(players.get(0));
+
         }
 
         return playerName;
+
     }
 
     /**
@@ -232,10 +291,12 @@ public final class Helper {
      * @return
      */
     public static List<String> fromArrayToList(String... values) {
+
         List<String> results = new ArrayList<>();
         Collections.addAll(results, values);
         results.remove("");
         return results;
+
     }
 
     /**
@@ -246,20 +307,24 @@ public final class Helper {
      */
     @Deprecated
     public static Set<String> fromArrayToSet(String... values) {
+
         HashSet<String> results = new HashSet<>();
         Collections.addAll(results, values);
         results.remove("");
         return results;
+
     }
 
     /**
-     * Converts  {@literal ArrayList<String>} to string array
+     * Converts {@literal ArrayList<String>} to string array
      *
      * @param list
      * @return
      */
     public static String[] toArray(List<String> list) {
+
         return list.toArray(new String[0]);
+
     }
 
     /**
@@ -268,12 +333,17 @@ public final class Helper {
      * @return
      */
     public static String[] fromPermissionArray() {
+
         RankPermission[] permissions = RankPermission.values();
         String[] sa = new String[permissions.length];
         for (int i = 0; i < permissions.length; i++) {
+
             sa[i] = permissions[i].toString();
+
         }
+
         return sa;
+
     }
 
     /**
@@ -283,7 +353,9 @@ public final class Helper {
      * @return
      */
     public static String cleanTag(String tag) {
+
         return stripColors(tag).toLowerCase();
+
     }
 
     /**
@@ -293,12 +365,17 @@ public final class Helper {
      * @return
      */
     public static String generatePageSeparator(String sep) {
+
         String out = "";
 
         for (int i = 0; i < 320; i++) {
+
             out += sep;
+
         }
+
         return out;
+
     }
 
     /**
@@ -308,15 +385,21 @@ public final class Helper {
      * @return
      */
     public static List<ClanPlayer> stripOffLinePlayers(List<ClanPlayer> in) {
+
         List<ClanPlayer> out = new ArrayList<>();
 
         for (ClanPlayer cp : in) {
+
             if (cp.toPlayer() != null) {
+
                 out.add(cp);
+
             }
+
         }
 
         return out;
+
     }
 
     /**
@@ -326,10 +409,15 @@ public final class Helper {
      * @return
      */
     public static String escapeQuotes(@Nullable String str) {
+
         if (str == null) {
+
             return "";
+
         }
+
         return str.replace("'", "''");
+
     }
 
     /**
@@ -339,7 +427,9 @@ public final class Helper {
      * @return
      */
     public static String toLocationString(Location loc) {
+
         return loc.getBlockX() + " " + loc.getBlockY() + " " + loc.getBlockZ() + " " + loc.getWorld().getName();
+
     }
 
     /**
@@ -349,14 +439,19 @@ public final class Helper {
      * @return the Map sorted
      */
     public static <K, V extends Comparable<V>> Map<K, V> sortByValue(Map<K, V> map) {
+
         LinkedList<Map.Entry<K, V>> entryList = new LinkedList<>(map.entrySet());
         entryList.sort(Entry.comparingByValue());
 
         Map<K, V> result = new LinkedHashMap<>();
         for (Entry<K, V> entry : entryList) {
+
             result.put(entry.getKey(), entry.getValue());
+
         }
+
         return result;
+
     }
 
     /**
@@ -366,24 +461,41 @@ public final class Helper {
      * @return formatted message
      */
     public static String formatMaxInactiveDays(int max) {
+
         if (max <= 0) {
+
             return "∞";
+
         } else {
+
             return String.valueOf(max);
+
         }
+
     }
 
     @NotNull
     public static String getFormattedClanStatus(Clan clan, CommandSender sender) {
+
         ArrayList<String> statuses = new ArrayList<>();
         if (clan.isPermanent()) {
+
             statuses.add(lang("permanent", sender));
+
         }
+
         if (clan.isVerified()) {
+
             statuses.add(lang("verified", sender));
+
         } else {
+
             statuses.add(lang("unverified", sender));
+
         }
+
         return String.join(", ", statuses);
+
     }
+
 }

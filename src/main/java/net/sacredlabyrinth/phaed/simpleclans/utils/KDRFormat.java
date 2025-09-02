@@ -10,30 +10,46 @@ import java.text.ParseException;
  * @author RoinujNosde
  */
 public class KDRFormat {
+
     private static final DecimalFormat FORMATTER = new DecimalFormat("#.##");
 
     static {
+
         FORMATTER.setParseBigDecimal(true);
+
     }
 
-    private KDRFormat() {}
+    private KDRFormat() {
+
+    }
 
     @NotNull
     public static String format(float kdr) {
+
         return FORMATTER.format(kdr);
+
     }
 
     @NotNull
     public static BigDecimal parse(String kdr) {
+
         try {
+
             return (BigDecimal) FORMATTER.parse(kdr);
+
         } catch (ParseException e) {
+
             return new BigDecimal("-1");
+
         }
+
     }
 
     @NotNull
     public static BigDecimal toBigDecimal(float kdr) {
+
         return parse(format(kdr));
+
     }
+
 }

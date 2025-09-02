@@ -15,4 +15,5 @@ public interface ChatHandler {
     void sendMessage(SCMessage message);
 
     boolean canHandle(SCMessage.Source source);
+
 }

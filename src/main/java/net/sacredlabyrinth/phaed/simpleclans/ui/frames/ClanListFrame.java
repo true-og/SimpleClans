@@ -24,76 +24,101 @@ import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.ConfigField.SHOW_UNVERIFIED_ON_LIST;
 
 public class ClanListFrame extends SCFrame {
-	private final List<Clan> clans;
-	private final Paginator paginator;
-	private final RankingNumberResolver<Clan, BigDecimal> rankingResolver;
 
-	public ClanListFrame(SCFrame parent, Player viewer) {
-		super(parent, viewer);
-		SimpleClans plugin = SimpleClans.getInstance();
-		SettingsManager sm = plugin.getSettingsManager();
-		clans = plugin.getClanManager().getClans().stream()
-				.filter(clan -> clan.isVerified() || sm.is(SHOW_UNVERIFIED_ON_LIST)).collect(Collectors.toList());
-		paginator = new Paginator(getSize() - 9, clans);
-		plugin.getClanManager().sortClansByKDR(clans);
+    private final List<Clan> clans;
+    private final Paginator paginator;
+    private final RankingNumberResolver<Clan, BigDecimal> rankingResolver;
 
-		rankingResolver = new RankingNumberResolver<>(clans, c -> KDRFormat.toBigDecimal(c.getTotalKDR()), false,
-				sm.getRankingType());
-	}
+    public ClanListFrame(SCFrame parent, Player viewer) {
 
-	@Override
-	public void createComponents() {
-		for (int slot = 0; slot < 9; slot++) {
-			if (slot == 2 || slot == 6 || slot == 7)
-				continue;
-			add(Components.getPanelComponent(slot));
-		}
-		add(Components.getBackComponent(getParent(), 2, getViewer()));
+        super(parent, viewer);
+        SimpleClans plugin = SimpleClans.getInstance();
+        SettingsManager sm = plugin.getSettingsManager();
+        clans = plugin.getClanManager().getClans().stream()
+                .filter(clan -> clan.isVerified() || sm.is(SHOW_UNVERIFIED_ON_LIST)).collect(Collectors.toList());
+        paginator = new Paginator(getSize() - 9, clans);
+        plugin.getClanManager().sortClansByKDR(clans);
 
-		add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
-		add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
+        rankingResolver = new RankingNumberResolver<>(clans, c -> KDRFormat.toBigDecimal(c.getTotalKDR()), false,
+                sm.getRankingType());
 
-		int slot = 9;
-		for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
-			Clan clan = clans.get(i);
-			ItemStack banner = clan.getBanner() != null ? clan.getBanner() : XMaterial.BLACK_BANNER.parseItem();
-			SCComponent c = new SCComponentImpl(
-					lang("gui.clanlist.clan.title", getViewer(), clan.getColorTag(), clan.getName()),
-					Arrays.asList(lang("gui.clanlist.clan.lore.position", getViewer(),
-							rankingResolver.getRankingNumber(clan)),
-							lang("gui.clanlist.clan.lore.kdr", getViewer(), KDRFormat.format(clan.getTotalKDR())),
-							lang("gui.clanlist.clan.lore.members", getViewer(), clan.getMembers().size())),
-					banner, slot);
-			c.setLorePermission("simpleclans.anyone.list");
-			add(c);
-			slot++;
-		}
-	}
+    }
 
-	private void previousPage() {
-		if (paginator.previousPage()) {
-			updateFrame();
-		}
-	}
+    @Override
+    public void createComponents() {
 
-	private void nextPage() {
-		if (paginator.nextPage()) {
-			updateFrame();
-		}
-	}
+        for (int slot = 0; slot < 9; slot++) {
 
-	private void updateFrame() {
-		InventoryDrawer.open(this);
-	}
+            if (slot == 2 || slot == 6 || slot == 7)
+                continue;
+            add(Components.getPanelComponent(slot));
 
-	@Override
-	public @NotNull String getTitle() {
-		return lang("gui.clanlist.title",getViewer(), clans.size());
-	}
+        }
 
-	@Override
-	public int getSize() {
-		return 6 * 9;
-	}
+        add(Components.getBackComponent(getParent(), 2, getViewer()));
+
+        add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
+        add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
+
+        int slot = 9;
+        for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+
+            Clan clan = clans.get(i);
+            ItemStack banner = clan.getBanner() != null ? clan.getBanner() : XMaterial.BLACK_BANNER.parseItem();
+            SCComponent c = new SCComponentImpl(
+                    lang("gui.clanlist.clan.title", getViewer(), clan.getColorTag(), clan.getName()),
+                    Arrays.asList(
+                            lang("gui.clanlist.clan.lore.position", getViewer(),
+                                    rankingResolver.getRankingNumber(clan)),
+                            lang("gui.clanlist.clan.lore.kdr", getViewer(), KDRFormat.format(clan.getTotalKDR())),
+                            lang("gui.clanlist.clan.lore.members", getViewer(), clan.getMembers().size())),
+                    banner, slot);
+            c.setLorePermission("simpleclans.anyone.list");
+            add(c);
+            slot++;
+
+        }
+
+    }
+
+    private void previousPage() {
+
+        if (paginator.previousPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void nextPage() {
+
+        if (paginator.nextPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void updateFrame() {
+
+        InventoryDrawer.open(this);
+
+    }
+
+    @Override
+    public @NotNull String getTitle() {
+
+        return lang("gui.clanlist.title", getViewer(), clans.size());
+
+    }
+
+    @Override
+    public int getSize() {
+
+        return 6 * 9;
+
+    }
 
 }

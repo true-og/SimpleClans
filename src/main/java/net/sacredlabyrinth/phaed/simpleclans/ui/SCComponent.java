@@ -19,74 +19,103 @@ import java.util.Set;
  */
 public abstract class SCComponent {
 
-	private final HashMap<ClickType, Runnable> listeners = new HashMap<>();
-	private final HashMap<ClickType, Object> permissions = new HashMap<>();
-	private final Set<ClickType> verified = new HashSet<>();
-	private final Set<ClickType> confirmationRequired = new HashSet<>();
-	private @Nullable Object lorePermission;
+    private final HashMap<ClickType, Runnable> listeners = new HashMap<>();
+    private final HashMap<ClickType, Object> permissions = new HashMap<>();
+    private final Set<ClickType> verified = new HashSet<>();
+    private final Set<ClickType> confirmationRequired = new HashSet<>();
+    private @Nullable Object lorePermission;
 
-	@NotNull
-	public abstract ItemStack getItem();
+    @NotNull
+    public abstract ItemStack getItem();
 
-	public abstract int getSlot();
+    public abstract int getSlot();
 
-	@Nullable
-	public ItemMeta getItemMeta() {
-		return getItem().getItemMeta();
-	}
+    @Nullable
+    public ItemMeta getItemMeta() {
 
-	public void setItemMeta(@NotNull ItemMeta itemMeta) {
-		getItem().setItemMeta(itemMeta);
-	}
+        return getItem().getItemMeta();
 
-	public void setVerifiedOnly(@NotNull ClickType clickType) {
-		verified.add(clickType);
-	}
+    }
 
-	public boolean isVerifiedOnly(@NotNull ClickType clickType) {
-		return verified.contains(clickType);
-	}
+    public void setItemMeta(@NotNull ItemMeta itemMeta) {
 
-	public void setLorePermission(@Nullable RankPermission permission) {
-		lorePermission = permission;
-	}
+        getItem().setItemMeta(itemMeta);
 
-	public void setLorePermission(@Nullable String permission) {
-		lorePermission = permission;
-	}
+    }
 
-	@Nullable
-	public Object getLorePermission() {
-		return lorePermission;
-	}
+    public void setVerifiedOnly(@NotNull ClickType clickType) {
 
-	public void setPermission(@NotNull ClickType click, @Nullable RankPermission permission) {
-		permissions.put(click, permission);
-	}
+        verified.add(clickType);
 
-	public void setPermission(@NotNull ClickType click, @Nullable String permission) {
-		permissions.put(click, permission);
-	}
+    }
 
-	@Nullable
-	public Object getPermission(@NotNull ClickType click) {
-		return permissions.get(click);
-	}
+    public boolean isVerifiedOnly(@NotNull ClickType clickType) {
 
-	public void setListener(@NotNull ClickType click, @Nullable Runnable listener) {
-		listeners.put(click, listener);
-	}
+        return verified.contains(clickType);
 
-	@Nullable
-	public Runnable getListener(@NotNull ClickType click) {
-		return listeners.get(click);
-	}
+    }
 
-	public void setConfirmationRequired(@NotNull ClickType click) {
-		confirmationRequired.add(click);
-	}
+    public void setLorePermission(@Nullable RankPermission permission) {
 
-	public boolean isConfirmationRequired(@NotNull ClickType click) {
-		return confirmationRequired.contains(click);
-	}
+        lorePermission = permission;
+
+    }
+
+    public void setLorePermission(@Nullable String permission) {
+
+        lorePermission = permission;
+
+    }
+
+    @Nullable
+    public Object getLorePermission() {
+
+        return lorePermission;
+
+    }
+
+    public void setPermission(@NotNull ClickType click, @Nullable RankPermission permission) {
+
+        permissions.put(click, permission);
+
+    }
+
+    public void setPermission(@NotNull ClickType click, @Nullable String permission) {
+
+        permissions.put(click, permission);
+
+    }
+
+    @Nullable
+    public Object getPermission(@NotNull ClickType click) {
+
+        return permissions.get(click);
+
+    }
+
+    public void setListener(@NotNull ClickType click, @Nullable Runnable listener) {
+
+        listeners.put(click, listener);
+
+    }
+
+    @Nullable
+    public Runnable getListener(@NotNull ClickType click) {
+
+        return listeners.get(click);
+
+    }
+
+    public void setConfirmationRequired(@NotNull ClickType click) {
+
+        confirmationRequired.add(click);
+
+    }
+
+    public boolean isConfirmationRequired(@NotNull ClickType click) {
+
+        return confirmationRequired.contains(click);
+
+    }
+
 }

@@ -10,9 +10,12 @@ public abstract class AbstractContextResolver<T> {
     protected final @NotNull ClanManager clanManager;
 
     public AbstractContextResolver(@NotNull SimpleClans plugin) {
+
         this.plugin = plugin;
         clanManager = plugin.getClanManager();
+
     }
 
     public abstract Class<T> getType();
+
 }

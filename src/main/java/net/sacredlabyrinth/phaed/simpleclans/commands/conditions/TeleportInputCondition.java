@@ -11,21 +11,32 @@ import org.jetbrains.annotations.NotNull;
 public class TeleportInputCondition extends AbstractParameterCondition<ClanInput> {
 
     public TeleportInputCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public Class<ClanInput> getType() {
+
         return ClanInput.class;
+
     }
 
     @Override
-    public void validateCondition(ConditionContext<BukkitCommandIssuer> context, BukkitCommandExecutionContext execContext, ClanInput value) throws InvalidCommandArgument {
+    public void validateCondition(ConditionContext<BukkitCommandIssuer> context,
+            BukkitCommandExecutionContext execContext, ClanInput value) throws InvalidCommandArgument
+    {
+
         new TeleportCondition(plugin).validateCondition(context, execContext, value.getClan());
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "can_teleport";
+
     }
+
 }

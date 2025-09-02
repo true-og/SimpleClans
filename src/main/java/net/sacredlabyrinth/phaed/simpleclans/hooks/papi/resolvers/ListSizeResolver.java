@@ -14,28 +14,42 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 public class ListSizeResolver extends PlaceholderResolver {
+
     public ListSizeResolver(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "list_size";
+
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public @NotNull String resolve(@Nullable OfflinePlayer player, @NotNull Object object, @NotNull Method method,
-                                   @NotNull String placeholder, @NotNull Map<String, String> config) {
+            @NotNull String placeholder, @NotNull Map<String, String> config)
+    {
+
         Object result = invoke(object, method, placeholder);
         String size = "";
         if (result instanceof List) {
+
             size = String.valueOf(((List<?>) result).size());
             if (config.containsKey("filter_vanished")) {
-                size = String.valueOf(VanishUtils.getNonVanished(player != null ? player.getPlayer() : null,
-                        (List<ClanPlayer>) result).size());
+
+                size = String.valueOf(VanishUtils
+                        .getNonVanished(player != null ? player.getPlayer() : null, (List<ClanPlayer>) result).size());
+
             }
+
         }
+
         return size;
+
     }
+
 }

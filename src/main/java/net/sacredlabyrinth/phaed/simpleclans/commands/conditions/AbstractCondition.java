@@ -14,11 +14,14 @@ public abstract class AbstractCondition implements IdentifiableCondition {
     protected final ProtectionManager protectionManager;
 
     public AbstractCondition(@NotNull SimpleClans plugin) {
+
         this.plugin = plugin;
         permissionsManager = plugin.getPermissionsManager();
         clanManager = plugin.getClanManager();
         requestManager = plugin.getRequestManager();
         settingsManager = plugin.getSettingsManager();
         protectionManager = plugin.getProtectionManager();
+
     }
+
 }

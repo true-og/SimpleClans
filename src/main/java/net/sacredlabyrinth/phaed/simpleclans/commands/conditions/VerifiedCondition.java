@@ -14,20 +14,28 @@ import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 public class VerifiedCondition extends AbstractCommandCondition {
 
     public VerifiedCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context) throws InvalidCommandArgument {
+
         Clan clan = Conditions.assertClanMember(clanManager, context.getIssuer());
         if (!clan.isVerified()) {
-            throw new ConditionFailedException(lang("clan.is.not.verified",
-                    context.getIssuer()));
+
+            throw new ConditionFailedException(lang("clan.is.not.verified", context.getIssuer()));
+
         }
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "verified";
+
     }
+
 }

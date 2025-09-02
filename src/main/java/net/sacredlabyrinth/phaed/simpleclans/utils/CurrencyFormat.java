@@ -11,11 +11,16 @@ public class CurrencyFormat {
     private static final NumberFormat fallbackFormat = NumberFormat.getCurrencyInstance();
 
     public static String format(double value) {
+
         PermissionsManager permissionsManager = plugin.getPermissionsManager();
         if (permissionsManager.hasEconomy()) {
+
             return permissionsManager.format(value);
+
         }
+
         return fallbackFormat.format(value);
+
     }
 
 }

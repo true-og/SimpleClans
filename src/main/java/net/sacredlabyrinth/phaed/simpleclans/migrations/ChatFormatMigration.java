@@ -10,12 +10,17 @@ import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.Con
 public class ChatFormatMigration extends ConfigMigration {
 
     public ChatFormatMigration(SettingsManager settingsManager) {
+
         super(settingsManager);
+
     }
 
     public void migrateClanChat() {
+
         if (config.getString("clanchat.name-color") == null) {
+
             return;
+
         }
 
         StringBuilder sb = new StringBuilder();
@@ -48,12 +53,16 @@ public class ChatFormatMigration extends ConfigMigration {
         config.set("clanchat.player-bracket", null);
         config.set("clanchat.message-color", null);
         config.set("clanchat.tag-bracket", null);
+
     }
 
     public void migrateAllyChat() {
-        //Checks if the old format is still in use
+
+        // Checks if the old format is still in use
         if (config.getString("allychat.tag-color") == null) {
+
             return;
+
         }
 
         StringBuilder sb = new StringBuilder();
@@ -88,11 +97,15 @@ public class ChatFormatMigration extends ConfigMigration {
         config.set("allychat.player-bracket", null);
         config.set("allychat.message-color", null);
         config.set("allychat.tag-bracket", null);
+
     }
 
     @Override
     public void migrate() {
+
         migrateClanChat();
         migrateAllyChat();
+
     }
+
 }

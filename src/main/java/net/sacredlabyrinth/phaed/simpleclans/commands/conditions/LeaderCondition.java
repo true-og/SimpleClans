@@ -14,21 +14,31 @@ import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 
 @SuppressWarnings("unused")
 public class LeaderCondition extends AbstractCommandCondition {
+
     public LeaderCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context) throws InvalidCommandArgument {
+
         Player player = Conditions.assertPlayer(context.getIssuer());
         Clan clan = Conditions.assertClanMember(clanManager, context.getIssuer());
         if (!clan.isLeader(player)) {
+
             throw new ConditionFailedException(ChatColor.RED + lang("no.leader.permissions", player));
+
         }
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "leader";
+
     }
+
 }

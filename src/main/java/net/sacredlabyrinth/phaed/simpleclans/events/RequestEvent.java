@@ -15,19 +15,28 @@ public class RequestEvent extends Event {
     private final Request RequestProcess;
 
     public RequestEvent(Request RequestProcess) {
+
         this.RequestProcess = RequestProcess;
+
     }
 
     public Request getRequest() {
+
         return this.RequestProcess;
+
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
+
         return handlers;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return handlers;
+
     }
+
 }

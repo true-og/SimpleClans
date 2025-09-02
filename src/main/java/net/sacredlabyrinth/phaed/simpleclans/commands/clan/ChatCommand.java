@@ -26,40 +26,59 @@ public class ChatCommand extends BaseCommand {
     @Default
     @HelpSearchTags("chat")
     public void sendMessage(ClanPlayer cp, @Name("message") String message) {
+
         chatManager.processChat(SPIGOT, CLAN, cp, message);
+
     }
 
     @Subcommand("%join")
     public void join(ClanPlayer clanPlayer) {
+
         if (clanPlayer.getChannel() == CLAN) {
+
             ChatBlock.sendMessage(clanPlayer, lang("already.joined.clan.chat"));
             return;
+
         }
 
         clanPlayer.setChannel(CLAN);
         storageManager.updateClanPlayer(clanPlayer);
         ChatBlock.sendMessage(clanPlayer, lang("joined.clan.chat"));
+
     }
 
     @Subcommand("%leave")
     public void leave(ClanPlayer clanPlayer) {
+
         if (clanPlayer.getChannel() == CLAN) {
+
             clanPlayer.setChannel(NONE);
             storageManager.updateClanPlayer(clanPlayer);
             ChatBlock.sendMessage(clanPlayer, lang("left.clan.chat", clanPlayer));
+
         } else {
+
             ChatBlock.sendMessage(clanPlayer, lang("chat.didnt.join", clanPlayer));
+
         }
+
     }
 
     @Subcommand("%mute")
     public void mute(ClanPlayer clanPlayer) {
+
         if (!clanPlayer.isMuted()) {
+
             clanPlayer.mute(CLAN, true);
             ChatBlock.sendMessage(clanPlayer, lang("muted.clan.chat", clanPlayer));
+
         } else {
+
             clanPlayer.mute(CLAN, false);
             ChatBlock.sendMessage(clanPlayer, lang("unmuted.clan.chat", clanPlayer));
+
         }
+
     }
+
 }

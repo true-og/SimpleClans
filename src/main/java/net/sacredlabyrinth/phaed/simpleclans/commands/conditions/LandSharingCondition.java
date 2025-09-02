@@ -14,18 +14,27 @@ import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.Con
 public class LandSharingCondition extends AbstractCommandCondition {
 
     public LandSharingCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context) throws InvalidCommandArgument {
+
         if (!settingsManager.is(LAND_SHARING)) {
+
             throw new ConditionFailedException(lang("land.sharing.disabled", context.getIssuer()));
+
         }
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "land_sharing";
+
     }
+
 }

@@ -10,11 +10,16 @@ public class ProxyChatHandler implements ChatHandler {
 
     @Override
     public void sendMessage(SCMessage message) {
+
         plugin.getProxyManager().sendMessage(message);
+
     }
 
     @Override
     public boolean canHandle(Source source) {
+
         return source == Source.SPIGOT && settingsManager.is(PERFORMANCE_USE_BUNGEECORD);
+
     }
+
 }

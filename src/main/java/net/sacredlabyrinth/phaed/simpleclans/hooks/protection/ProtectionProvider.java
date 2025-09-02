@@ -14,7 +14,9 @@ import java.util.Set;
 public interface ProtectionProvider {
 
     default void register() {
+
         SimpleClans.getInstance().getProtectionManager().registerProvider(this);
+
     }
 
     void setup() throws LinkageError, Exception;
@@ -30,11 +32,13 @@ public interface ProtectionProvider {
 
     void deleteLand(@NotNull String id, @NotNull World world);
 
-    @Nullable Class<? extends Event> getCreateLandEvent();
+    @Nullable
+    Class<? extends Event> getCreateLandEvent();
 
     @Nullable
     Player getPlayer(Event event);
 
     @Nullable
     String getRequiredPluginName();
+
 }

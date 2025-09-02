@@ -12,6 +12,7 @@ public class DiscordHookTest {
     @Test
     @DisplayName("Checks if colors from configuration can be transformed to java.awt.Color")
     public void leaderColorTest() throws IllegalArgumentException {
+
         Color expectedColor = new Color(231, 76, 60, 100);
         String[] colors = "231, 76, 60, 100".replaceAll("\\s", "").split(",");
 
@@ -22,5 +23,7 @@ public class DiscordHookTest {
         Color actualColor = new Color(red, green, blue, alpha);
 
         assertEquals(expectedColor, actualColor);
+
     }
+
 }

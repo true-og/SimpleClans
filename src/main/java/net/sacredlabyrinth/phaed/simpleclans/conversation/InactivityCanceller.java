@@ -19,12 +19,17 @@ public class InactivityCanceller extends InactivityConversationCanceller {
      * @param timeoutSeconds The number of seconds of inactivity to wait.
      */
     public InactivityCanceller(@NotNull Plugin plugin, int timeoutSeconds) {
+
         super(plugin, timeoutSeconds);
+
     }
 
     @Override
     protected void cancelling(@NotNull Conversation conversation) {
+
         Player forWhom = (Player) conversation.getForWhom();
         forWhom.spigot().sendMessage(new TextComponent(RED + lang("you.did.not.answer.in.time", forWhom)));
+
     }
+
 }

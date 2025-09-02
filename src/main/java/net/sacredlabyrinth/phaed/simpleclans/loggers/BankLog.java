@@ -18,6 +18,7 @@ import java.util.List;
  * @since 2.15.3
  */
 public class BankLog {
+
     private final DecimalFormat decimalFormat = new DecimalFormat("##.##");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd - HH:mm");
 
@@ -29,21 +30,27 @@ public class BankLog {
     private final double amount;
 
     public BankLog(@NotNull BankOperator operator, @NotNull Clan clan, @NotNull EconomyResponse economyResponse,
-                   @NotNull BankLogger.Operation operation, ClanBalanceUpdateEvent.Cause cause, double amount) {
+            @NotNull BankLogger.Operation operation, ClanBalanceUpdateEvent.Cause cause, double amount)
+    {
+
         this.operator = operator;
         this.clan = clan;
         this.economyResponse = economyResponse;
         this.operation = operation;
         this.cause = cause;
         this.amount = amount;
+
     }
 
     public static List<String> getHeader() {
-        return Arrays.asList("Date", "Sender", "Clan Name", "Response",
-                "Operation", "Cause", "Sender Balance", "Amount", "Clan Balance");
+
+        return Arrays.asList("Date", "Sender", "Clan Name", "Response", "Operation", "Cause", "Sender Balance",
+                "Amount", "Clan Balance");
+
     }
 
     public List<String> getValues() {
+
         List<String> values = new ArrayList<>();
         values.add(dateFormat.format(new Date()));
         values.add(operator.getName());
@@ -56,29 +63,43 @@ public class BankLog {
         values.add(decimalFormat.format(clan.getBalance()));
 
         return values;
+
     }
 
     public BankOperator getOperator() {
+
         return operator;
+
     }
 
     public Clan getClan() {
+
         return clan;
+
     }
 
     public EconomyResponse getEconomyResponse() {
+
         return economyResponse;
+
     }
 
     public BankLogger.Operation getOperation() {
+
         return operation;
+
     }
 
     public ClanBalanceUpdateEvent.Cause getCause() {
+
         return cause;
+
     }
 
     public double getAmount() {
+
         return amount;
+
     }
+
 }

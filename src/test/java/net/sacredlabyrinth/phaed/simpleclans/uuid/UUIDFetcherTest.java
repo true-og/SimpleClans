@@ -13,13 +13,18 @@ public class UUIDFetcherTest {
 
     @BeforeEach
     public void setup() {
+
         ghostUUID = UUID.fromString("bfe9a44f-e44d-453b-8219-74eb186c3932");
+
     }
 
     @Test
     public void getUUIDOf() throws Exception {
+
         assertEquals(ghostUUID, UUIDFetcher.getUUIDOf("GhostTheWolf"), "Assert fetching UUID from right name");
 
         assertNull(UUIDFetcher.getUUIDOf("AnyNameLongerThan16Chars"), "Assert fetching UUID from wrong name");
+
     }
+
 }

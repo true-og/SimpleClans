@@ -11,26 +11,36 @@ import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 public class InputVerifiedCondition extends AbstractParameterCondition<ClanInput> {
 
     public InputVerifiedCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public Class<ClanInput> getType() {
+
         return ClanInput.class;
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context,
-                                  BukkitCommandExecutionContext execContext,
-                                  ClanInput value)
-            throws InvalidCommandArgument {
+            BukkitCommandExecutionContext execContext, ClanInput value) throws InvalidCommandArgument
+    {
+
         if (!value.getClan().isVerified() && !context.getIssuer().hasPermission("simpleclans.mod.bypass")) {
+
             throw new ConditionFailedException(lang("other.clan.not.verified", execContext.getSender()));
+
         }
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "verified";
+
     }
+
 }

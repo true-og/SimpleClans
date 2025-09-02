@@ -12,23 +12,34 @@ public class BankOperator {
     private final double balance;
 
     public BankOperator(@NotNull CommandSender sender, double balance) {
+
         this(sender.getName(), balance);
+
     }
 
     public BankOperator(@NotNull ClanPlayer sender, double balance) {
+
         this(sender.getName(), balance);
+
     }
 
     public BankOperator(@NotNull String name, double balance) {
+
         this.name = name;
         this.balance = balance;
+
     }
 
     public @NotNull String getName() {
+
         return name;
+
     }
 
     public double getBalance() {
+
         return balance;
+
     }
+
 }

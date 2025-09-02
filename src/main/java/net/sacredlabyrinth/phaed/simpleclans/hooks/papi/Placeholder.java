@@ -8,6 +8,9 @@ import java.lang.annotation.*;
 public @interface Placeholder {
 
     String value();
+
     String resolver() default "method_return";
+
     String config() default "";
+
 }

@@ -24,67 +24,109 @@ public class TamableMobsSharing implements Listener {
     private final ClanManager clanManager;
 
     public TamableMobsSharing(@NotNull SimpleClans plugin) {
+
         settings = plugin.getSettingsManager();
         clanManager = plugin.getClanManager();
+
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
+
         if (settings.is(TAMABLE_MOBS_SHARING)) {
+
             if (event.getEntity() instanceof Wolf && event.getDamager() instanceof Player) {
+
                 ClanPlayer cp = clanManager.getAnyClanPlayer(event.getDamager().getUniqueId());
                 if (cp == null || cp.getClan() == null) {
+
                     return;
+
                 }
+
                 Wolf wolf = (Wolf) event.getEntity();
                 AnimalTamer owner = wolf.getOwner();
                 if (owner != null && cp.getClan().isMember(owner.getUniqueId())) {
+
                     // Sets the wolf to friendly if the attacker is one out of his clan
                     wolf.setAngry(false);
+
                 }
+
             }
+
         }
+
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityTarget(EntityTargetLivingEntityEvent event) {
+
         if (settings.is(TAMABLE_MOBS_SHARING)) {
+
             if (event.getEntity() instanceof Tameable && event.getTarget() instanceof Player) {
+
                 ClanPlayer cp = clanManager.getAnyClanPlayer(event.getTarget().getUniqueId());
                 if (cp == null || cp.getClan() == null) {
+
                     return;
+
                 }
+
                 Tameable wolf = (Tameable) event.getEntity();
                 AnimalTamer owner = wolf.getOwner();
                 if (owner == null) {
+
                     return;
+
                 }
+
                 if (cp.getClan().isMember(owner.getUniqueId())) {
+
                     // cancels the event if the attacker is one out of his clan
                     event.setCancelled(true);
+
                 }
+
             }
+
         }
+
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEntityEvent event) {
+
         if (settings.is(TAMABLE_MOBS_SHARING) && event.getRightClicked() instanceof Tameable) {
+
             Player player = event.getPlayer();
             ClanPlayer cp = clanManager.getAnyClanPlayer(player.getUniqueId());
             if (cp == null || cp.getClan() == null) {
+
                 return;
+
             }
+
             Tameable tamed = (Tameable) event.getRightClicked();
 
             if (tamed.getOwner() != null) {
+
                 if (tamed instanceof Wolf && !((Wolf) tamed).isSitting()) {
+
                     return;
+
                 }
+
                 if (cp.getClan().isMember(tamed.getOwner().getUniqueId())) {
+
                     tamed.setOwner(player);
+
                 }
+
             }
+
         }
+
     }
+
 }

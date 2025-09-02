@@ -23,86 +23,116 @@ import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 
 public class RosterFrame extends SCFrame {
 
-	private final Clan subject;
-	private final boolean staff;
-	private final List<ClanPlayer> allMembers;
-	private final Paginator paginator;
+    private final Clan subject;
+    private final boolean staff;
+    private final List<ClanPlayer> allMembers;
+    private final Paginator paginator;
 
-	public RosterFrame(Player viewer, SCFrame parent, Clan subject) {
-		this(viewer, parent, subject, false);
-	}
+    public RosterFrame(Player viewer, SCFrame parent, Clan subject) {
 
-	public RosterFrame(Player viewer, SCFrame parent, Clan subject, boolean staff) {
-		super(parent, viewer);
-		this.subject = subject;
-		this.staff = staff;
+        this(viewer, parent, subject, false);
 
-		allMembers = subject.getLeaders();
-		allMembers.addAll(subject.getNonLeaders());
-		paginator = new Paginator(getSize() - 9, allMembers.size());
-	}
+    }
 
-	@Override
-	public void createComponents() {
-		for (int slot = 0; slot < 9; slot++) {
-			if (slot == 2 || slot == 4 || slot == 6 || slot == 7)
-				continue;
-			add(Components.getPanelComponent(slot));
-		}
+    public RosterFrame(Player viewer, SCFrame parent, Clan subject, boolean staff) {
 
-		add(Components.getBackComponent(getParent(), 2, getViewer()));
+        super(parent, viewer);
+        this.subject = subject;
+        this.staff = staff;
 
-		if (!staff) {
-			SCComponent invite = new SCComponentImpl(lang("gui.roster.invite.title", getViewer()),
-					Collections.singletonList(lang("gui.roster.invite.lore", getViewer())), XMaterial.LIME_WOOL, 4);
-			invite.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new InviteFrame(this, getViewer())));
-			invite.setPermission(ClickType.LEFT, RankPermission.INVITE);
-			add(invite);
-		} else {
-			add(Components.getPanelComponent(4));
-		}
+        allMembers = subject.getLeaders();
+        allMembers.addAll(subject.getNonLeaders());
+        paginator = new Paginator(getSize() - 9, allMembers.size());
 
-		add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
-		add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
+    }
 
-		int slot = 9;
-		for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
-			ClanPlayer cp = allMembers.get(i);
-			SCComponent playerComponent = Components.getPlayerComponent(this, getViewer(), cp, slot,
-					true);
-			if (staff) {
-				playerComponent.setListener(ClickType.LEFT, () -> InventoryDrawer.open(
-						new PlayerDetailsFrame(getViewer(), this, Bukkit.getOfflinePlayer(cp.getUniqueId()))));
-			}
-			add(playerComponent);
-			slot++;
-		}
-	}
+    @Override
+    public void createComponents() {
 
-	private void previousPage() {
-		if (paginator.previousPage()) {
-			updateFrame();
-		}
-	}
+        for (int slot = 0; slot < 9; slot++) {
 
-	private void nextPage() {
-		if (paginator.nextPage()) {
-			updateFrame();
-		}
-	}
+            if (slot == 2 || slot == 4 || slot == 6 || slot == 7)
+                continue;
+            add(Components.getPanelComponent(slot));
 
-	private void updateFrame() {
-		InventoryDrawer.open(this);
-	}
+        }
 
-	@Override
-	public @NotNull String getTitle() {
-		return lang("gui.roster.title", getViewer(), ChatUtils.stripColors(subject.getColorTag()));
-	}
+        add(Components.getBackComponent(getParent(), 2, getViewer()));
 
-	@Override
-	public int getSize() {
-		return 6 * 9;
-	}
+        if (!staff) {
+
+            SCComponent invite = new SCComponentImpl(lang("gui.roster.invite.title", getViewer()),
+                    Collections.singletonList(lang("gui.roster.invite.lore", getViewer())), XMaterial.LIME_WOOL, 4);
+            invite.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new InviteFrame(this, getViewer())));
+            invite.setPermission(ClickType.LEFT, RankPermission.INVITE);
+            add(invite);
+
+        } else {
+
+            add(Components.getPanelComponent(4));
+
+        }
+
+        add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
+        add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
+
+        int slot = 9;
+        for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+
+            ClanPlayer cp = allMembers.get(i);
+            SCComponent playerComponent = Components.getPlayerComponent(this, getViewer(), cp, slot, true);
+            if (staff) {
+
+                playerComponent.setListener(ClickType.LEFT, () -> InventoryDrawer
+                        .open(new PlayerDetailsFrame(getViewer(), this, Bukkit.getOfflinePlayer(cp.getUniqueId()))));
+
+            }
+
+            add(playerComponent);
+            slot++;
+
+        }
+
+    }
+
+    private void previousPage() {
+
+        if (paginator.previousPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void nextPage() {
+
+        if (paginator.nextPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void updateFrame() {
+
+        InventoryDrawer.open(this);
+
+    }
+
+    @Override
+    public @NotNull String getTitle() {
+
+        return lang("gui.roster.title", getViewer(), ChatUtils.stripColors(subject.getColorTag()));
+
+    }
+
+    @Override
+    public int getSize() {
+
+        return 6 * 9;
+
+    }
 
 }

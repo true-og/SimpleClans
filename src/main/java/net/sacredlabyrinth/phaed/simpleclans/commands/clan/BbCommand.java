@@ -29,8 +29,10 @@ public class BbCommand extends BaseCommand {
     @CommandPermission("simpleclans.member.bb")
     @Description("{@@command.description.bb.display}")
     public void display(Player sender) {
+
         Clan clan = Objects.requireNonNull(cm.getClanByPlayerUniqueId(sender.getUniqueId()));
         clan.displayBb(sender);
+
     }
 
     @Subcommand("%bb %clear")
@@ -38,9 +40,11 @@ public class BbCommand extends BaseCommand {
     @Conditions("rank:name=BB_CLEAR")
     @Description("{@@command.description.bb.clear}")
     public void clear(Player player) {
+
         Clan clan = Objects.requireNonNull(cm.getClanByPlayerUniqueId(player.getUniqueId()));
         clan.clearBb();
         ChatBlock.sendMessage(player, RED + lang("cleared.bb", player));
+
     }
 
     @Subcommand("%bb %add")
@@ -48,9 +52,12 @@ public class BbCommand extends BaseCommand {
     @Conditions("rank:name=BB_ADD")
     @Description("{@@command.description.bb.post}")
     public void postMessage(Player player, @Name("message") String msg) {
+
         Clan clan = Objects.requireNonNull(cm.getClanByPlayerUniqueId(player.getUniqueId()));
         clan.addBb(lang("bulletin.board.message", player.getName(), msg));
         clan.displayBb(player);
         storage.updateClan(clan);
+
     }
+
 }

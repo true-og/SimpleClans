@@ -13,19 +13,27 @@ import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 public class EconomyEnabledCondition extends AbstractCommandCondition {
 
     public EconomyEnabledCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context) throws InvalidCommandArgument {
+
         if (!permissionsManager.hasEconomy()) {
+
             throw new ConditionFailedException(lang("economy.disabled", context.getIssuer()));
+
         }
 
     }
 
     @Override
     public @NotNull String getId() {
+
         return "economy";
+
     }
+
 }

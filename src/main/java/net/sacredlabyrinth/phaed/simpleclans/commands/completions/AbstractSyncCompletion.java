@@ -6,8 +6,13 @@ import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractSyncCompletion extends AbstractCompletion
-        implements CommandCompletionHandler<BukkitCommandCompletionContext> {
+        implements CommandCompletionHandler<BukkitCommandCompletionContext>
+{
+
     public AbstractSyncCompletion(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
+
 }

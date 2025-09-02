@@ -27,6 +27,7 @@ public class MySQLCore implements DBCore {
      * @param password The password
      */
     public MySQLCore(String host, String database, int port, String username, String password) {
+
         this.database = database;
         this.port = port;
         this.host = host;
@@ -34,40 +35,69 @@ public class MySQLCore implements DBCore {
         this.password = password;
         this.log = SimpleClans.getInstance().getLogger();
         initialize();
+
     }
 
     private void initialize() {
+
         try {
+
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false", username, password);
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://" + host + ":" + port + "/" + database
+                            + "?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false",
+                    username, password);
+
         } catch (ClassNotFoundException e) {
+
             log.severe("ClassNotFoundException! " + e.getMessage());
+
         } catch (SQLException e) {
+
             log.severe("SQLException! " + e.getMessage());
+
         }
+
     }
 
     @Override
     public Connection getConnection() {
+
         try {
+
             if (connection == null || connection.isClosed() || !connection.isValid(0)) {
+
                 initialize();
+
             }
+
         } catch (SQLException e) {
+
             initialize();
+
         }
+
         return connection;
+
     }
 
     @Override
     public void close() {
+
         try {
+
             if (connection != null) {
+
                 connection.close();
+
             }
+
         } catch (Exception e) {
+
             log.severe("Failed to close database connection! " + e.getMessage());
+
         }
+
     }
 
 }

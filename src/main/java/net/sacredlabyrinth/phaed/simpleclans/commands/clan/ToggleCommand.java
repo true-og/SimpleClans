@@ -24,19 +24,23 @@ public class ToggleCommand extends BaseCommand {
 
     @Conditions("verified")
     public class Verified extends BaseCommand {
-        
+
         @Subcommand("%bb")
         @CommandPermission("simpleclans.member.bb-toggle")
         @Description("{@@command.description.toggle.bb}")
         public void bb(Player player, ClanPlayer cp) {
+
             toggle(player, "bbon", "bboff", cp.isBbEnabled(), cp::setBbEnabled);
+
         }
 
         @Subcommand("%tag")
         @CommandPermission("simpleclans.member.tag-toggle")
         @Description("{@@command.description.toggle.tag}")
         public void tag(Player player, ClanPlayer cp) {
+
             toggle(player, "tagon", "tagoff", cp.isTagEnabled(), cp::setTagEnabled);
+
         }
 
         @Subcommand("%deposit")
@@ -44,10 +48,11 @@ public class ToggleCommand extends BaseCommand {
         @Conditions("leader")
         @Description("{@@command.description.toggle.deposit}")
         public void deposit(Player player, Clan clan) {
-            toggle(player, "depositon", "depositoff", clan.isAllowDeposit(),
-                    clan::setAllowDeposit);
+
+            toggle(player, "depositon", "depositoff", clan.isAllowDeposit(), clan::setAllowDeposit);
 
             storage.updateClan(clan);
+
         }
 
         @Subcommand("%fee")
@@ -55,10 +60,11 @@ public class ToggleCommand extends BaseCommand {
         @Conditions("rank:name=FEE_ENABLE|change_fee")
         @Description("{@@command.description.toggle.fee}")
         public void fee(Player player, Clan clan) {
-            toggle(player, "feeon", "feeoff", clan.isMemberFeeEnabled(),
-                    clan::setMemberFeeEnabled);
+
+            toggle(player, "feeon", "feeoff", clan.isMemberFeeEnabled(), clan::setMemberFeeEnabled);
 
             storage.updateClan(clan);
+
         }
 
         @Subcommand("%withdraw")
@@ -66,26 +72,34 @@ public class ToggleCommand extends BaseCommand {
         @Conditions("leader")
         @Description("{@@command.description.toggle.withdraw}")
         public void withdraw(Player player, Clan clan) {
-            toggle(player, "withdrawon", "withdrawoff", clan.isAllowWithdraw(),
-                    clan::setAllowWithdraw);
+
+            toggle(player, "withdrawon", "withdrawoff", clan.isAllowWithdraw(), clan::setAllowWithdraw);
 
             storage.updateClan(clan);
+
         }
+
     }
 
     @Subcommand("%invite")
     @CommandPermission("simpleclans.anyone.invite-toggle")
     @Description("{@@command.description.toggle.invite}")
     public void invite(Player player, ClanPlayer cp) {
+
         toggle(player, "inviteon", "inviteoff", cp.isInviteEnabled(), cp::setInviteEnabled);
+
     }
 
     private void toggle(CommandSender sender, String onMessageKey, String offMessageKey, boolean status,
-                        Consumer<Boolean> consumer) {
+            Consumer<Boolean> consumer)
+    {
+
         String messageOn = AQUA + lang(onMessageKey, sender);
         String messageOff = AQUA + lang(offMessageKey, sender);
 
         ChatBlock.sendMessage(sender, status ? messageOff : messageOn);
         consumer.accept(!status);
+
     }
+
 }

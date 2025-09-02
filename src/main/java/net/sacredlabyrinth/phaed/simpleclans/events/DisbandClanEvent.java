@@ -17,27 +17,41 @@ public class DisbandClanEvent extends Event {
     private final Clan clan;
 
     public DisbandClanEvent(CommandSender sender, Clan clan) {
+
         if (sender == null) {
+
             sender = Bukkit.getConsoleSender();
+
         }
+
         this.sender = sender;
         this.clan = clan;
+
     }
 
     public Clan getClan() {
+
         return this.clan;
+
     }
 
     public CommandSender getSender() {
+
         return sender;
+
     }
 
     @Override
     public HandlerList getHandlers() {
+
         return handlers;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return handlers;
+
     }
+
 }

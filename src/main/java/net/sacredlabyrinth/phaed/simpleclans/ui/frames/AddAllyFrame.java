@@ -17,70 +17,94 @@ import java.util.stream.Collectors;
 import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 
 public class AddAllyFrame extends SCFrame {
-	private final List<Clan> notAllies;
-	private final Paginator paginator;
 
-	public AddAllyFrame(SCFrame parent, Player viewer, Clan subject) {
-		super(parent, viewer);
-		SimpleClans plugin = SimpleClans.getInstance();
-		notAllies = plugin.getClanManager().getClans().stream()
-				.filter(c -> !c.equals(subject) && !c.isRival(subject.getTag()) && !c.isAlly(subject.getTag()))
-				.collect(Collectors.toList());
-		paginator = new Paginator(getSize() - 9, notAllies);
-	}
+    private final List<Clan> notAllies;
+    private final Paginator paginator;
 
-	@Override
-	public void createComponents() {
-		for (int slot = 0; slot < 9; slot++) {
-			if (slot == 2 || slot == 6 || slot == 7)
-				continue;
-			add(Components.getPanelComponent(slot));
-		}
-		add(Components.getBackComponent(getParent(), 2, getViewer()));
+    public AddAllyFrame(SCFrame parent, Player viewer, Clan subject) {
 
-		add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
-		add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
+        super(parent, viewer);
+        SimpleClans plugin = SimpleClans.getInstance();
+        notAllies = plugin.getClanManager().getClans().stream()
+                .filter(c -> !c.equals(subject) && !c.isRival(subject.getTag()) && !c.isAlly(subject.getTag()))
+                .collect(Collectors.toList());
+        paginator = new Paginator(getSize() - 9, notAllies);
 
-		int slot = 9;
-		for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+    }
 
-			Clan notRival = notAllies.get(i);
-			SCComponent c = new SCComponentImpl(
-					lang("gui.clanlist.clan.title", getViewer(), notRival.getColorTag(), notRival.getName()),
-					Collections.singletonList(lang("gui.add.ally.clan.lore", getViewer())), XMaterial.CYAN_BANNER,
-					slot);
+    @Override
+    public void createComponents() {
 
-			c.setListener(ClickType.LEFT, () -> InventoryController.runSubcommand(getViewer(),
-					"ally add", false, notRival.getTag()));
-			c.setPermission(ClickType.LEFT, RankPermission.ALLY_ADD);
-			add(c);
-			slot++;
-		}
-	}
+        for (int slot = 0; slot < 9; slot++) {
 
-	private void previousPage() {
-		if (paginator.previousPage()) {
-			updateFrame();
-		}
-	}
+            if (slot == 2 || slot == 6 || slot == 7)
+                continue;
+            add(Components.getPanelComponent(slot));
 
-	private void nextPage() {
-		if (paginator.nextPage()) {
-			updateFrame();
-		}
-	}
+        }
 
-	private void updateFrame() {
-		InventoryDrawer.open(this);
-	}
+        add(Components.getBackComponent(getParent(), 2, getViewer()));
 
-	@Override
-	public @NotNull String getTitle() {
-		return lang("gui.add.ally.title",getViewer());
-	}
+        add(Components.getPreviousPageComponent(6, this::previousPage, paginator, getViewer()));
+        add(Components.getNextPageComponent(7, this::nextPage, paginator, getViewer()));
 
-	@Override
-	public int getSize() {
-		return 6 * 9;
-	}
+        int slot = 9;
+        for (int i = paginator.getMinIndex(); paginator.isValidIndex(i); i++) {
+
+            Clan notRival = notAllies.get(i);
+            SCComponent c = new SCComponentImpl(
+                    lang("gui.clanlist.clan.title", getViewer(), notRival.getColorTag(), notRival.getName()),
+                    Collections.singletonList(lang("gui.add.ally.clan.lore", getViewer())), XMaterial.CYAN_BANNER,
+                    slot);
+
+            c.setListener(ClickType.LEFT,
+                    () -> InventoryController.runSubcommand(getViewer(), "ally add", false, notRival.getTag()));
+            c.setPermission(ClickType.LEFT, RankPermission.ALLY_ADD);
+            add(c);
+            slot++;
+
+        }
+
+    }
+
+    private void previousPage() {
+
+        if (paginator.previousPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void nextPage() {
+
+        if (paginator.nextPage()) {
+
+            updateFrame();
+
+        }
+
+    }
+
+    private void updateFrame() {
+
+        InventoryDrawer.open(this);
+
+    }
+
+    @Override
+    public @NotNull String getTitle() {
+
+        return lang("gui.add.ally.title", getViewer());
+
+    }
+
+    @Override
+    public int getSize() {
+
+        return 6 * 9;
+
+    }
+
 }

@@ -16,36 +16,50 @@ public class PlayerHomeClearEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     public PlayerHomeClearEvent(Clan clan, ClanPlayer cp) {
+
         this.clan = clan;
         this.cp = cp;
+
     }
 
     public Clan getClan() {
+
         return clan;
+
     }
 
     public ClanPlayer getCp() {
+
         return cp;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     @Override
     public void setCancelled(boolean cancel) {
+
         this.cancelled = cancel;
+
     }
 
     @NotNull
     @Override
     public HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
 
 }

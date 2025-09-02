@@ -31,7 +31,9 @@ public class BbCommand extends BaseCommand {
     @CommandCompletion("@clans")
     @Description("{@@command.description.mod.bb.display}")
     public void display(Player sender, @Name("clan") ClanInput input) {
+
         input.getClan().displayBb(sender);
+
     }
 
     @Subcommand("%clear")
@@ -39,8 +41,10 @@ public class BbCommand extends BaseCommand {
     @CommandCompletion("@clans")
     @Description("{@@command.description.mod.bb.clear}")
     public void clear(Player player, @Name("clan") ClanInput input) {
+
         input.getClan().clearBb();
         ChatBlock.sendMessage(player, RED + lang("cleared.bb", player));
+
     }
 
     @Subcommand("%add")
@@ -48,10 +52,12 @@ public class BbCommand extends BaseCommand {
     @CommandCompletion("@clans @nothing")
     @Description("{@@command.description.mod.bb.post}")
     public void postMessage(Player player, @Name("clan") ClanInput input, @Name("message") String msg) {
+
         Clan clan = input.getClan();
         clan.addBb(lang("bulletin.board.message", player.getName(), msg));
         clan.displayBb(player);
         storage.updateClan(clan);
+
     }
 
 }

@@ -17,22 +17,29 @@ public class ConfirmationFrame extends SCFrame {
     private final Runnable listener;
 
     public ConfirmationFrame(@Nullable SCFrame parent, @NotNull Player viewer, @Nullable Runnable listener) {
+
         super(parent, viewer);
         this.listener = listener;
+
     }
 
     @Override
     public @NotNull String getTitle() {
+
         return lang("gui.confirmation.title", getViewer());
+
     }
 
     @Override
     public int getSize() {
+
         return 3 * 9;
+
     }
 
     @Override
     public void createComponents() {
+
         SCComponent confirm = new SCComponentImpl.Builder(XMaterial.LIME_WOOL.parseItem())
                 .withDisplayName(lang("gui.confirmation.confirm", getViewer())).withSlot(12).build();
         confirm.setListener(ClickType.LEFT, listener);
@@ -42,5 +49,7 @@ public class ConfirmationFrame extends SCFrame {
                 .withDisplayName(lang("gui.confirmation.return", getViewer())).withSlot(14).build();
         returnC.setListener(ClickType.LEFT, () -> InventoryDrawer.open(getParent()));
         add(returnC);
+
     }
+
 }

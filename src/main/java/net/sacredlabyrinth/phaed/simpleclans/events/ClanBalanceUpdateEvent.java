@@ -18,44 +18,52 @@ public class ClanBalanceUpdateEvent extends Event implements Cancellable {
     private double newBalance;
     private boolean cancelled;
 
-    public ClanBalanceUpdateEvent(@NotNull BankOperator updater,
-                                  @NotNull Clan clan,
-                                  double balance,
-                                  double newBalance,
-                                  @NotNull Cause cause) {
+    public ClanBalanceUpdateEvent(@NotNull BankOperator updater, @NotNull Clan clan, double balance, double newBalance,
+            @NotNull Cause cause)
+    {
+
         this.updater = updater;
         this.balance = balance;
         this.newBalance = newBalance;
         this.clan = clan;
         this.cause = cause;
+
     }
 
     /**
      * @return the balance updater
      */
     public @NotNull BankOperator getUpdater() {
+
         return updater;
+
     }
 
     /**
      * @return the Clan involved
      */
     public @NotNull Clan getClan() {
+
         return clan;
+
     }
 
     /**
      * @return the Clan's current balance
      */
     public double getBalance() {
+
         return balance;
+
     }
 
     /**
      * @return the Clan's new balance
      */
     public double getNewBalance() {
+
         return newBalance;
+
     }
 
     /**
@@ -65,47 +73,65 @@ public class ClanBalanceUpdateEvent extends Event implements Cancellable {
      * @throws IllegalArgumentException if newBalance is negative
      */
     public void setNewBalance(double newBalance) {
+
         if (newBalance < 0) {
+
             throw new IllegalArgumentException("newBalance cannot be negative");
+
         }
+
         this.newBalance = newBalance;
+
     }
 
     /**
      * @return the update cause
      */
     public @NotNull Cause getCause() {
+
         return cause;
+
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     /**
-     * @throws IllegalStateException if the cause of the event is {@link Cause#REVERT}
+     * @throws IllegalStateException if the cause of the event is
+     *                               {@link Cause#REVERT}
      */
     @Override
     public void setCancelled(boolean isCancelled) {
+
         if (getCause() == Cause.REVERT) {
+
             throw new IllegalStateException("cannot cancel REVERT update");
+
         }
+
         this.cancelled = isCancelled;
+
     }
 
     public enum Cause {
-        UPKEEP,
-        MEMBER_FEE,
+        UPKEEP, MEMBER_FEE,
         /**
          * When a command such as /clan bank deposit causes the update
          */
@@ -119,7 +145,8 @@ public class ClanBalanceUpdateEvent extends Event implements Cancellable {
          */
         INTERNAL,
         /**
-         * When the clan data is being loaded and the balance is set, usually on server start up or plugin reload
+         * When the clan data is being loaded and the balance is set, usually on server
+         * start up or plugin reload
          */
         LOADING,
         /**
@@ -127,4 +154,5 @@ public class ClanBalanceUpdateEvent extends Event implements Cancellable {
          */
         REVERT
     }
+
 }

@@ -11,27 +11,38 @@ import org.jetbrains.annotations.NotNull;
 import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 
 public class Conditions {
+
     private Conditions() {
+
     }
 
     @NotNull
-    public static Clan assertClanMember(@NotNull ClanManager clanManager,
-                                        @NotNull BukkitCommandIssuer issuer) {
+    public static Clan assertClanMember(@NotNull ClanManager clanManager, @NotNull BukkitCommandIssuer issuer) {
+
         Conditions.assertPlayer(issuer);
         Clan clan = clanManager.getClanByPlayerUniqueId(issuer.getUniqueId());
         if (clan == null) {
+
             throw new ConditionFailedException(lang("not.a.member.of.any.clan", issuer));
+
         }
+
         return clan;
+
     }
 
     @NotNull
     public static Player assertPlayer(@NotNull BukkitCommandIssuer issuer) {
+
         Player player = issuer.getPlayer();
         if (player == null) {
+
             throw new ConditionFailedException(MessageKeys.NOT_ALLOWED_ON_CONSOLE);
+
         }
+
         return player;
+
     }
 
 }

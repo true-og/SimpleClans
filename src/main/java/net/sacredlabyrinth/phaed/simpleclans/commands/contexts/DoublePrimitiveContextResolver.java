@@ -12,28 +12,40 @@ import static net.sacredlabyrinth.phaed.simpleclans.commands.contexts.Contexts.v
 public class DoublePrimitiveContextResolver extends AbstractInputOnlyContextResolver<Double> {
 
     public DoublePrimitiveContextResolver(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public Double getContext(BukkitCommandExecutionContext context) throws InvalidCommandArgument {
+
         String number = context.popFirstArg();
         try {
+
             double val = Double.parseDouble(number);
             if (!Double.isFinite(val)) {
+
                 throw new NumberFormatException();
+
             }
+
             validateMinMax(val, Double.MIN_VALUE, Double.MAX_VALUE);
             return val;
+
         } catch (NumberFormatException e) {
+
             throw new InvalidCommandArgument(MessageKeys.MUST_BE_A_NUMBER, "{num}", number);
+
         }
+
     }
 
     @Override
     public Class<Double> getType() {
-        return double.class;
-    }
 
+        return double.class;
+
+    }
 
 }

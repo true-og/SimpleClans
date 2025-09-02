@@ -10,6 +10,7 @@ public class ResourceControlTest {
 
     @Test
     public void getFallbackLocaleAcf() {
+
         LanguageResource.ResourceControl resourceControl = new LanguageResource.ResourceControl(Locale.ENGLISH, true);
         String acfBaseName = "acf";
         Locale locale = resourceControl.getFallbackLocale(acfBaseName, Locale.ENGLISH);
@@ -25,12 +26,13 @@ public class ResourceControlTest {
 
         locale = resourceControl.getFallbackLocale(acfBaseName, ptBR);
         assertEquals(Locale.ENGLISH, locale);
+
     }
 
     @Test
     public void getFallbackLocale() {
-        LanguageResource.ResourceControl resourceControl = new LanguageResource.ResourceControl(Locale.ENGLISH,
-                true);
+
+        LanguageResource.ResourceControl resourceControl = new LanguageResource.ResourceControl(Locale.ENGLISH, true);
         String pluginBaseName = "messages";
         Locale locale = resourceControl.getFallbackLocale(pluginBaseName, Locale.ENGLISH);
         assertEquals(Locale.ROOT, locale);
@@ -55,5 +57,7 @@ public class ResourceControlTest {
 
         locale = resourceControl.getFallbackLocale(pluginBaseName, Locale.ENGLISH);
         assertEquals(ptBR, locale);
+
     }
+
 }

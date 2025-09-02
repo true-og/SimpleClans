@@ -14,24 +14,38 @@ import java.util.Map;
 public class MethodReturnResolver extends PlaceholderResolver {
 
     public MethodReturnResolver(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "method_return";
+
     }
 
     @Override
     public @NotNull String resolve(@Nullable OfflinePlayer player, @NotNull Object object, @NotNull Method method,
-                                   @NotNull String placeholder, @NotNull Map<String, String> config) {
+            @NotNull String placeholder, @NotNull Map<String, String> config)
+    {
+
         Object result = invoke(object, method, placeholder);
         if (result == null) {
+
             return "";
+
         }
+
         if (result instanceof Boolean) {
+
             return ((Boolean) result) ? PlaceholderAPIPlugin.booleanTrue() : PlaceholderAPIPlugin.booleanFalse();
+
         }
+
         return String.valueOf(result);
+
     }
+
 }

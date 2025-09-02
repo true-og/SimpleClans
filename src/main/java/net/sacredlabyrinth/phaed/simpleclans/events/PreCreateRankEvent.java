@@ -18,41 +18,58 @@ public class PreCreateRankEvent extends PlayerEvent implements Cancellable {
     private boolean cancelled;
 
     public PreCreateRankEvent(Player who, Clan clan, String rankName) {
+
         super(who);
         this.clan = clan;
         this.rankName = rankName;
+
     }
 
     @NotNull
     public Clan getClan() {
+
         return clan;
+
     }
 
     @NotNull
     public String getRankName() {
+
         return rankName;
+
     }
 
     public void setRankName(@NotNull String rankName) {
+
         this.rankName = rankName;
+
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
+
         return HANDLER_LIST;
+
     }
 
     public static HandlerList getHandlerList() {
+
         return HANDLER_LIST;
+
     }
 
     @Override
     public boolean isCancelled() {
+
         return cancelled;
+
     }
 
     @Override
     public void setCancelled(boolean isCancelled) {
+
         this.cancelled = isCancelled;
+
     }
+
 }

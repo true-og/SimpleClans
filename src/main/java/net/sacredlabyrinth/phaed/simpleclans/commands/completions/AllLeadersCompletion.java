@@ -11,19 +11,26 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class AllLeadersCompletion extends AbstractSyncCompletion {
+
     public AllLeadersCompletion(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public Collection<String> getCompletions(BukkitCommandCompletionContext context) throws InvalidCommandArgument {
-        return clanManager
-                .getAllClanPlayers().stream().filter(ClanPlayer::isLeader).map(ClanPlayer::getName)
+
+        return clanManager.getAllClanPlayers().stream().filter(ClanPlayer::isLeader).map(ClanPlayer::getName)
                 .collect(Collectors.toList());
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "all_leaders";
+
     }
+
 }

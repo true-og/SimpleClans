@@ -10,24 +10,34 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class ClanMemberCondition extends AbstractParameterCondition<ClanPlayer> {
+
     public ClanMemberCondition(@NotNull SimpleClans plugin) {
+
         super(plugin);
+
     }
 
     @Override
     public Class<ClanPlayer> getType() {
+
         return ClanPlayer.class;
+
     }
 
     @Override
     public void validateCondition(ConditionContext<BukkitCommandIssuer> context,
-                                  BukkitCommandExecutionContext execContext, ClanPlayer value)
-            throws InvalidCommandArgument {
+            BukkitCommandExecutionContext execContext, ClanPlayer value) throws InvalidCommandArgument
+    {
+
         Conditions.assertClanMember(clanManager, context.getIssuer());
+
     }
 
     @Override
     public @NotNull String getId() {
+
         return "clan_member";
+
     }
+
 }
