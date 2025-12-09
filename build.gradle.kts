@@ -6,8 +6,8 @@ import org.gradle.kotlin.dsl.provideDelegate
 plugins {
     id("java") // Import Java plugin.
     id("java-library") // Import Java Library plugin.
-    id("com.diffplug.spotless") version "7.0.4" // Import Spotless plugin.
-    id("com.gradleup.shadow") version "8.3.8" // Import Shadow plugin.
+    id("com.diffplug.spotless") version "8.1.0" // Import Spotless plugin.
+    id("com.gradleup.shadow") version "8.3.9" // Import Shadow plugin.
     id("checkstyle") // Import Checkstyle plugin.
     eclipse // Import Eclipse plugin.
     kotlin("jvm") version "2.1.21" // Import Kotlin JVM plugin.
@@ -85,7 +85,6 @@ dependencies {
     compileOnly("com.sk89q:worldguard:6.1.1-SNAPSHOT")
     compileOnly("com.github.TechFortress:GriefPrevention:17.0.0")
     compileOnly("com.discordsrv:discordsrv:1.28.0")
-    compileOnly("biz.princeps:landlord-latest:4.363")
     implementation("com.google.code.gson:gson:2.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.3")
