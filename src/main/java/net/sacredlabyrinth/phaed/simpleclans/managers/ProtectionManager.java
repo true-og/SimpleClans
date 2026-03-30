@@ -429,6 +429,15 @@ public class ProtectionManager {
     @NotNull
     private Class<?> getProviderClass(String className) throws ClassNotFoundException {
 
+        if ("WorldGuard6Provider".equals(className)
+                || "net.sacredlabyrinth.phaed.simpleclans.hooks.protection.providers.WorldGuard6Provider"
+                        .equals(className))
+        {
+
+            className = "WorldGuardProvider";
+
+        }
+
         try {
 
             return Class.forName("net.sacredlabyrinth.phaed.simpleclans.hooks.protection.providers." + className);

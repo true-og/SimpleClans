@@ -82,7 +82,10 @@ dependencies {
     implementation("io.papermc:paperlib:1.0.8-SNAPSHOT")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
     implementation("com.github.cryptomorin:XSeries:11.2.0.1")
-    compileOnly("com.sk89q:worldguard:6.1.1-SNAPSHOT")
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.0-SNAPSHOT") { isTransitive = false }
+    compileOnly("com.sk89q.worldedit:worldedit-core:7.3.0-SNAPSHOT") { isTransitive = false }
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.8") { isTransitive = false }
+    compileOnly("com.sk89q.worldguard:worldguard-core:7.0.8") { isTransitive = false }
     compileOnly("com.github.TechFortress:GriefPrevention:17.0.0")
     compileOnly("com.discordsrv:discordsrv:1.28.0")
     implementation("com.google.code.gson:gson:2.10.1")

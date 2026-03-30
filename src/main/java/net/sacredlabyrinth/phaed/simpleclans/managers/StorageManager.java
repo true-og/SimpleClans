@@ -1126,7 +1126,8 @@ public final class StorageManager {
             @NotNull LocalDateTime time)
     {
 
-        String query = "INSERT INTO `" + getPrefixedTable("kills") + "` (  `attacker_uuid`, `attacker`, `attacker_tag`, `victim_uuid`, "
+        String query = "INSERT INTO `" + getPrefixedTable("kills")
+                + "` (  `attacker_uuid`, `attacker`, `attacker_tag`, `victim_uuid`, "
                 + "`victim`, `victim_tag`, `kill_type`, `created_at`) ";
         String values = "VALUES ( '" + attacker.getUniqueId() + "','" + attacker.getName() + "','" + attacker.getTag()
                 + "','" + victim.getUniqueId() + "','" + victim.getName() + "','" + victim.getTag() + "','" + type
