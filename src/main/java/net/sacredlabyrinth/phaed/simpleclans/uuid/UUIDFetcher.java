@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.sacredlabyrinth.phaed.simpleclans.ClanPlayer;
-import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,6 +15,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
@@ -33,6 +33,7 @@ public final class UUIDFetcher {
     private static final String FALLBACK_PROFILE_URL = "https://api.mojang.com/users/profiles/minecraft/";
     private static final int BATCH_SIZE = 100;
     private static final Gson gson = new Gson();
+    private static final Logger logger = Logger.getLogger(UUIDFetcher.class.getName());
 
     private UUIDFetcher() {
 
@@ -104,7 +105,7 @@ public final class UUIDFetcher {
         executorService.shutdownNow();
         if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
 
-            SimpleClans.getInstance().getLogger().warning("Executor did not terminate in time.");
+            logger.warning("Executor did not terminate in time.");
 
         }
 
@@ -171,8 +172,8 @@ public final class UUIDFetcher {
         } catch (IOException e) {
 
             // If the primary URL fails, attempt the fallback URL
-            SimpleClans.debug(String
-                    .format("Failed to fetch %s UUID by MineTools API. Trying to use Mojang API instead...", name));
+            logger.info(String.format("Failed to fetch %s UUID by MineTools API. Trying to use Mojang API instead...",
+                    name));
             return fetchUUID(URI.create(FALLBACK_PROFILE_URL + name).toURL());
 
         }
