@@ -77,9 +77,8 @@ These super permission nodes are a quick way to setup SimpleClans, some are auto
 | `simpleclans.leader.regroup.home` | Can teleport the entire clan to homebase |
 | `simpleclans.leader.invite` | Can invite players into his clan |
 | `simpleclans.leader.kick` | Can kick players form his clan |
-| `simpleclans.leader.modtag` | Can modify his clan's tag |
+| `simpleclans.leader.color` | Can set his clan's color |
 | `simpleclans.leader.description` | Can modify their clan's description |
-| `simpleclans.leader.coloredtag` | Can use color codes in tags |
 | `simpleclans.leader.coloredrank` | Can use color codes in rank display names |
 | `simpleclans.leader.promotable` | Can be promoted to clan leader |
 | `simpleclans.leader.promote` | Can promote players to clan leaders |
@@ -136,4 +135,3 @@ These super permission nodes are a quick way to setup SimpleClans, some are auto
 | :--- | :--- |
 | `simpleclans.other.kdr-exempt` | The player's KDR is not affected on killing/dying \(check Known Issues\) |
 | `simpleclans.vip.resetkdr` | Can reset their KDR |
-

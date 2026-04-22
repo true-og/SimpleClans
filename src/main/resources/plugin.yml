@@ -134,6 +134,10 @@ permissions:
     description: Can start a rivalry with another union
   simpleclans.leader.modtag:
     description: Can modify his union's tag
+    children:
+      simpleclans.leader.color: true
+  simpleclans.leader.color:
+    description: Can set his union's color
   simpleclans.leader.description:
     description: Can modify his union's description
   simpleclans.leader.bb-clear:
@@ -324,6 +328,7 @@ permissions:
       simpleclans.leader.ally: true
       simpleclans.leader.rival: true
       simpleclans.leader.modtag: true
+      simpleclans.leader.color: true
       simpleclans.leader.cape: true
       simpleclans.leader.invite: true
       simpleclans.leader.kick: true

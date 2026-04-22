@@ -54,7 +54,7 @@ A player can view those permissions in-game using `/clan rank permissions`
 | `home.tp` | can tp to the clan home |
 | `invite` | can invite someone to the clan |
 | `kick` | can kick someone from the clan |
-| `modtag` | can modify the clan tag |
+| `color` | can change the clan color |
 | `rank.displayname` | can modify a rank's display name |
 | `rank.list` | can list the ranks |
 | `rival.add` | can add a rival |
@@ -81,4 +81,3 @@ A player can view those permissions in-game using `/clan rank permissions`
 | `simpleclans.leader.rank.permissions.available` | Can list all available permissions |
 | `simpleclans.leader.rank.permissions.list` | Can list the rank's permissions |
 | `simpleclans.leader.rank.permissions.remove` | Can remove permissions from a rank |
-

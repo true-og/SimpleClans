@@ -45,6 +45,20 @@ public class TagValidator {
      */
     public Optional<String> validate(@NotNull Player player, @NotNull String tag) {
 
+        return validate(player, tag, false);
+
+    }
+
+    /**
+     * Validates a clan tag
+     *
+     * @param player      player who tried to create or modify a clan tag
+     * @param tag         clan tag
+     * @param allowColors whether the tag may contain color codes
+     * @return error message if any
+     */
+    public Optional<String> validate(@NotNull Player player, @NotNull String tag, boolean allowColors) {
+
         error = null;
         String cleanTag = Helper.cleanTag(tag);
         if (tag.length() > 255 && settings.is(MYSQL_ENABLE)) {
@@ -61,7 +75,7 @@ public class TagValidator {
 
             }
 
-            if (!permissions.has(player, "simpleclans.leader.coloredtag") && tag.contains("&")) {
+            if (!allowColors && !ChatUtils.stripColors(tag).equals(tag)) {
 
                 error = lang("your.tag.cannot.contain.color.codes", player);
 
@@ -81,7 +95,7 @@ public class TagValidator {
 
             }
 
-            if (settings.hasDisallowedColor(tag)) {
+            if (allowColors && settings.hasDisallowedColor(tag)) {
 
                 error = lang("your.tag.cannot.contain.the.following.colors", player,
                         settings.getDisallowedColorString());

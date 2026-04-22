@@ -14,7 +14,10 @@ import net.sacredlabyrinth.phaed.simpleclans.utils.CurrencyFormat;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,6 +29,29 @@ import static org.bukkit.ChatColor.RED;
 @CommandAlias("%clan")
 @Conditions("%basic_conditions")
 public class ClanCommands extends BaseCommand {
+
+    private static final Map<String, String> CLAN_COLORS = new LinkedHashMap<>();
+
+    static {
+
+        CLAN_COLORS.put("black", "&0");
+        CLAN_COLORS.put("dark_blue", "&1");
+        CLAN_COLORS.put("dark_green", "&2");
+        CLAN_COLORS.put("dark_aqua", "&3");
+        CLAN_COLORS.put("dark_red", "&4");
+        CLAN_COLORS.put("dark_purple", "&5");
+        CLAN_COLORS.put("gold", "&6");
+        CLAN_COLORS.put("gray", "&7");
+        CLAN_COLORS.put("dark_gray", "&8");
+        CLAN_COLORS.put("blue", "&9");
+        CLAN_COLORS.put("green", "&a");
+        CLAN_COLORS.put("aqua", "&b");
+        CLAN_COLORS.put("red", "&c");
+        CLAN_COLORS.put("light_purple", "&d");
+        CLAN_COLORS.put("yellow", "&e");
+        CLAN_COLORS.put("white", "&f");
+
+    }
 
     @Dependency
     private SimpleClans plugin;
@@ -98,12 +124,23 @@ public class ClanCommands extends BaseCommand {
 
     }
 
-    @Subcommand("%modtag")
-    @CommandPermission("simpleclans.leader.modtag")
-    @Conditions("verified|rank:name=MODTAG")
-    @Description("{@@command.description.modtag}")
-    public void modtag(Player player, Clan clan, @Single @Name("tag") String tag) {
+    @Subcommand("%color")
+    @CommandPermission("simpleclans.leader.color")
+    @Conditions("verified|rank:name=COLOR")
+    @CommandCompletion("@clan_colors")
+    @Description("{@@command.description.color}")
+    public void color(Player player, Clan clan, @Name("color") String color) {
 
+        Optional<String> tagColor = resolveTagColor(color);
+        if (tagColor.isEmpty()) {
+
+            ChatBlock.sendMessage(player, RED + lang("invalid.color", player));
+            return;
+
+        }
+
+        String currentTag = ChatUtils.stripColors(clan.getColorTag());
+        String tag = tagColor.get() + currentTag;
         TagChangeEvent event = new TagChangeEvent(player, clan, tag);
         plugin.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
@@ -113,9 +150,9 @@ public class ClanCommands extends BaseCommand {
         }
 
         tag = event.getNewTag();
-        String cleanTag = Helper.cleanTag(tag);
+        String cleanTag = ChatUtils.stripColors(tag);
 
-        Optional<String> validationError = plugin.getTagValidator().validate(player, tag);
+        Optional<String> validationError = plugin.getTagValidator().validate(player, tag, true);
         if (validationError.isPresent()) {
 
             ChatBlock.sendMessage(player, validationError.get());
@@ -123,9 +160,9 @@ public class ClanCommands extends BaseCommand {
 
         }
 
-        if (!cleanTag.equals(clan.getTag())) {
+        if (!cleanTag.equals(currentTag)) {
 
-            ChatBlock.sendMessage(player, RED + lang("you.can.only.modify.the.color.and.case.of.the.tag", player));
+            ChatBlock.sendMessage(player, RED + lang("you.can.only.modify.the.color.of.the.tag", player));
             return;
 
         }
@@ -133,6 +170,7 @@ public class ClanCommands extends BaseCommand {
         clan.addBb(player.getName(), lang("tag.changed.to.0", ChatUtils.parseColors(tag)));
         clan.changeClanTag(tag);
         cm.updateDisplayName(player);
+        ChatBlock.sendMessage(player, AQUA + lang("clan.color.changed.to.0", player, ChatUtils.parseColors(tag)));
 
     }
 
@@ -154,6 +192,43 @@ public class ClanCommands extends BaseCommand {
         clan.setBanner(hand);
         storage.updateClan(clan);
         ChatBlock.sendMessageKey(player, "you.changed.clan.banner");
+
+    }
+
+    private Optional<String> resolveTagColor(String input) {
+
+        String normalized = input.toLowerCase(Locale.ROOT);
+        if (CLAN_COLORS.containsKey(normalized)) {
+
+            return Optional.of(CLAN_COLORS.get(normalized));
+
+        }
+
+        if (normalized.matches("#[0-9a-f]{6}")) {
+
+            return Optional.of("&" + normalized);
+
+        }
+
+        if (normalized.matches("&#[0-9a-f]{6}")) {
+
+            return Optional.of(normalized);
+
+        }
+
+        if (normalized.matches("&[0-9a-f]")) {
+
+            return Optional.of(normalized);
+
+        }
+
+        if (normalized.matches("[0-9a-f]")) {
+
+            return Optional.of("&" + normalized);
+
+        }
+
+        return Optional.empty();
 
     }
 

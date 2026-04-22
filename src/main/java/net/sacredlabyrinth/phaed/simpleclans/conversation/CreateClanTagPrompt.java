@@ -67,7 +67,7 @@ public class CreateClanTagPrompt extends StringPrompt {
 
         }
 
-        Optional<String> validationError = plugin.getTagValidator().validate(player, clanTag);
+        Optional<String> validationError = plugin.getTagValidator().validate(player, clanTag, false);
         return validationError.map(error -> new MessagePromptImpl(error, this)).orElse(null);
 
     }

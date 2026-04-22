@@ -68,7 +68,7 @@ description: null
 | `/union promote (member)` | Promotes a member to leader | No |  |
 | `/union demote (leader)` | Demotes a leader to member | No |  |
 | `/union setbanner` | Sets the union's banner | Yes |  |
-| `/union modtag (tag)` | Modifies your union's tag \(only colors and case\) |  |  |
+| `/union color (color)` | Sets your union's color |  |  |
 | \`/union clanff \(allow | block\)\` | Toggles union's friendly fire | No |
 | \`/union war \(start | end\) \(tag\)\` | Starts or ends a war | Yes |
 | \`/union rival \(add | remove\) \(tag\)\` | Adds or removes a rival | Yes |
@@ -115,4 +115,3 @@ description: null
 | `/union resetkdr (player)` | Resets a player's KDR |
 | `/union admin demote (player)` | Demotes a leader from any union |
 | `/union admin promote (player)` | Promotes a member from any union |
-

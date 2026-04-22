@@ -43,6 +43,13 @@ Full featured union system for PVP Minecraft servers!
 * [Discord Support](https://discord.gg/CkNwgdE)
 * [Bugs and Suggestions](https://github.com/RoinujNosde/SimpleClans/issues)
 
+#### Current Changes over SimpleClans
+
+* Renamed to `Unions-OG`.
+* Clans renamed to unions.
+* Added /union commands.
+* Union tag color changes now use `/union color <color>`.
+* The new permission node is `simpleclans.leader.color`.
 
 #### Developers
 
@@ -60,7 +67,7 @@ Including Unions-OG with Maven:
     <dependency>
         <groupId>net.sacredlabyrinth.phaed.simpleclans</groupId>
         <artifactId>SimpleClans</artifactId>
-        <version>2.18.1</version> <!-- You can find the latest version at the bottom -->
+        <version>2.19.2</version> <!-- Current stable release; master is 2.19.3-SNAPSHOT -->
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -74,7 +81,7 @@ repositories {
     }
 }
 dependencies {
-    compileOnly "net.sacredlabyrinth.phaed.simpleclans:SimpleClans:2.18.1"
+    compileOnly "net.sacredlabyrinth.phaed.simpleclans:SimpleClans:2.19.2"
 }
 ```
 

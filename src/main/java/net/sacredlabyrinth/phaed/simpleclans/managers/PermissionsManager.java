@@ -574,6 +574,11 @@ public final class PermissionsManager {
             if (rank != null) {
 
                 hasRankPermission = rank.getPermissions().contains(permission.toString());
+                if (!hasRankPermission && permission == RankPermission.COLOR) {
+
+                    hasRankPermission = rank.getPermissions().contains("modtag");
+
+                }
 
             }
 
