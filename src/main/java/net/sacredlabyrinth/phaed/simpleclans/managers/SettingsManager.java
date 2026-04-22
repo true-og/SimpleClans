@@ -209,6 +209,12 @@ public final class SettingsManager {
      */
     public boolean isDisallowedWord(String word) {
 
+        if (matchesAnyIgnoreCase(word, getString(COMMANDS_CLAN), "union", "unions", "clan", "clans")) {
+
+            return true;
+
+        }
+
         for (String disallowedTag : getStringList(DISALLOWED_TAGS)) {
 
             if (disallowedTag.equalsIgnoreCase(word)) {
@@ -219,8 +225,24 @@ public final class SettingsManager {
 
         }
 
-        return word.equalsIgnoreCase(getString(COMMANDS_CLAN)) || word.equalsIgnoreCase(getString(COMMANDS_MORE))
-                || word.equalsIgnoreCase(getString(COMMANDS_DENY)) || word.equalsIgnoreCase(getString(COMMANDS_ACCEPT));
+        return matchesAnyIgnoreCase(word, getString(COMMANDS_MORE), getString(COMMANDS_DENY),
+                getString(COMMANDS_ACCEPT));
+
+    }
+
+    private boolean matchesAnyIgnoreCase(String word, String... values) {
+
+        for (String value : values) {
+
+            if (word.equalsIgnoreCase(value)) {
+
+                return true;
+
+            }
+
+        }
+
+        return false;
 
     }
 

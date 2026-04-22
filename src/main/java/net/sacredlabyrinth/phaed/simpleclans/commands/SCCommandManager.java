@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -235,12 +236,24 @@ public class SCCommandManager extends PaperCommandManager {
 
         SettingsManager sm = plugin.getSettingsManager();
         getCommandReplacements().addReplacements("basic_conditions", "not_blacklisted|not_banned", "clan",
-                sm.getString(COMMANDS_CLAN), "deny", sm.getString(COMMANDS_DENY) + "|deny", "more",
+                getClanCommandAliases(sm), "deny", sm.getString(COMMANDS_DENY) + "|deny", "more",
                 sm.getString(COMMANDS_MORE), "ally_chat", sm.getString(COMMANDS_ALLY), "accept",
                 sm.getString(COMMANDS_ACCEPT) + "|accept", "clan_chat", sm.getString(COMMANDS_CLAN_CHAT));
 
         SUBCOMMANDS.forEach(s -> processReplacement(s, "", ".command", true));
         COMPLETIONS.forEach(s -> processReplacement(s, "compl:", ".completion", false));
+
+    }
+
+    private String getClanCommandAliases(SettingsManager sm) {
+
+        Set<String> aliases = new LinkedHashSet<>();
+        aliases.add(sm.getString(COMMANDS_CLAN));
+        aliases.add("union");
+        aliases.add("unions");
+        aliases.add("clan");
+        aliases.add("clans");
+        return String.join("|", aliases);
 
     }
 
