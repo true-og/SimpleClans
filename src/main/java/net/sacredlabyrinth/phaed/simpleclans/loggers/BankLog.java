@@ -44,8 +44,8 @@ public class BankLog {
 
     public static List<String> getHeader() {
 
-        return Arrays.asList("Date", "Sender", "Clan Name", "Response", "Operation", "Cause", "Sender Balance",
-                "Amount", "Clan Balance");
+        return Arrays.asList("Date", "Sender", "Union Name", "Response", "Operation", "Cause", "Sender Balance",
+                "Amount", "Union Balance");
 
     }
 

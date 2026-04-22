@@ -4,6 +4,13 @@ description: null
 
 # PlaceholderAPI Support
 
+`Unions-OG` registers two PlaceholderAPI identifiers:
+
+- `%simpleclans_*%` for legacy compatibility
+- `%simpleunions_*%` for the rebranded union-facing namespace
+
+Union aliases are accepted under either identifier. For example, `%simpleclans_in_union%`, `%simpleclans_union_name%`, `%simpleunions_union_name%`, and `%simpleunions_topunions_1_union_name%` all resolve correctly.
+
 ## Available placeholders
 
 | Placeholder | Result | Description |  |
@@ -89,4 +96,3 @@ description: null
 | %simpleclanstopclans\_\#\_clan\_onlinemembers\_count% |  |  |  |
 | %simpleclanstopclans\_\#\_clan\_allies\_count% |  |  |  |
 | %simpleclanstopclans\_\#\_clan\_rivals\_count% |  |  |  |
-

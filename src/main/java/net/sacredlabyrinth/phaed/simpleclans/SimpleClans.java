@@ -49,7 +49,7 @@ public class SimpleClans extends JavaPlugin {
 
     private static SimpleClans instance;
     private static LanguageResource languageResource;
-    private static final Logger logger = Logger.getLogger("SimpleClans");
+    private static final Logger logger = Logger.getLogger("Unions-OG");
     private SCCommandManager commandManager;
     private ClanManager clanManager;
     private RequestManager requestManager;
@@ -152,7 +152,7 @@ public class SimpleClans extends JavaPlugin {
         getLogger().info("BungeeCord: " + settingsManager.is(PERFORMANCE_USE_BUNGEECORD));
         getLogger().info("HEX support: " + ChatUtils.HEX_COLOR_SUPPORT);
         getLogger().info(
-                "Help us translate SimpleClans to your language! " + "Access https://crowdin.com/project/simpleclans/");
+                "Help us translate Unions-OG to your language! " + "Access https://crowdin.com/project/simpleclans/");
 
     }
 
@@ -174,6 +174,7 @@ public class SimpleClans extends JavaPlugin {
 
             getLogger().info("PlaceholderAPI found. Registering hook...");
             new SimpleClansExpansion(this).register();
+            new SimpleClansExpansion(this, "simpleunions").register();
 
         }
 

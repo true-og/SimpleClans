@@ -38,13 +38,13 @@ settings:
     banned-players: []
     disallowed-tags:
     - vip
-    - clan
+    - union
     language: en
     user-language-selector: true
     disallowed-tag-colors:
     - '4'
     - 'k'
-    server-name: '&4SimpleClans'
+    server-name: '&4Unions-OG'
     new-clan-verification-required: true
     allow-regroup-command: true
     allow-reset-kdr: false
@@ -96,7 +96,7 @@ kdr-grinding-prevention:
 commands:
     more: more
     ally: ally
-    clan: clan
+    clan: union
     accept: accept
     deny: deny
     global: global

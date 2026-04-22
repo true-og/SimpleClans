@@ -1,4 +1,4 @@
-name: SimpleClans
+name: Unions-OG
 main: net.sacredlabyrinth.phaed.simpleclans.SimpleClans
 version: '${version}'
 softdepend:
@@ -21,97 +21,97 @@ permissions:
   simpleclans.admin.purge:
     description: Can purge a player
   simpleclans.admin.promote:
-    description: Can promote players to clan leaders
+    description: Can promote players to union leaders
   simpleclans.admin.demote:
-    description: Can demote clan leaders to normal players
+    description: Can demote union leaders to normal players
   simpleclans.admin.permanent:
-    description: Can toggle clan permanent status
+    description: Can toggle union permanent status
   simpleclans.admin.all-seeing-eye:
-    description: Can see all clan chats
+    description: Can see all union chats
   simpleclans.admin.resetkdr:
     description: Can reset player kdr (of all or just one)
   simpleclans.admin.bank.status:
-    description: Can check the balance of a clan
+    description: Can check the balance of a union
   simpleclans.admin.bank.take:
-    description: Can take money from a clan
+    description: Can take money from a union
   simpleclans.admin.bank.give:
-    description: Can give money to a clan
+    description: Can give money to a union
   simpleclans.admin.bank.set:
-    description: Can set the balance of a clan
+    description: Can set the balance of a union
   simpleclans.mod.verify:
-    description: Can verify simpleclans
+    description: Can verify unions
   simpleclans.mod.ban:
     description: Can ban players from the entire plugin
   simpleclans.mod.disband:
-    description: Can disband any clan
+    description: Can disband any union
   simpleclans.mod.kick:
     description: Can kick any player
   simpleclans.mod.globalff:
     description: Can turn off global friendly fire protection
   simpleclans.mod.hometp:
-    description: Can teleport to all clans homes
+    description: Can teleport to all union homes
   simpleclans.mod.bypass:
     description: Can bypass restrictions
   simpleclans.mod.nopvpinwar:
     description: Can bypass pvp in wars
   simpleclans.anyone.list:
-    description: Can list simpleclans
+    description: Can list unions
   simpleclans.anyone.list.balance:
-    description: Can list clans by balance
+    description: Can list unions by balance
   simpleclans.anyone.profile:
-    description: Can view a clan's profile
+    description: Can view a union's profile
   simpleclans.anyone.locale:
     description: Can set his language
   simpleclans.anyone.roster:
-    description: Can veiw a clan's member list
+    description: Can veiw a union's member list
   simpleclans.anyone.lookup:
     description: Can lookup a player's info
   simpleclans.anyone.leaderboard:
     description: Can view the leaderboard
   simpleclans.anyone.alliances:
-    description: Can view alliances by clan
+    description: Can view alliances by union
   simpleclans.anyone.rivalries:
-    description: Can view rivalries by clan
+    description: Can view rivalries by union
   simpleclans.anyone.invite-toggle:
     description: Can toggle invite on/off
   simpleclans.other.kdr-exempt:
     description: The player's KDR is not affected on killing/dying
     default: false
   simpleclans.member.profile:
-    description: Can view his own clan's profile
+    description: Can view his own union's profile
   simpleclans.member.roster:
-    description: Can view his own clan's member list
+    description: Can view his own union's member list
   simpleclans.member.bypass-fee:
     description: Can bypass the member fee
   simpleclans.member.lookup:
     description: Can view his own player info
   simpleclans.member.vitals:
-    description: Can view his clan's vitals
+    description: Can view his union's vitals
   simpleclans.member.coords:
-    description: Can view his clan's coords
+    description: Can view his union's coords
   simpleclans.member.stats:
-    description: Can view his simpleclans stats
+    description: Can view his union stats
   simpleclans.member.bb:
-    description: Can view his clan's bulletin board
+    description: Can view his union's bulletin board
   simpleclans.member.bb-add:
-    description: Can add to his clan's bulletin board
+    description: Can add to his union's bulletin board
   simpleclans.member.bb-toggle:
     description: Can toggle bb on/off
   simpleclans.member.ff:
     description: Can toggle his own friendly fire
   simpleclans.member.resign:
-    description: Can resign from his clan
+    description: Can resign from his union
   simpleclans.member.ally:
     description: Can use ally chat
   simpleclans.member.chat:
-    description: Can use clan chat
+    description: Can use union chat
   simpleclans.member.chat.color:
     description: Can use colors in chat
   simpleclans.member.chat.format:
     description: Can use formats in chat
     default: false
   simpleclans.member.can-join:
-    description: Can join clans
+    description: Can join unions
   simpleclans.member.home:
     description: Can tp to home base
   simpleclans.vip.resetkdr:
@@ -119,76 +119,76 @@ permissions:
   simpleclans.vip.teleport-delay:
     description: Bypasses the teleport delay
   simpleclans.leader.create:
-    description: Can create simpleclans
+    description: Can create unions
   simpleclans.leader.verify:
-    description: Can verify his clan
+    description: Can verify his union
   simpleclans.leader.home-set:
     description: Can set home base
   simpleclans.leader.regroup.home:
-    description: Can tp entire clan to homebase
+    description: Can tp entire union to homebase
   simpleclans.leader.regroup.me:
-    description: Can tp their entire clan to themself
+    description: Can tp their entire union to themself
   simpleclans.leader.ally:
-    description: Can ally his clan with other simpleclans
+    description: Can ally his union with other unions
   simpleclans.leader.rival:
-    description: Can start a rivalry with another clan
+    description: Can start a rivalry with another union
   simpleclans.leader.modtag:
-    description: Can modify his clan's tag
+    description: Can modify his union's tag
   simpleclans.leader.description:
-    description: Can modify his clan's description
+    description: Can modify his union's description
   simpleclans.leader.bb-clear:
-    description: Can clear his clan's bb
+    description: Can clear his union's bb
   simpleclans.leader.setbanner:
-    description: Can set his clan's banner
+    description: Can set his union's banner
   simpleclans.leader.discord.create:
-    description: Can create discord channel for his clan
+    description: Can create discord channel for his union
   simpleclans.leader.rename:
-    description: Can rename his clan's name
+    description: Can rename his union's name
     default: false
   simpleclans.member.land:
     description: Can use land commands
   simpleclans.member.kills:
     description: Can view his and other's kills
   simpleclans.member.tag-toggle:
-    description: Can hide his own clan tag
+    description: Can hide his own union tag
   simpleclans.member.fee-check:
-    description: Can check his clan's fee
+    description: Can check his union's fee
   simpleclans.mod.bb-clear:
-    description: Can clear a clan's bb
+    description: Can clear a union's bb
   simpleclans.mod.rename:
-    description: Can rename a clan's name
+    description: Can rename a union's name
   simpleclans.mod.bb:
-    description: Can view a clan's bulletin board
+    description: Can view a union's bulletin board
   simpleclans.mod.bb-add:
-    description: Can add to a clan's bulletin board
+    description: Can add to a union's bulletin board
   simpleclans.mod.mostkilled:
-    description: Can view his and other's clans mostkilled
+    description: Can view his and other's unions mostkilled
   simpleclans.mod.keep-items:
     description: Can keep items when teleporting home
   simpleclans.mod.place:
-    description: Can manually place players in clans
+    description: Can manually place players in unions
   simpleclans.mod.modtag:
-    description: Can change a clan's tag
+    description: Can change a union's tag
   simpleclans.mod.staffgui:
     description: Can open the staff gui
   simpleclans.mod.locale:
     description: Can set players language
   simpleclans.leader.fee:
-    description: Can enable and set the clan fee
+    description: Can enable and set the union fee
   simpleclans.leader.invite:
-    description: Can invite players into his clan
+    description: Can invite players into his union
   simpleclans.leader.kick:
     description: Can kick players form his tea,
   simpleclans.leader.promote:
-    description: Can promote players to clan leaders
+    description: Can promote players to union leaders
   simpleclans.leader.promotable:
-    description: Can be promoted to clan leader
+    description: Can be promoted to union leader
   simpleclans.leader.demote:
-    description: Can demote clan leaders to normal players
+    description: Can demote union leaders to normal players
   simpleclans.leader.ff:
-    description: Can toggle his clan's friendly fire
+    description: Can toggle his union's friendly fire
   simpleclans.leader.disband:
-    description: Can disband his own clan
+    description: Can disband his own union
   simpleclans.leader.settrust:
     description: Can set trust levels for members
   simpleclans.leader.war:
@@ -289,7 +289,7 @@ permissions:
       simpleclans.member.land.block.interact: true
       simpleclans.member.land.block.interact_entity: true
   simpleclans.member.*:
-    description: Permissions for those who can be clan members
+    description: Permissions for those who can be union members
     default: true
     children:
       simpleclans.member.land: true
@@ -316,7 +316,7 @@ permissions:
       simpleclans.member.fee-check: true
       simpleclans.member.chat.color: true
   simpleclans.leader.*:
-    description: Permissions for those who can be clan leaders
+    description: Permissions for those who can be union leaders
     default: true
     children:
       simpleclans.leader.create: true

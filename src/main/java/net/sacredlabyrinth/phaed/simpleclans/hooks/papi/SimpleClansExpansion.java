@@ -29,10 +29,18 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
     private List<String> placeholders;
     private final SimpleClans plugin;
     private final ClanManager clanManager;
+    private final String identifier;
 
     public SimpleClansExpansion(SimpleClans plugin) {
 
+        this(plugin, "simpleclans");
+
+    }
+
+    public SimpleClansExpansion(SimpleClans plugin, @NotNull String identifier) {
+
         this.plugin = plugin;
+        this.identifier = identifier;
         clanManager = plugin.getClanManager();
         registerResolvers();
 
@@ -48,7 +56,7 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
     @Override
     public @NotNull String getIdentifier() {
 
-        return getName().toLowerCase();
+        return identifier;
 
     }
 
@@ -78,9 +86,12 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
 
         if (placeholders == null) {
 
-            this.placeholders = new ArrayList<>();
-            addPlaceholders("simpleclans_", ClanPlayer.class, placeholders);
-            addPlaceholders("simpleclans_clan_", Clan.class, placeholders);
+            LinkedHashSet<String> allPlaceholders = new LinkedHashSet<>();
+            addPlaceholders(identifier + "_", ClanPlayer.class, allPlaceholders);
+            addAliasedPlaceholders(identifier + "_", ClanPlayer.class, allPlaceholders);
+            addPlaceholders(identifier + "_clan_", Clan.class, allPlaceholders);
+            addAliasedPlaceholders(identifier + "_union_", Clan.class, allPlaceholders);
+            this.placeholders = new ArrayList<>(allPlaceholders);
 
         }
 
@@ -157,6 +168,7 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
     @Override
     public String onRequest(@Nullable OfflinePlayer player, @NotNull String params) {
 
+        params = normalizePlaceholder(params);
         ClanPlayer cp = null;
         if (player != null) {
 
@@ -313,7 +325,7 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
 
     }
 
-    private void addPlaceholders(String prefix, Class<?> clazz, List<String> placeholders) {
+    private void addPlaceholders(String prefix, Class<?> clazz, Collection<String> placeholders) {
 
         for (Method method : clazz.getDeclaredMethods()) {
 
@@ -328,6 +340,59 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
             }
 
         }
+
+    }
+
+    private void addAliasedPlaceholders(String prefix, Class<?> clazz, Collection<String> placeholders) {
+
+        for (Method method : clazz.getDeclaredMethods()) {
+
+            Placeholder[] annotations = method.getAnnotationsByType(Placeholder.class);
+            for (Placeholder annotation : annotations) {
+
+                String alias = toUnionAlias(annotation.value());
+                if (!alias.equals(annotation.value())) {
+
+                    placeholders.add("%" + prefix + alias + "%");
+
+                }
+
+            }
+
+        }
+
+    }
+
+    @NotNull
+    private String normalizePlaceholder(@NotNull String placeholder) {
+
+        String normalized = placeholder;
+        if (normalized.startsWith("topunions_")) {
+
+            normalized = "topclans_" + normalized.substring("topunions_".length());
+
+        }
+
+        if (normalized.startsWith("union_")) {
+
+            normalized = "clan_" + normalized.substring("union_".length());
+
+        }
+
+        normalized = normalized.replace("_union_", "_clan_");
+        normalized = normalized.replace("in_union", "in_clan");
+        normalized = normalized.replace("unionchat_player_color", "clanchat_player_color");
+        normalized = normalized.replace("topunions_position", "topclans_position");
+
+        return normalized;
+
+    }
+
+    @NotNull
+    private String toUnionAlias(@NotNull String placeholder) {
+
+        return placeholder.replace("topclans", "topunions").replace("in_clan", "in_union")
+                .replace("clanchat_player_color", "unionchat_player_color");
 
     }
 

@@ -113,7 +113,7 @@ tasks.shadowJar {
     relocate("com.cryptomorin.xseries", "net.sacredlabyrinth.phaed.simpleclans.xseries")
     relocate("com.google.gson", "net.sacredlabyrinth.phaed.simpleclans.gson")
     dependencies { exclude(dependency("org.jetbrains:annotations:.*")) }
-    archiveBaseName.set("SimpleClans")
+    archiveBaseName.set("Unions-OG")
     archiveClassifier.set("")
 }
 
