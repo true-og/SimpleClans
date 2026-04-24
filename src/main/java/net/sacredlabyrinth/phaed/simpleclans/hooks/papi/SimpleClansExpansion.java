@@ -25,6 +25,8 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
 
     private static final Pattern TOP_CLANS_PATTERN = Pattern.compile("(?<strip>^topclans_(?<position>\\d+)_)clan_");
     private static final Pattern TOP_PLAYERS_PATTERN = Pattern.compile("(?<strip>^topplayers_(?<position>\\d+)_)");
+    private static final String CLAN_COLOR_TAG_PLACEHOLDER = "clan_color_tag";
+    private static final String NO_CLAN_COLOR_TAG = "&8None";
     private static final Map<String, PlaceholderResolver> RESOLVERS = new HashMap<>();
     private List<String> placeholders;
     private final SimpleClans plugin;
@@ -178,11 +180,17 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
 
         if (cp == null) {
 
-            return "";
+            return getNoClanValue(params);
 
         }
 
         Clan clan = cp.getClan();
+        if (clan == null && CLAN_COLOR_TAG_PLACEHOLDER.equals(params)) {
+
+            return NO_CLAN_COLOR_TAG;
+
+        }
+
         Matcher matcher = TOP_CLANS_PATTERN.matcher(params);
         if (matcher.find()) {
 
@@ -202,6 +210,13 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
         }
 
         return getValue(player, cp, clan, params);
+
+    }
+
+    @NotNull
+    private String getNoClanValue(@NotNull String placeholder) {
+
+        return CLAN_COLOR_TAG_PLACEHOLDER.equals(placeholder) ? NO_CLAN_COLOR_TAG : "";
 
     }
 
