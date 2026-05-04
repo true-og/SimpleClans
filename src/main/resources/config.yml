@@ -45,7 +45,7 @@ settings:
     - '4'
     - 'k'
     server-name: '&4Unions-OG'
-    new-clan-verification-required: true
+    new-clan-verification-required: false
     allow-regroup-command: true
     allow-reset-kdr: false
     rejoin-cooldown: 60

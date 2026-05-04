@@ -1,6 +1,5 @@
 package net.sacredlabyrinth.phaed.simpleclans.conversation;
 
-import net.sacredlabyrinth.phaed.simpleclans.ChatBlock;
 import net.sacredlabyrinth.phaed.simpleclans.Clan;
 import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
 import net.sacredlabyrinth.phaed.simpleclans.events.PreCreateClanEvent;
@@ -17,7 +16,6 @@ import static net.sacredlabyrinth.phaed.simpleclans.SimpleClans.lang;
 import static net.sacredlabyrinth.phaed.simpleclans.conversation.CreateClanTagPrompt.TAG_KEY;
 import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.ConfigField.*;
 import static net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager.ConfigField.CLAN_DEFAULT_RANK;
-import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.RED;
 
 public class CreateClanNamePrompt extends StringPrompt {
@@ -91,20 +89,6 @@ public class CreateClanNamePrompt extends StringPrompt {
             if (!plugin.getSettingsManager().getString(CLAN_DEFAULT_RANK).isEmpty()) {
 
                 clan.setDefaultRank(plugin.getSettingsManager().getString(CLAN_DEFAULT_RANK));
-
-                if (plugin.getSettingsManager().is(REQUIRE_VERIFICATION)) {
-
-                    boolean verified = !plugin.getSettingsManager().is(REQUIRE_VERIFICATION)
-                            || plugin.getPermissionsManager().has(player, "simpleclans.mod.verify");
-
-                    if (!verified) {
-
-                        ChatBlock.sendMessage(player,
-                                AQUA + lang("get.your.clan.verified.to.access.advanced.features", player));
-
-                    }
-
-                }
 
             }
 

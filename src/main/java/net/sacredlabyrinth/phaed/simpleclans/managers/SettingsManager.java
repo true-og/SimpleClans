@@ -407,7 +407,7 @@ public final class SettingsManager {
         DISALLOWED_TAGS("settings.disallowed-tags"), LANGUAGE("settings.language", "en"),
         LANGUAGE_SELECTOR("settings.user-language-selector", true),
         DISALLOWED_TAG_COLORS("settings.disallowed-tag-colors"), SERVER_NAME("settings.server-name", "&4SimpleClans"),
-        REQUIRE_VERIFICATION("settings.new-clan-verification-required", true),
+        REQUIRE_VERIFICATION("settings.new-clan-verification-required", false),
         ALLOW_REGROUP("settings.allow-regroup-command", true), ALLOW_RESET_KDR("settings.allow-reset-kdr", false),
         REJOIN_COOLDOWN("settings.rejoin-cooldown", 60),
         ENABLE_REJOIN_COOLDOWN("settings.rejoin-cooldown-enabled", false),

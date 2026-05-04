@@ -45,7 +45,6 @@ public class RivalsFrame extends SCFrame {
         add(Components.getBackComponent(getParent(), 2, getViewer()));
 
         SCComponent add = new SCComponentImpl(lang("gui.rivals.add.title", getViewer()), null, XMaterial.RED_WOOL, 4);
-        add.setVerifiedOnly(ClickType.LEFT);
         add.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new AddRivalFrame(this, getViewer(), subject)));
         add.setPermission(ClickType.LEFT, RankPermission.RIVAL_ADD);
         add(add);

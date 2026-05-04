@@ -51,7 +51,6 @@ public class RanksFrame extends SCFrame {
 
         SCComponent create = new SCComponentImpl(lang("gui.ranks.create.title", getViewer()),
                 Collections.singletonList(lang("gui.ranks.create.lore", getViewer())), XMaterial.WHITE_WOOL, 4);
-        create.setVerifiedOnly(ClickType.LEFT);
         create.setListener(ClickType.LEFT, () -> InventoryController.runSubcommand(getViewer(), "rank create", false));
         create.setPermission(ClickType.LEFT, "simpleclans.leader.rank.create");
         add(create);
@@ -102,8 +101,6 @@ public class RanksFrame extends SCFrame {
 
             }
 
-            c.setVerifiedOnly(ClickType.LEFT);
-            c.setVerifiedOnly(ClickType.RIGHT);
             add(c);
             slot++;
 

@@ -152,13 +152,6 @@ public class LeaderCommands extends BaseCommand {
 
         }
 
-        if (!settings.is(ECONOMY_PURCHASE_CLAN_VERIFY)) {
-
-            ChatBlock.sendMessageKey(player, "staff.member.verify.clan");
-            return;
-
-        }
-
         int minToVerify = settings.getInt(CLAN_MIN_TO_VERIFY);
         if (minToVerify > clan.getMembers().size()) {
 
@@ -167,7 +160,7 @@ public class LeaderCommands extends BaseCommand {
 
         }
 
-        if (cm.purchaseVerification(player)) {
+        if (!settings.is(ECONOMY_PURCHASE_CLAN_VERIFY) || cm.purchaseVerification(player)) {
 
             clan.verifyClan();
             clan.addBb(player.getName(), lang("clan.0.has.been.verified", clan.getName()));

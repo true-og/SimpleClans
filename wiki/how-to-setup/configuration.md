@@ -76,7 +76,7 @@ settings:
     disallowed-tag-colors:
     - '4'
     server-name: '&4SimpleClans'
-    new-clan-verification-required: true
+    new-clan-verification-required: false
     allow-regroup-command: true
     allow-reset-kdr: false
     rejoin-cooldown: 60
@@ -507,4 +507,3 @@ performance:
 ```yaml
 safe-civilians: false
 ```
-

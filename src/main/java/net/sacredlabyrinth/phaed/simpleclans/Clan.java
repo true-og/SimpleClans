@@ -766,13 +766,13 @@ public class Clan implements Serializable, Comparable<Clan> {
     }
 
     /**
-     * Tells you if the clan is verified, always returns true if no verification is
-     * required
+     * Tells you if the clan is verified. Verification is disabled for gameplay, so
+     * this remains true while the stored flag is kept for compatibility.
      */
     @Placeholder("is_verified")
     public boolean isVerified() {
 
-        return !SimpleClans.getInstance().getSettingsManager().is(REQUIRE_VERIFICATION) || verified;
+        return true;
 
     }
 

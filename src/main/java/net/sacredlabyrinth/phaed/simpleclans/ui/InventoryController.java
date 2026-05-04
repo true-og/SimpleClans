@@ -89,13 +89,6 @@ public class InventoryController implements Listener {
 
         }
 
-        if (component.isVerifiedOnly(click) && !isClanVerified((Player) entity)) {
-
-            InventoryDrawer.open(new WarningFrame(frame, (Player) entity, null));
-            return;
-
-        }
-
         Object permission = component.getPermission(click);
         if (permission != null) {
 
@@ -137,21 +130,6 @@ public class InventoryController implements Listener {
             finalListener.run();
 
         });
-
-    }
-
-    /**
-     * Checks if the Player's Clan is verified
-     * 
-     * @param player the Player
-     * @return if the Clan is verified
-     */
-    private boolean isClanVerified(@NotNull Player player) {
-
-        SimpleClans plugin = SimpleClans.getInstance();
-        ClanPlayer cp = plugin.getClanManager().getAnyClanPlayer(player.getUniqueId());
-
-        return cp != null && cp.getClan() != null && cp.getClan().isVerified();
 
     }
 

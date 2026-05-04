@@ -484,17 +484,7 @@ public final class Helper {
 
         }
 
-        if (clan.isVerified()) {
-
-            statuses.add(lang("verified", sender));
-
-        } else {
-
-            statuses.add(lang("unverified", sender));
-
-        }
-
-        return String.join(", ", statuses);
+        return statuses.isEmpty() ? lang("none", sender) : String.join(", ", statuses);
 
     }
 

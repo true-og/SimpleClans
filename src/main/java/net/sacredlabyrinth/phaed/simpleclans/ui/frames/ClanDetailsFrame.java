@@ -64,7 +64,6 @@ public class ClanDetailsFrame extends SCFrame {
         addBank();
         addFee();
         addRank();
-        addVerify();
         addResign();
         addDisband();
         addChat();
@@ -159,7 +158,6 @@ public class ClanDetailsFrame extends SCFrame {
                         lang("gui.clandetails.fee.status.lore", getViewer(), status),
                         lang("gui.clandetails.fee.toggle.lore", getViewer())),
                 XMaterial.GOLD_NUGGET, 41);
-        fee.setVerifiedOnly(ClickType.LEFT);
         fee.setListener(ClickType.LEFT, () -> InventoryController.runSubcommand(getViewer(), "toggle fee", true));
         fee.setPermission(ClickType.LEFT, RankPermission.FEE_ENABLE);
         add(fee);
@@ -188,40 +186,6 @@ public class ClanDetailsFrame extends SCFrame {
 
     }
 
-    private void addVerify() {
-
-        boolean verified = clan.isVerified();
-        boolean purchaseVerification = settings.is(REQUIRE_VERIFICATION) && settings.is(ECONOMY_PURCHASE_CLAN_VERIFY);
-
-        XMaterial material = verified ? XMaterial.REDSTONE_TORCH : XMaterial.LEVER;
-        String title = verified ? lang("gui.clandetails.verified.title", getViewer())
-                : lang("gui.clandetails.not.verified.title", getViewer());
-        List<String> lore = verified ? null : new ArrayList<>();
-        if (!verified) {
-
-            if (purchaseVerification) {
-
-                lore.add(lang("gui.clandetails.verify.price.lore", getViewer(),
-                        CurrencyFormat.format(settings.getDouble(ECONOMY_VERIFICATION_PRICE))));
-
-            }
-
-            lore.add(lang("gui.clandetails.not.verified.lore", getViewer()));
-
-        }
-
-        SCComponent verify = new SCComponentImpl(title, lore, material, 39);
-        if (!verified) {
-
-            verify.setPermission(ClickType.LEFT, "simpleclans.leader.verify");
-            verify.setListener(ClickType.LEFT, () -> InventoryController.runSubcommand(getViewer(), "verify", false));
-
-        }
-
-        add(verify);
-
-    }
-
     private void addBank() {
 
         String withdrawStatus = clan.isAllowWithdraw() ? lang("allowed", getViewer()) : lang("blocked", getViewer());
@@ -234,11 +198,9 @@ public class ClanDetailsFrame extends SCFrame {
                         lang("gui.clandetails.bank.deposit.toggle.lore", getViewer())),
                 XMaterial.GOLD_INGOT, 34);
         bank.setLorePermission(RankPermission.BANK_BALANCE);
-        bank.setVerifiedOnly(ClickType.DROP);
         bank.setListener(ClickType.DROP, () -> InventoryController.runSubcommand(getViewer(), "toggle withdraw", true));
         bank.setConfirmationRequired(ClickType.DROP);
         bank.setPermission(ClickType.DROP, "simpleclans.leader.withdraw-toggle");
-        bank.setVerifiedOnly(ClickType.RIGHT);
         bank.setListener(ClickType.RIGHT, () -> InventoryController.runSubcommand(getViewer(), "toggle deposit", true));
         bank.setPermission(ClickType.RIGHT, "simpleclans.leader.deposit-toggle");
 
@@ -321,12 +283,10 @@ public class ClanDetailsFrame extends SCFrame {
 
         SCComponent regroup = new SCComponentImpl(lang("gui.clandetails.regroup.title", getViewer()), lore,
                 XMaterial.BEACON, 30);
-        regroup.setVerifiedOnly(ClickType.LEFT);
         regroup.setListener(ClickType.LEFT,
                 () -> InventoryController.runSubcommand(getViewer(), "regroup home", false));
         regroup.setConfirmationRequired(ClickType.LEFT);
         regroup.setPermission(ClickType.LEFT, RankPermission.REGROUP_HOME);
-        regroup.setVerifiedOnly(ClickType.RIGHT);
         regroup.setListener(ClickType.RIGHT, () -> InventoryController.runSubcommand(getViewer(), "regroup me", false));
         regroup.setConfirmationRequired(ClickType.RIGHT);
         regroup.setPermission(ClickType.RIGHT, RankPermission.REGROUP_ME);
@@ -353,14 +313,11 @@ public class ClanDetailsFrame extends SCFrame {
 
         SCComponent home = new SCComponentImpl(lang("gui.clandetails.home.title", getViewer()), lore,
                 Objects.requireNonNull(XMaterial.MAGENTA_BED.parseMaterial()), 28);
-        home.setVerifiedOnly(ClickType.LEFT);
         home.setListener(ClickType.LEFT, () -> InventoryController.runSubcommand(getViewer(), "home", false));
         home.setPermission(ClickType.LEFT, RankPermission.HOME_TP);
-        home.setVerifiedOnly(ClickType.RIGHT);
         home.setListener(ClickType.RIGHT, () -> InventoryController.runSubcommand(getViewer(), "home set", false));
         home.setPermission(ClickType.RIGHT, RankPermission.HOME_SET);
         home.setConfirmationRequired(ClickType.RIGHT);
-        home.setVerifiedOnly(ClickType.DROP);
         home.setListener(ClickType.DROP, () -> InventoryController.runSubcommand(getViewer(), "home clear", false));
         home.setPermission(ClickType.DROP, RankPermission.HOME_SET);
         home.setConfirmationRequired(ClickType.DROP);
@@ -381,7 +338,6 @@ public class ClanDetailsFrame extends SCFrame {
 
         }
 
-        roster.setVerifiedOnly(ClickType.LEFT);
         roster.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new RosterFrame(getViewer(), this, clan)));
         roster.setPermission(ClickType.LEFT, "simpleclans.member.roster");
         add(roster);
@@ -392,7 +348,6 @@ public class ClanDetailsFrame extends SCFrame {
 
         SCComponent coords = new SCComponentImpl(lang("gui.clandetails.coords.title", getViewer()),
                 Collections.singletonList(lang("gui.clandetails.coords.lore", getViewer())), XMaterial.COMPASS, 21);
-        coords.setVerifiedOnly(ClickType.LEFT);
         coords.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new CoordsFrame(getViewer(), this, clan)));
         coords.setPermission(ClickType.LEFT, RankPermission.COORDS);
         add(coords);

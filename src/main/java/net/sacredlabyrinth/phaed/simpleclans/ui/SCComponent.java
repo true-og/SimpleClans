@@ -21,7 +21,6 @@ public abstract class SCComponent {
 
     private final HashMap<ClickType, Runnable> listeners = new HashMap<>();
     private final HashMap<ClickType, Object> permissions = new HashMap<>();
-    private final Set<ClickType> verified = new HashSet<>();
     private final Set<ClickType> confirmationRequired = new HashSet<>();
     private @Nullable Object lorePermission;
 
@@ -40,18 +39,6 @@ public abstract class SCComponent {
     public void setItemMeta(@NotNull ItemMeta itemMeta) {
 
         getItem().setItemMeta(itemMeta);
-
-    }
-
-    public void setVerifiedOnly(@NotNull ClickType clickType) {
-
-        verified.add(clickType);
-
-    }
-
-    public boolean isVerifiedOnly(@NotNull ClickType clickType) {
-
-        return verified.contains(clickType);
 
     }
 

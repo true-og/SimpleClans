@@ -20,6 +20,7 @@ import net.sacredlabyrinth.phaed.simpleclans.managers.SettingsManager;
 import net.sacredlabyrinth.phaed.simpleclans.managers.StorageManager;
 import net.sacredlabyrinth.phaed.simpleclans.ui.InventoryDrawer;
 import net.sacredlabyrinth.phaed.simpleclans.ui.frames.MainFrame;
+import net.sacredlabyrinth.phaed.simpleclans.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -105,7 +106,7 @@ public class GeneralCommands extends BaseCommand {
 
         HashMap<Object, Object> initialData = new HashMap<>();
         initialData.put(TAG_KEY, tag);
-        initialData.put(NAME_KEY, name);
+        initialData.put(NAME_KEY, name != null ? name : tag != null ? ChatUtils.stripColors(tag) : null);
         SCConversation conversation = new SCConversation(plugin, player, new CreateClanTagPrompt(), initialData);
         conversation.addConversationCanceller(
                 new RequestCanceller(player, RED + lang("clan.create.request.cancelled", player)));

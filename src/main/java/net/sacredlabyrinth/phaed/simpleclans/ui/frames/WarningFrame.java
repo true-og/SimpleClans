@@ -10,7 +10,6 @@ import net.sacredlabyrinth.phaed.simpleclans.ui.SCComponentImpl;
 import net.sacredlabyrinth.phaed.simpleclans.ui.SCFrame;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +21,7 @@ public class WarningFrame extends SCFrame {
     private final SimpleClans plugin = SimpleClans.getInstance();
     private final Object permission;
 
-    public WarningFrame(@NotNull SCFrame parent, @NotNull Player viewer, @Nullable Object permission) {
+    public WarningFrame(@NotNull SCFrame parent, @NotNull Player viewer, @NotNull Object permission) {
 
         super(parent, viewer);
         this.permission = permission;
@@ -42,24 +41,7 @@ public class WarningFrame extends SCFrame {
 
         add(Components.getBackComponent(getParent(), 4, getViewer()));
 
-        int slot = 22;
-        if (permission != null) {
-
-            addNoPermissionComponent(permission, slot);
-
-        } else {
-
-            addNotVerifiedComponent(slot);
-
-        }
-
-    }
-
-    private void addNotVerifiedComponent(int slot) {
-
-        SCComponent verified = new SCComponentImpl(lang("gui.warning.not.verified.title", getViewer()),
-                Collections.singletonList(lang("gui.warning.not.verified.lore", getViewer())), XMaterial.LEVER, slot);
-        add(verified);
+        addNoPermissionComponent(permission, 22);
 
     }
 

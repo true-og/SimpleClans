@@ -171,10 +171,7 @@ public final class ClanManager {
 
         ClanPlayer cp = getCreateClanPlayer(player.getUniqueId());
 
-        boolean verified = !plugin.getSettingsManager().is(REQUIRE_VERIFICATION)
-                || plugin.getPermissionsManager().has(player, "simpleclans.mod.verify");
-
-        Clan clan = new Clan(colorTag, name, verified);
+        Clan clan = new Clan(colorTag, name, true);
         clan.addPlayerToClan(cp);
         cp.setLeader(true);
         clan.getRanks().addAll(plugin.getSettingsManager().getStarterRanks());

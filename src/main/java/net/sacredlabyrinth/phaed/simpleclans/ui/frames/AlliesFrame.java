@@ -45,7 +45,6 @@ public class AlliesFrame extends SCFrame {
         add(Components.getBackComponent(getParent(), 2, getViewer()));
 
         SCComponent add = new SCComponentImpl(lang("gui.allies.add.title", getViewer()), null, XMaterial.CYAN_WOOL, 4);
-        add.setVerifiedOnly(ClickType.LEFT);
         add.setListener(ClickType.LEFT, () -> InventoryDrawer.open(new AddAllyFrame(this, getViewer(), subject)));
         add.setPermission(ClickType.LEFT, RankPermission.ALLY_ADD);
         add(add);
