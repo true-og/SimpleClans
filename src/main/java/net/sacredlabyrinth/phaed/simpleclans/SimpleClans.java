@@ -3,6 +3,7 @@ package net.sacredlabyrinth.phaed.simpleclans;
 import co.aikar.commands.BukkitCommandIssuer;
 import net.sacredlabyrinth.phaed.simpleclans.commands.SCCommandManager;
 import net.sacredlabyrinth.phaed.simpleclans.hooks.papi.SimpleClansExpansion;
+import net.sacredlabyrinth.phaed.simpleclans.hooks.papi.SimpleClansMiniPlaceholders;
 import net.sacredlabyrinth.phaed.simpleclans.language.LanguageResource;
 import net.sacredlabyrinth.phaed.simpleclans.listeners.*;
 import net.sacredlabyrinth.phaed.simpleclans.loggers.BankLogger;
@@ -19,9 +20,6 @@ import net.sacredlabyrinth.phaed.simpleclans.utils.ChatUtils;
 import net.sacredlabyrinth.phaed.simpleclans.utils.TagValidator;
 import net.sacredlabyrinth.phaed.simpleclans.utils.UpdateChecker;
 import net.sacredlabyrinth.phaed.simpleclans.uuid.UUIDMigration;
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SimplePie;
-import org.bstats.charts.SingleLineChart;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -140,8 +138,8 @@ public class SimpleClans extends JavaPlugin {
 
         logStatus();
         startTasks();
-        startMetrics();
         hookIntoPAPI();
+        hookIntoMiniPlaceholders();
         new UpdateChecker(this).check();
 
     }
@@ -180,32 +178,14 @@ public class SimpleClans extends JavaPlugin {
 
     }
 
-    private void startMetrics() {
+    private void hookIntoMiniPlaceholders() {
 
-        Metrics metrics = new Metrics(this, 7131);
-        SettingsManager sm = getSettingsManager();
-        ClanManager cm = getClanManager();
-        String on = "enabled";
-        String off = "disabled";
-        metrics.addCustomChart(new SingleLineChart("clans", () -> cm.getClans().size()));
-        metrics.addCustomChart(new SingleLineChart("clan_players", () -> cm.getAllClanPlayers().size()));
-        metrics.addCustomChart(new SimplePie("language", () -> sm.getLanguage().toString()));
-        metrics.addCustomChart(new SimplePie("machine_language", () -> Locale.getDefault().toString()));
-        metrics.addCustomChart(new SimplePie("language_chooser", () -> sm.is(LANGUAGE_SELECTOR) ? on : off));
-        metrics.addCustomChart(new SimplePie("database", () -> sm.is(MYSQL_ENABLE) ? "MySQL" : "SQLite"));
-        metrics.addCustomChart(
-                new SimplePie("save_periodically", () -> sm.is(PERFORMANCE_SAVE_PERIODICALLY) ? on : off));
-        metrics.addCustomChart(new SimplePie("save_interval", () -> sm.getString(PERFORMANCE_SAVE_INTERVAL)));
-        metrics.addCustomChart(new SimplePie("upkeep", () -> sm.is(ECONOMY_UPKEEP_ENABLED) ? on : off));
-        metrics.addCustomChart(new SimplePie("member_fee", () -> sm.is(ECONOMY_MEMBER_FEE_ENABLED) ? on : off));
-        metrics.addCustomChart(new SimplePie("rejoin_cooldown", () -> sm.is(ENABLE_REJOIN_COOLDOWN) ? on : off));
-        metrics.addCustomChart(new SimplePie("clan_verification", () -> sm.is(REQUIRE_VERIFICATION) ? on : off));
-        metrics.addCustomChart(new SimplePie("money_per_kill", () -> sm.is(ECONOMY_MONEY_PER_KILL) ? on : off));
-        metrics.addCustomChart(new SimplePie("threads", () -> sm.is(PERFORMANCE_USE_THREADS) ? on : off));
-        metrics.addCustomChart(new SimplePie("bungeecord", () -> sm.is(PERFORMANCE_USE_BUNGEECORD) ? on : off));
-        metrics.addCustomChart(new SimplePie("discord_chat", () -> sm.is(DISCORDCHAT_ENABLE) ? on : off));
-        metrics.addCustomChart(
-                new SimplePie("default_rank", () -> sm.getString(CLAN_DEFAULT_RANK).isEmpty() ? off : on));
+        if (getPluginManager().getPlugin("Utilities-OG") != null) {
+
+            getLogger().info("Utilities-OG found. Registering MiniPlaceholders...");
+            new SimpleClansMiniPlaceholders(this).register();
+
+        }
 
     }
 

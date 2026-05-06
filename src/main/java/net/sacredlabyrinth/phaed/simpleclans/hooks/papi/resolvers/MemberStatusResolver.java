@@ -2,6 +2,7 @@ package net.sacredlabyrinth.phaed.simpleclans.hooks.papi.resolvers;
 
 import net.sacredlabyrinth.phaed.simpleclans.ClanPlayer;
 import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
+import net.sacredlabyrinth.phaed.simpleclans.hooks.papi.PlaceholderBooleanFormatter;
 import net.sacredlabyrinth.phaed.simpleclans.hooks.papi.PlaceholderResolver;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
@@ -9,9 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.Map;
-
-import static me.clip.placeholderapi.PlaceholderAPIPlugin.booleanFalse;
-import static me.clip.placeholderapi.PlaceholderAPIPlugin.booleanTrue;
 
 @SuppressWarnings("unused")
 public class MemberStatusResolver extends PlaceholderResolver {
@@ -52,7 +50,7 @@ public class MemberStatusResolver extends PlaceholderResolver {
 
         }
 
-        return result ? booleanTrue() : booleanFalse();
+        return result ? PlaceholderBooleanFormatter.trueValue() : PlaceholderBooleanFormatter.falseValue();
 
     }
 

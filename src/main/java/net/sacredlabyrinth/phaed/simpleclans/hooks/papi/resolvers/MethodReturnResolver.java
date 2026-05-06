@@ -1,7 +1,7 @@
 package net.sacredlabyrinth.phaed.simpleclans.hooks.papi.resolvers;
 
-import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
+import net.sacredlabyrinth.phaed.simpleclans.hooks.papi.PlaceholderBooleanFormatter;
 import net.sacredlabyrinth.phaed.simpleclans.hooks.papi.PlaceholderResolver;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +40,8 @@ public class MethodReturnResolver extends PlaceholderResolver {
 
         if (result instanceof Boolean) {
 
-            return ((Boolean) result) ? PlaceholderAPIPlugin.booleanTrue() : PlaceholderAPIPlugin.booleanFalse();
+            return ((Boolean) result) ? PlaceholderBooleanFormatter.trueValue()
+                    : PlaceholderBooleanFormatter.falseValue();
 
         }
 

@@ -4,6 +4,8 @@ version: '${version}'
 softdepend:
   - Vault
   - PlaceholderAPI
+  - Utilities-OG
+  - MiniPlaceholders
   - LuckPerms
   - WorldGuard
   - DiscordSRV

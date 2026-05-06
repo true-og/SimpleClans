@@ -3,35 +3,21 @@ package net.sacredlabyrinth.phaed.simpleclans.hooks.papi;
 import me.clip.placeholderapi.expansion.Configurable;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.clip.placeholderapi.expansion.Relational;
-import net.sacredlabyrinth.phaed.simpleclans.Clan;
-import net.sacredlabyrinth.phaed.simpleclans.ClanPlayer;
-import net.sacredlabyrinth.phaed.simpleclans.Helper;
 import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
-import net.sacredlabyrinth.phaed.simpleclans.managers.ClanManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SimpleClansExpansion extends PlaceholderExpansion implements Relational, Configurable {
 
-    private static final Pattern TOP_CLANS_PATTERN = Pattern.compile("(?<strip>^topclans_(?<position>\\d+)_)clan_");
-    private static final Pattern TOP_PLAYERS_PATTERN = Pattern.compile("(?<strip>^topplayers_(?<position>\\d+)_)");
-    private static final String CLAN_COLOR_TAG_PLACEHOLDER = "clan_color_tag";
-    private static final String NO_CLAN_COLOR_TAG = "&8None";
-    private static final Map<String, PlaceholderResolver> RESOLVERS = new HashMap<>();
-    private List<String> placeholders;
     private final SimpleClans plugin;
-    private final ClanManager clanManager;
     private final String identifier;
+    private final SimpleClansPlaceholderEngine placeholders;
 
     public SimpleClansExpansion(SimpleClans plugin) {
 
@@ -43,8 +29,7 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
 
         this.plugin = plugin;
         this.identifier = identifier;
-        clanManager = plugin.getClanManager();
-        registerResolvers();
+        placeholders = new SimpleClansPlaceholderEngine(plugin);
 
     }
 
@@ -86,18 +71,7 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
     @Override
     public @NotNull List<String> getPlaceholders() {
 
-        if (placeholders == null) {
-
-            LinkedHashSet<String> allPlaceholders = new LinkedHashSet<>();
-            addPlaceholders(identifier + "_", ClanPlayer.class, allPlaceholders);
-            addAliasedPlaceholders(identifier + "_", ClanPlayer.class, allPlaceholders);
-            addPlaceholders(identifier + "_clan_", Clan.class, allPlaceholders);
-            addAliasedPlaceholders(identifier + "_union_", Clan.class, allPlaceholders);
-            this.placeholders = new ArrayList<>(allPlaceholders);
-
-        }
-
-        return placeholders;
+        return placeholders.getLegacyPlaceholders(identifier);
 
     }
 
@@ -125,289 +99,15 @@ public class SimpleClansExpansion extends PlaceholderExpansion implements Relati
     @Nullable
     public String onPlaceholderRequest(Player player1, Player player2, String params) {
 
-        if (player1 == null || player2 == null) {
-
-            return null;
-
-        }
-
-        if (params.equalsIgnoreCase("color")) {
-
-            ClanPlayer cp1 = clanManager.getClanPlayer(player1);
-            if (cp1 == null) {
-
-                return "";
-
-            }
-
-            // noinspection ConstantConditions -- getClanPlayer != null == getClan() != null
-            if (cp1.getClan().isMember(player2)) {
-
-                return getString("color.same_clan", null);
-
-            }
-
-            if (cp1.isRival(player2)) {
-
-                return getString("color.rival", null);
-
-            }
-
-            if (cp1.isAlly(player2)) {
-
-                return getString("color.ally", null);
-
-            }
-
-            return "";
-
-        }
-
-        return null;
+        return placeholders.resolveRelational(player1, player2, params, getString("color.same_clan", null),
+                getString("color.rival", null), getString("color.ally", null));
 
     }
 
     @Override
     public String onRequest(@Nullable OfflinePlayer player, @NotNull String params) {
 
-        params = normalizePlaceholder(params);
-        ClanPlayer cp = null;
-        if (player != null) {
-
-            cp = clanManager.getAnyClanPlayer(player.getUniqueId());
-
-        }
-
-        if (cp == null) {
-
-            return getNoClanValue(params);
-
-        }
-
-        Clan clan = cp.getClan();
-        if (clan == null && CLAN_COLOR_TAG_PLACEHOLDER.equals(params)) {
-
-            return NO_CLAN_COLOR_TAG;
-
-        }
-
-        Matcher matcher = TOP_CLANS_PATTERN.matcher(params);
-        if (matcher.find()) {
-
-            int position = Integer.parseInt(matcher.group("position"));
-            clan = getFromPosition(clanManager.getClans(), position, clanManager::sortClansByKDR);
-            params = params.replace(matcher.group("strip"), "");
-
-        }
-
-        matcher = TOP_PLAYERS_PATTERN.matcher(params);
-        if (matcher.find()) {
-
-            int position = Integer.parseInt(matcher.group("position"));
-            cp = getFromPosition(clanManager.getAllClanPlayers(), position, clanManager::sortClanPlayersByKDR);
-            params = params.replace(matcher.group("strip"), "");
-
-        }
-
-        return getValue(player, cp, clan, params);
-
-    }
-
-    @NotNull
-    private String getNoClanValue(@NotNull String placeholder) {
-
-        return CLAN_COLOR_TAG_PLACEHOLDER.equals(placeholder) ? NO_CLAN_COLOR_TAG : "";
-
-    }
-
-    @Nullable
-    private <T> T getFromPosition(List<T> list, int position, Consumer<List<T>> sort) {
-
-        if (isPositionValid(list, position)) {
-
-            sort.accept(list);
-            return list.get(position - 1);
-
-        }
-
-        return null;
-
-    }
-
-    private boolean isPositionValid(@NotNull Collection<?> collection, int position) {
-
-        return position >= 1 && position <= collection.size();
-
-    }
-
-    @NotNull
-    private String getValue(@Nullable OfflinePlayer player, @Nullable ClanPlayer cp, @Nullable Clan clan,
-            @NotNull String placeholder)
-    {
-
-        if (placeholder.startsWith("clan_")) {
-
-            placeholder = placeholder.replace("clan_", "");
-            return getValue(player, clan, placeholder);
-
-        }
-
-        return getValue(player, cp, placeholder);
-
-    }
-
-    @NotNull
-    private String getValue(@Nullable OfflinePlayer player, @Nullable Object object, @NotNull String placeholder) {
-
-        if (object != null) {
-
-            for (Method declaredMethod : object.getClass().getDeclaredMethods()) {
-
-                Placeholder[] annotations = declaredMethod.getAnnotationsByType(Placeholder.class);
-                for (Placeholder p : annotations) {
-
-                    if (p.value().equals(placeholder)) {
-
-                        return resolve(player, object, declaredMethod, p.resolver(), placeholder, p.config());
-
-                    }
-
-                }
-
-            }
-
-            plugin.getLogger().warning(String.format("Placeholder %s not found", placeholder));
-
-        }
-
-        return "";
-
-    }
-
-    private String resolve(@Nullable OfflinePlayer player, @NotNull Object object, @NotNull Method method,
-            @NotNull String resolverId, @NotNull String placeholder, @NotNull String config)
-    {
-
-        PlaceholderResolver resolver = RESOLVERS.get(resolverId);
-        if (resolver != null) {
-
-            return resolver.resolve(player, object, method, placeholder, getConfigMap(config));
-
-        }
-
-        plugin.getLogger().warning(String.format("Resolver %s for %s not found", resolverId, placeholder));
-        return "";
-
-    }
-
-    @NotNull
-    private Map<String, String> getConfigMap(@NotNull String config) {
-
-        HashMap<String, String> map = new HashMap<>();
-        String[] elements = config.split(",");
-        for (String element : elements) {
-
-            String[] keyAndValue = element.split(":");
-            map.put(keyAndValue[0], keyAndValue.length > 1 ? keyAndValue[1] : null);
-
-        }
-
-        return map;
-
-    }
-
-    private void registerResolvers() {
-
-        Set<Class<? extends PlaceholderResolver>> resolvers = Helper
-                .getSubTypesOf("net.sacredlabyrinth.phaed.simpleclans.hooks.papi.resolvers", PlaceholderResolver.class);
-        plugin.getLogger().info(String.format("Registering %d placeholder resolvers...", resolvers.size()));
-        for (Class<? extends PlaceholderResolver> r : resolvers) {
-
-            try {
-
-                PlaceholderResolver resolver = r.getConstructor(SimpleClans.class).newInstance(plugin);
-                RESOLVERS.put(resolver.getId(), resolver);
-
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException
-                    | NoSuchMethodException e)
-            {
-
-                plugin.getLogger().log(Level.SEVERE, "Error registering placeholder resolver", e);
-
-            }
-
-        }
-
-    }
-
-    private void addPlaceholders(String prefix, Class<?> clazz, Collection<String> placeholders) {
-
-        for (Method method : clazz.getDeclaredMethods()) {
-
-            Placeholder[] annotations = method.getAnnotationsByType(Placeholder.class);
-            for (Placeholder annotation : annotations) {
-
-                placeholders.add("%" + prefix + annotation.value() + "%");
-
-                // Commented because the list would be very long
-                // placeholders.add("%simpleclans_topplayers_<number>_" + annotation.value() +
-                // "%");
-            }
-
-        }
-
-    }
-
-    private void addAliasedPlaceholders(String prefix, Class<?> clazz, Collection<String> placeholders) {
-
-        for (Method method : clazz.getDeclaredMethods()) {
-
-            Placeholder[] annotations = method.getAnnotationsByType(Placeholder.class);
-            for (Placeholder annotation : annotations) {
-
-                String alias = toUnionAlias(annotation.value());
-                if (!alias.equals(annotation.value())) {
-
-                    placeholders.add("%" + prefix + alias + "%");
-
-                }
-
-            }
-
-        }
-
-    }
-
-    @NotNull
-    private String normalizePlaceholder(@NotNull String placeholder) {
-
-        String normalized = placeholder;
-        if (normalized.startsWith("topunions_")) {
-
-            normalized = "topclans_" + normalized.substring("topunions_".length());
-
-        }
-
-        if (normalized.startsWith("union_")) {
-
-            normalized = "clan_" + normalized.substring("union_".length());
-
-        }
-
-        normalized = normalized.replace("_union_", "_clan_");
-        normalized = normalized.replace("in_union", "in_clan");
-        normalized = normalized.replace("unionchat_player_color", "clanchat_player_color");
-        normalized = normalized.replace("topunions_position", "topclans_position");
-
-        return normalized;
-
-    }
-
-    @NotNull
-    private String toUnionAlias(@NotNull String placeholder) {
-
-        return placeholder.replace("topclans", "topunions").replace("in_clan", "in_union")
-                .replace("clanchat_player_color", "unionchat_player_color");
+        return placeholders.resolve(player, params);
 
     }
 

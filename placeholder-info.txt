@@ -1,0 +1,200 @@
+Unions-OG Placeholder Reference
+===============================
+
+Unions-OG registers legacy PlaceholderAPI placeholders when PlaceholderAPI is installed.
+It also registers MiniPlaceholders through the Utilities-OG API when Utilities-OG is installed.
+
+Identifiers
+-----------
+
+All placeholders use both identifiers:
+
+- simpleclans
+- simpleunions
+
+In the syntax patterns below, replace {id} with either identifier.
+
+Legacy PlaceholderAPI syntax:
+
+- Player placeholder: %{id}_{player-placeholder}%
+- Union placeholder: %{id}_clan_{union-placeholder}%
+- Union compatibility alias: %{id}_union_{union-placeholder}%
+- Relational color placeholder: %rel_{id}_color%
+
+MiniPlaceholders syntax:
+
+- Player placeholder: <{id}_{player-placeholder}>
+- Union placeholder: <{id}_clan_{union-placeholder}>
+- Union compatibility alias: <{id}_union_{union-placeholder}>
+- Relational color placeholder: <{id}_rel_color>
+
+MiniPlaceholders are audience placeholders unless marked relational. They require a player audience.
+Relational MiniPlaceholders require a relational MiniPlaceholders context.
+
+Boolean output follows PlaceholderAPI's boolean.true and boolean.false config values when PlaceholderAPI is loaded.
+Without PlaceholderAPI, boolean placeholders return yes or no.
+
+Player Placeholders
+-------------------
+
+These resolve against the requested player:
+
+- name
+- clean_name
+- is_leader
+- lastseendays
+- total_kills
+- rival_kills
+- civilian_kills
+- neutral_kills
+- ally_kills
+- is_friendlyfire_on
+- deaths
+- weighted_kills
+- kdr
+- topplayers_position
+- join_date
+- lastseen
+- inactive_days
+- in_clan
+- tag
+- tag_label
+- is_trusted
+- is_member
+- clanchat_player_color
+- allychat_player_color
+- is_bb_enabled
+- is_invite_enabled
+- is_tag_enabled
+- rank_displayname
+- has_rank
+- rank
+- is_muted
+- is_mutedally
+
+Player compatibility aliases:
+
+- in_union maps to in_clan
+- unionchat_player_color maps to clanchat_player_color
+
+Examples:
+
+- %simpleclans_name%
+- %simpleunions_in_union%
+- <simpleclans_name>
+- <simpleunions_in_union>
+
+Union Placeholders
+------------------
+
+These resolve against the requested player's union:
+
+- name
+- balance
+- balance_formatted
+- tag
+- color
+- inactivedays
+- friendly_fire
+- allies_count
+- founded
+- color_tag
+- size
+- rivals_count
+- is_verified
+- is_permanent
+- onlinemembers_count
+- leader_size
+- total_kdr
+- topclans_position
+- total_deaths
+- average_wk
+- total_kills
+- total_rival
+- total_neutral
+- total_civilian
+- total_ally
+- is_anyonline
+- is_unrivable
+- allow_withdraw
+- allow_deposit
+
+Union compatibility aliases:
+
+- Use union_ instead of clan_ for any union placeholder.
+- topunions_position maps to topclans_position.
+
+Examples:
+
+- %simpleclans_clan_name%
+- %simpleclans_union_name%
+- %simpleunions_clan_color_tag%
+- %simpleunions_union_topunions_position%
+- <simpleclans_clan_name>
+- <simpleclans_union_name>
+- <simpleunions_clan_color_tag>
+- <simpleunions_union_topunions_position>
+
+Top Player Placeholders
+-----------------------
+
+Legacy PlaceholderAPI syntax:
+
+- %{id}_topplayers_{position}_{player-placeholder}%
+
+MiniPlaceholders syntax:
+
+- <{id}_topplayers_{player-placeholder}:{position}>
+
+The {position} value is 1-based. The {player-placeholder} value can be any player placeholder or player compatibility alias listed above.
+
+Examples:
+
+- %simpleclans_topplayers_1_name%
+- %simpleunions_topplayers_3_kdr%
+- <simpleclans_topplayers_name:1>
+- <simpleunions_topplayers_kdr:3>
+
+Top Union Placeholders
+----------------------
+
+Legacy PlaceholderAPI syntax:
+
+- %{id}_topclans_{position}_clan_{union-placeholder}%
+- %{id}_topunions_{position}_union_{union-placeholder}%
+
+MiniPlaceholders syntax:
+
+- <{id}_topclans_clan_{union-placeholder}:{position}>
+- <{id}_topunions_union_{union-placeholder}:{position}>
+
+The {position} value is 1-based. The {union-placeholder} value can be any union placeholder or union compatibility alias listed above.
+
+Examples:
+
+- %simpleclans_topclans_1_clan_name%
+- %simpleclans_topunions_1_union_name%
+- %simpleunions_topclans_5_clan_total_kdr%
+- <simpleclans_topclans_clan_name:1>
+- <simpleclans_topunions_union_name:1>
+- <simpleunions_topclans_clan_total_kdr:5>
+
+Relational Color Placeholder
+----------------------------
+
+The relational color placeholder returns a color code based on the relationship between two players:
+
+- same union: &a
+- ally: &b
+- rival: &c
+- unrelated: empty string
+
+Legacy PlaceholderAPI syntax:
+
+- %rel_simpleclans_color%
+- %rel_simpleunions_color%
+
+MiniPlaceholders syntax:
+
+- <simpleclans_rel_color>
+- <simpleunions_rel_color>

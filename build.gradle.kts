@@ -76,7 +76,7 @@ dependencies {
     compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
         exclude(group = "com.googlecode.json-simple", module = "json-simple")
     }
-    implementation("org.bstats:bstats-bukkit:3.0.2")
+    compileOnlyApi(project(":libs:Utilities-OG")) // Import TrueOG Network Utilities-OG Java API (from source).
     compileOnly("me.clip:placeholderapi:2.11.3")
     compileOnly("org.jetbrains:annotations:24.0.1")
     implementation("io.papermc:paperlib:1.0.8-SNAPSHOT")
@@ -106,7 +106,6 @@ tasks.withType<AbstractArchiveTask>().configureEach { // Ensure reproducible .ja
 
 /* ----------------------------- Shadow -------------------------------- */
 tasks.shadowJar {
-    relocate("org.bstats", "net.sacredlabyrinth.phaed.simpleclans.metrics")
     relocate("io.papermc.lib", "net.sacredlabyrinth.phaed.simpleclans.paperlib")
     relocate("co.aikar.commands", "net.sacredlabyrinth.phaed.simpleclans.acf")
     relocate("co.aikar.locales", "net.sacredlabyrinth.phaed.simpleclans.locales")
