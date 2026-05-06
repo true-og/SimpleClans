@@ -61,6 +61,12 @@ public class CreateClanTagPrompt extends StringPrompt {
     private Prompt validateTag(SimpleClans plugin, Player player, @NotNull String clanTag) {
 
         String cleanTag = ChatUtils.stripColors(clanTag);
+        if (cleanTag.trim().equalsIgnoreCase("None")) {
+
+            return new MessagePromptImpl(ChatColor.RED + "Your union cannot be named \"None\".", this);
+
+        }
+
         if (plugin.getClanManager().isClan(cleanTag)) {
 
             return new MessagePromptImpl(ChatColor.RED + lang("clan.with.this.tag.already.exists", player), this);

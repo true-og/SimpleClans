@@ -253,6 +253,13 @@ public class LeaderCommands extends BaseCommand {
 
         }
 
+        if (ChatUtils.stripColors(clanName).trim().equalsIgnoreCase("None")) {
+
+            ChatBlock.sendMessage(player, RED + "Your union cannot be named \"None\".");
+            return;
+
+        }
+
         boolean bypass = plugin.getPermissionsManager().has(player, "simpleclans.mod.bypass");
         if (!bypass) {
 

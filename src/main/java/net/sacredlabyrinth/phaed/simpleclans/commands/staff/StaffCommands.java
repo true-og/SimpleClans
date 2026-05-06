@@ -474,6 +474,13 @@ public class StaffCommands extends BaseCommand {
     @Description("{@@command.description.mod.rename}")
     public void rename(CommandSender sender, @Name("clan") ClanInput clanInput, @Name("name") String clanName) {
 
+        if (ChatUtils.stripColors(clanName).trim().equalsIgnoreCase("None")) {
+
+            ChatBlock.sendMessage(sender, RED + "Union cannot be named \"None\".");
+            return;
+
+        }
+
         Clan clan = clanInput.getClan();
         clan.setName(clanName);
         storage.updateClan(clan);

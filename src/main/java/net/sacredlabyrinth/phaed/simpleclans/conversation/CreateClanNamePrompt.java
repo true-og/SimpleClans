@@ -124,6 +124,12 @@ public class CreateClanNamePrompt extends StringPrompt {
 
         }
 
+        if (ChatUtils.stripColors(input).trim().equalsIgnoreCase("None")) {
+
+            return new MessagePromptImpl(RED + "Your union cannot be named \"None\".", this);
+
+        }
+
         return null;
 
     }
